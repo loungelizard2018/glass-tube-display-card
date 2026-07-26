@@ -1,11 +1,12 @@
 {
   "name": "glass-tube-display-card",
-  "version": "0.1.2",
+  "version": "0.2.0",
   "private": true,
   "type": "module",
   "description": "Photorealistic alphanumeric glass-tube display card for Home Assistant.",
   "scripts": {
-    "check": "node --check glass-tube-display-card.js && node --check glyphs.js && node --check tube-renderer.js && node --check card-styles.js && node --check dist/glass-tube-display-card.js && node --check dist/glyphs.js && node --check dist/tube-renderer.js && node --check dist/card-styles.js"
+    "build": "node scripts/build-bundle.mjs",
+    "check": "node --check card-core.js && node --check glass-tube-display-card.js && node --check glyphs.js && node --check tube-renderer.js && node --check card-styles.js && node --check dist/glass-tube-display-card.js && node --check dist/glyphs.js && node --check dist/tube-renderer.js && node --check dist/card-styles.js"
   },
   "license": "MIT"
 }
