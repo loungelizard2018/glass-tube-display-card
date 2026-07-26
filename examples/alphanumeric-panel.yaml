@@ -1,0 +1,11 @@
+type: custom:glass-tube-display-card
+text: "NIXIE 26,41"
+title: "GLASS TUBE DISPLAY"
+subtitle: "ALPHANUMERIC CATHODE ARRAY"
+min_characters: 10
+max_characters: 14
+mounting: panel
+screws: true
+separator_style: mini_tube
+max_width: 1040
+tube_gap: 7
