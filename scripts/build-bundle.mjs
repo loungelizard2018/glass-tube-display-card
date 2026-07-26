@@ -1,5 +1,6 @@
 import { mkdir, readFile, writeFile } from "node:fs/promises";
 
+const VERSION = "0.3.0";
 const read = (path) => readFile(new URL(`../${path}`, import.meta.url), "utf8");
 
 const stripImports = (source) => source
@@ -22,8 +23,8 @@ const styles = (await read("card-styles.js"))
 
 const core = stripImports(await read("card-core.js"));
 
-const bundle = `/* Glass Tube Display Card v0.2.0
- * Photorealistic self-contained HACS bundle: no runtime imports.
+const bundle = `/* Glass Tube Display Card v${VERSION}
+ * High-gloss photorealistic self-contained HACS bundle: no runtime imports.
  */
 (() => {
 ${glyphs}
@@ -40,4 +41,4 @@ await writeFile(new URL("../dist/glyphs.js", import.meta.url), await read("glyph
 await writeFile(new URL("../dist/tube-renderer.js", import.meta.url), await read("tube-renderer.js"));
 await writeFile(new URL("../dist/card-styles.js", import.meta.url), await read("card-styles.js"));
 
-console.log(`Built Glass Tube Display Card v0.2.0 (${bundle.length} bytes).`);
+console.log(`Built Glass Tube Display Card v${VERSION} (${bundle.length} bytes).`);
