@@ -3,7 +3,7 @@ name: Publish release
 on:
   push:
     paths:
-      - release-trigger-v0.1.3.txt
+      - release-trigger-v0.2.0.txt
   workflow_dispatch:
 
 permissions:
@@ -17,37 +17,37 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: "22"
-      - name: Build self-contained bundle
-        run: node scripts/build.mjs
-      - name: Validate bundle
-        run: node --check dist/glass-tube-display-card.js
-      - name: Commit generated bundle
+      - name: Build self-contained HACS bundle
+        run: npm run build
+      - name: Validate all JavaScript files
+        run: npm run check
+      - name: Commit generated bundles
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add dist/glass-tube-display-card.js
+          git add glass-tube-display-card.js dist/
           if ! git diff --cached --quiet; then
-            git commit -m "Build self-contained Glass Tube Display Card v0.1.3"
+            git commit -m "Build photorealistic Glass Tube Display Card v0.2.0"
             git push
           fi
           echo "TARGET_SHA=$(git rev-parse HEAD)" >> "$GITHUB_ENV"
-      - name: Publish v0.1.3
+      - name: Publish v0.2.0
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
-          if gh release view v0.1.3 >/dev/null 2>&1; then
-            echo "Release v0.1.3 already exists."
+          if gh release view v0.2.0 >/dev/null 2>&1; then
+            echo "Release v0.2.0 already exists."
           else
-            gh release create v0.1.3 \
+            gh release create v0.2.0 \
               --target "${TARGET_SHA}" \
-              --title "Glass Tube Display Card v0.1.3" \
-              --notes "Fixes Home Assistant loading by shipping one self-contained JavaScript bundle without runtime module imports."
+              --title "Glass Tube Display Card v0.2.0" \
+              --notes "Complete photorealistic redesign: tall cylindrical glass envelopes, mica plates, support wires, honeycomb anode mesh, layered incandescent cathode glow, miniature punctuation tubes, black Bakelite-style bases, metallic panel title, realistic mounting rail and cross-head screws. Existing Lovelace configuration remains compatible."
           fi
       - name: Record successful publication
         run: |
-          printf 'Glass Tube Display Card v0.1.3 published successfully.\nSource commit: %s\n' "${TARGET_SHA}" > RELEASED-v0.1.3.txt
-          git add RELEASED-v0.1.3.txt
+          printf 'Glass Tube Display Card v0.2.0 published successfully.\nSource commit: %s\n' "${TARGET_SHA}" > RELEASED-v0.2.0.txt
+          git add RELEASED-v0.2.0.txt
           if ! git diff --cached --quiet; then
-            git commit -m "Confirm Glass Tube Display Card v0.1.3 release"
+            git commit -m "Confirm Glass Tube Display Card v0.2.0 release"
             git push
           fi
