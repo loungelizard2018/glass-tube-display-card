@@ -1,6 +1,6 @@
 {
   "name": "glass-tube-display-card",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "private": true,
   "type": "module",
   "description": "Photorealistic alphanumeric glass-tube display card for Home Assistant.",
