@@ -1,8 +1,8 @@
-import { normaliseCharacter } from "./glyphs.js?v=0.1.1";
-import { renderTube, renderSeparator, renderScrews } from "./tube-renderer.js?v=0.1.1";
-import { renderStyles } from "./card-styles.js?v=0.1.1";
+import { normaliseCharacter } from "./glyphs.js?v=0.1.2";
+import { renderTube, renderSeparator, renderScrews } from "./tube-renderer.js?v=0.1.2";
+import { renderStyles } from "./card-styles.js?v=0.1.2";
 
-const VERSION = "0.1.1";
+const VERSION = "0.1.2";
 const DEFAULT_CONFIG = Object.freeze({
   text:"HELLO",attribute:null,prefix:"",suffix:"",title:"",subtitle:"",unit:"",unit_separator:" ",
   decimals:null,decimal_separator:"auto",unavailable_text:"----",unknown_text:"----",
