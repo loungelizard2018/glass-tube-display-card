@@ -1,0 +1,60 @@
+name: Fix root bundle and publish v0.1.4
+
+on:
+  push:
+    paths:
+      - release-trigger-v0.1.4.txt
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Put self-contained bundle in repository root
+        run: |
+          cp dist/glass-tube-display-card.js glass-tube-display-card.js
+          sed -i 's/v0\.1\.3/v0.1.4/g; s/"0\.1\.3"/"0.1.4"/g' glass-tube-display-card.js
+          cat > hacs.json <<'JSON'
+          {
+            "name": "Glass Tube Display Card",
+            "filename": "glass-tube-display-card.js",
+            "content_in_root": true,
+            "render_readme": true
+          }
+          JSON
+
+      - name: Validate the exact HACS entry file
+        run: |
+          test "$(head -n 1 glass-tube-display-card.js)" = "/* Glass Tube Display Card v0.1.4"
+          ! grep -q '^import ' glass-tube-display-card.js
+          grep -q 'customElements.define("glass-tube-display-card"' glass-tube-display-card.js
+          node --check glass-tube-display-card.js
+
+      - name: Commit corrected root package
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add glass-tube-display-card.js hacs.json
+          git commit -m "Fix HACS root bundle for v0.1.4"
+          git push
+
+      - name: Publish release from corrected commit
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          RELEASE_SHA="$(git rev-parse HEAD)"
+          gh release create v0.1.4 \
+            --target "$RELEASE_SHA" \
+            --title "Glass Tube Display Card v0.1.4" \
+            --notes "Definitive HACS packaging fix: the repository-root entry file is now a self-contained bundle without imports."
+          printf 'Glass Tube Display Card v0.1.4 published successfully.\nSource commit: %s\n' "$RELEASE_SHA" > RELEASED-v0.1.4.txt
+          git add RELEASED-v0.1.4.txt
+          git commit -m "Confirm Glass Tube Display Card v0.1.4 release"
+          git push
