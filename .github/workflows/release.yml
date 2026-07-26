@@ -4,6 +4,7 @@ on:
   push:
     paths:
       - release-trigger-v0.1.1.txt
+      - release-trigger-v0.1.1-retry.txt
   workflow_dispatch:
 
 permissions:
@@ -27,4 +28,14 @@ jobs:
               --target "${GITHUB_SHA}" \
               --title "Glass Tube Display Card v0.1.1" \
               --notes "Initial HACS-ready release. Adds a dist package, corrected HACS manifest, alphanumeric glass tubes, and separate punctuation tubes."
+          fi
+      - name: Record successful publication
+        run: |
+          printf 'Glass Tube Display Card v0.1.1 published successfully.\nSource commit: %s\n' "${GITHUB_SHA}" > RELEASED-v0.1.1.txt
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add RELEASED-v0.1.1.txt
+          if ! git diff --cached --quiet; then
+            git commit -m "Confirm Glass Tube Display Card v0.1.1 release"
+            git push
           fi
