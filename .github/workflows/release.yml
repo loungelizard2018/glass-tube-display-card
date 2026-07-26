@@ -3,7 +3,7 @@ name: Publish release
 on:
   push:
     paths:
-      - release-trigger-v0.2.0.txt
+      - release-trigger-v0.3.0.txt
   workflow_dispatch:
 
 permissions:
@@ -27,27 +27,27 @@ jobs:
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add glass-tube-display-card.js dist/
           if ! git diff --cached --quiet; then
-            git commit -m "Build photorealistic Glass Tube Display Card v0.2.0"
+            git commit -m "Build high-gloss Glass Tube Display Card v0.3.0"
             git push
           fi
           echo "TARGET_SHA=$(git rev-parse HEAD)" >> "$GITHUB_ENV"
-      - name: Publish v0.2.0
+      - name: Publish v0.3.0
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
-          if gh release view v0.2.0 >/dev/null 2>&1; then
-            echo "Release v0.2.0 already exists."
+          if gh release view v0.3.0 >/dev/null 2>&1; then
+            echo "Release v0.3.0 already exists."
           else
-            gh release create v0.2.0 \
+            gh release create v0.3.0 \
               --target "${TARGET_SHA}" \
-              --title "Glass Tube Display Card v0.2.0" \
-              --notes "Complete photorealistic redesign: tall cylindrical glass envelopes, mica plates, support wires, honeycomb anode mesh, layered incandescent cathode glow, miniature punctuation tubes, black Bakelite-style bases, metallic panel title, realistic mounting rail and cross-head screws. Existing Lovelace configuration remains compatible."
+              --title "Glass Tube Display Card v0.3.0" \
+              --notes "High-gloss photorealistic redesign: stronger cylindrical glass refraction, multi-band specular reflections, subtle glass texture, deeper internal hardware, brighter incandescent cathode cores with micro-bead highlights, expanded bloom, improved miniature punctuation tubes, larger responsive tube geometry and refined Bakelite-style bases. Existing Lovelace configuration remains compatible."
           fi
       - name: Record successful publication
         run: |
-          printf 'Glass Tube Display Card v0.2.0 published successfully.\nSource commit: %s\n' "${TARGET_SHA}" > RELEASED-v0.2.0.txt
-          git add RELEASED-v0.2.0.txt
+          printf 'Glass Tube Display Card v0.3.0 published successfully.\nSource commit: %s\n' "${TARGET_SHA}" > RELEASED-v0.3.0.txt
+          git add RELEASED-v0.3.0.txt
           if ! git diff --cached --quiet; then
-            git commit -m "Confirm Glass Tube Display Card v0.2.0 release"
+            git commit -m "Confirm Glass Tube Display Card v0.3.0 release"
             git push
           fi
