@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Glass Tube Display Card demo</title>
+<style>
+  body { margin:0; min-height:100vh; display:grid; place-items:center; background:radial-gradient(circle at 50% 30%,#31271f,#141212 55%,#090909); font-family:Arial,sans-serif; }
+  main { width:min(1100px,94vw); }
+  glass-tube-display-card { display:block; }
+</style>
+<script>customElements.define('ha-card', class extends HTMLElement{});</script>
+<script type="module" src="../glass-tube-display-card.js"></script>
+</head>
+<body>
+<main><glass-tube-display-card id="card"></glass-tube-display-card></main>
+<script type="module">
+  const card = document.getElementById('card');
+  customElements.whenDefined('glass-tube-display-card').then(() => {
+    card.setConfig({
+      text: 'NIXIE 26.41',
+      title: 'GLASS TUBE DISPLAY',
+      subtitle: 'ALPHANUMERIC CATHODE ARRAY',
+      min_characters: 10,
+      max_characters: 14,
+      mounting: 'panel',
+      screws: true,
+      max_width: 1040,
+      tube_gap: 7,
+      separator_style: 'mini_tube'
+    });
+  });
+</script>
+</body>
+</html>
