@@ -2,15 +2,15 @@ import { normaliseCharacter } from "./glyphs.js";
 import { renderTube, renderSeparator, renderScrews } from "./tube-renderer.js";
 import { renderStyles } from "./card-styles.js";
 
-const VERSION = "0.2.0";
+const VERSION = "0.3.0";
 const DEFAULT_CONFIG = Object.freeze({
   text:"HELLO",attribute:null,prefix:"",suffix:"",title:"",subtitle:"",unit:"",unit_separator:" ",
   decimals:null,decimal_separator:"auto",unavailable_text:"----",unknown_text:"----",
   min_characters:0,max_characters:12,pad:"left",pad_character:" ",overflow:"left",
   show_blank_tubes:true,show_cathode_stack:true,separator_style:"mini_tube",align:"center",
-  mounting:"free",screws:false,max_width:1100,tube_gap:8,tube_color:"#ff5b00",core_color:"#ffe2ba",
-  glass_tint:"#d9eff8",glass_opacity:.42,mesh_opacity:.48,pcb_color:"#0b0d0c",panel_color:"#090a0b",
-  panel_edge:"#25292c",brightness:1,animate:true,animation_speed:460,tap_action:{action:"more-info"}
+  mounting:"free",screws:false,max_width:1200,tube_gap:7,tube_color:"#ff5000",core_color:"#fff1cf",
+  glass_tint:"#dff6ff",glass_opacity:.62,mesh_opacity:.40,pcb_color:"#0b0d0c",panel_color:"#08090a",
+  panel_edge:"#272b2e",brightness:1,animate:true,animation_speed:480,tap_action:{action:"more-info"}
 });
 
 const escapeHtml = (value) => String(value ?? "")
@@ -31,8 +31,8 @@ class GlassTubeDisplayCard extends HTMLElement {
   }
 
   set hass(hass){this._hass=hass;if(!this._config)return;const display=this._displayValue();if(display!==this._lastDisplay)this._render()}
-  getCardSize(){return this._config?.title||this._config?.subtitle?5:4}
-  getGridOptions(){return{rows:5,columns:12,min_rows:3,min_columns:3}}
+  getCardSize(){return this._config?.title||this._config?.subtitle?6:5}
+  getGridOptions(){return{rows:6,columns:12,min_rows:4,min_columns:3}}
 
   _validateConfig(){
     const cfg=this._config;
@@ -92,5 +92,5 @@ class GlassTubeDisplayCard extends HTMLElement {
 }
 
 if(!customElements.get("glass-tube-display-card"))customElements.define("glass-tube-display-card",GlassTubeDisplayCard);
-window.customCards=window.customCards||[];if(!window.customCards.some(card=>card.type==="glass-tube-display-card"))window.customCards.push({type:"glass-tube-display-card",name:"Glass Tube Display Card",description:"Photorealistic alphanumeric glass-tube display with separate punctuation tubes.",preview:true,documentationURL:"https://github.com/loungelizard2018/glass-tube-display-card"});
+window.customCards=window.customCards||[];if(!window.customCards.some(card=>card.type==="glass-tube-display-card"))window.customCards.push({type:"glass-tube-display-card",name:"Glass Tube Display Card",description:"High-gloss photorealistic alphanumeric glass-tube display with separate punctuation tubes.",preview:true,documentationURL:"https://github.com/loungelizard2018/glass-tube-display-card"});
 console.info(`%c GLASS-TUBE-DISPLAY-CARD %c v${VERSION} `,"color:#ff8a2b;background:#161616;font-weight:700;padding:3px 5px;border-radius:3px 0 0 3px","color:#ddd;background:#333;padding:3px 5px;border-radius:0 3px 3px 0");
