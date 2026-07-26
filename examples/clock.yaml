@@ -1,0 +1,7 @@
+type: custom:glass-tube-display-card
+entity: sensor.glass_tube_clock
+min_characters: 6
+max_characters: 6
+separator_style: mini_tube
+mounting: free
+max_width: 900
