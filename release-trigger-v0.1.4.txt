@@ -1,0 +1,1 @@
+Publish v0.1.4 from corrected self-contained root bundle.
