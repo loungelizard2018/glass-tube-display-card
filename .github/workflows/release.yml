@@ -1,0 +1,30 @@
+name: Publish release
+
+on:
+  push:
+    paths:
+      - release-trigger-v0.1.1.txt
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Validate distribution
+        run: npm run check
+      - name: Publish v0.1.1
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          if gh release view v0.1.1 >/dev/null 2>&1; then
+            echo "Release v0.1.1 already exists."
+          else
+            gh release create v0.1.1 \
+              --target "${GITHUB_SHA}" \
+              --title "Glass Tube Display Card v0.1.1" \
+              --notes "Initial HACS-ready release. Adds a dist package, corrected HACS manifest, alphanumeric glass tubes, and separate punctuation tubes."
+          fi
