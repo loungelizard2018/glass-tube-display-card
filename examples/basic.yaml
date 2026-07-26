@@ -1,0 +1,6 @@
+type: custom:glass-tube-display-card
+entity: sensor.living_room_temperature
+decimals: 1
+unit: "°C"
+min_characters: 5
+max_characters: 8
