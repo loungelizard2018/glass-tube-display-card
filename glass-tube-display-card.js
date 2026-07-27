@@ -1,5 +1,5 @@
-/* Glass Tube Display Card v0.3.10
- * Single Gauge-family panel using the exact Analog Gauge recessed screw artwork.
+/* Glass Tube Display Card v0.3.11
+ * Exact Gauge screw artwork, cropped to the screw head and optionally scaled with screw_scale.
  */
 (() => {
 const GLYPH_PATHS = Object.freeze({
@@ -231,7 +231,7 @@ function renderSeparator(character, index, config, uid) {
 function renderScrews(enabled) {
   if (!enabled) return "";
   return ["tl", "tr", "bl", "br"].map((position) =>
-    `<img class="screw screw-${position}" src="${SCREW_ASSET_URI}" alt="" aria-hidden="true">`
+    `<span class="screw-wrap screw-${position}" aria-hidden="true"><img class="screw-asset" src="${SCREW_ASSET_URI}" alt=""></span>`
   ).join("");
 }
 
@@ -242,6 +242,12 @@ function renderStyles(config, { justify, brightness, animationMs }) {
   const gapPx = Math.max(0, Number(config.tube_gap));
   const gapVw = Math.max(.05, Math.min(1.05, gapPx / 11)).toFixed(2);
   const animation = config.animate === false ? "none" : `tube-enter ${animationMs}ms cubic-bezier(.22,1,.36,1)`;
+  const screwScale = Math.max(.5, Math.min(1.5, Number(config.screw_scale ?? 1)));
+  const screwMin = (42 * screwScale).toFixed(1);
+  const screwPreferred = (5.4 * screwScale).toFixed(2);
+  const screwMax = (64 * screwScale).toFixed(1);
+  const screwMobile = (44 * screwScale).toFixed(1);
+  const screwSmall = (36 * screwScale).toFixed(1);
 
   return `<style>
     :host{display:block;width:100%;min-width:0}
@@ -291,26 +297,27 @@ function renderStyles(config, { justify, brightness, animationMs }) {
     .base-board{position:relative;z-index:3;width:98.5%;height:clamp(29px,4vw,48px);margin:clamp(-21px,-2vw,-11px) auto 0;border-radius:clamp(8px,1.05vw,13px);background:radial-gradient(ellipse at 50% 0%,rgba(255,255,255,.10),transparent 30%),linear-gradient(180deg,#44484c 0%,#202326 8%,#111315 22%,#070808 72%,#010202 100%);border:1px solid rgba(255,255,255,.09);box-shadow:inset 0 2px 0 rgba(255,255,255,.10),inset 0 -5px 8px rgba(0,0,0,.94),0 13px 18px rgba(0,0,0,.64)}
     .base-board:before{content:"";position:absolute;left:2%;right:2%;top:3%;height:25%;border-radius:50%;background:linear-gradient(90deg,transparent,rgba(255,125,31,.22),transparent);filter:blur(6px);opacity:.72}
     .base-board:after{content:"";position:absolute;left:4%;right:4%;bottom:-12px;height:13px;border-radius:0 0 11px 11px;background:linear-gradient(180deg,#111315,#010202);box-shadow:0 9px 13px rgba(0,0,0,.62)}
-    .screw{position:absolute;z-index:20;width:clamp(58px,8.2vw,88px);height:auto;aspect-ratio:1;pointer-events:none;object-fit:contain;filter:none}
-    .screw-tl{left:clamp(9px,1.25vw,15px);top:clamp(9px,1.25vw,15px)}
-    .screw-tr{right:clamp(9px,1.25vw,15px);top:clamp(9px,1.25vw,15px)}
-    .screw-bl{left:clamp(9px,1.25vw,15px);bottom:clamp(9px,1.25vw,15px)}
-    .screw-br{right:clamp(9px,1.25vw,15px);bottom:clamp(9px,1.25vw,15px)}
+    .screw-wrap{position:absolute;z-index:20;width:clamp(${screwMin}px,${screwPreferred}vw,${screwMax}px);aspect-ratio:1;pointer-events:none;overflow:hidden;border-radius:50%;clip-path:circle(49% at 50% 50%)}
+    .screw-asset{position:absolute;left:50%;top:50%;width:150%;height:150%;max-width:none;transform:translate(-50%,-50%);object-fit:cover;display:block;filter:none}
+    .screw-tl{left:clamp(14px,1.8vw,22px);top:clamp(14px,1.8vw,22px)}
+    .screw-tr{right:clamp(14px,1.8vw,22px);top:clamp(14px,1.8vw,22px)}
+    .screw-bl{left:clamp(14px,1.8vw,22px);bottom:clamp(14px,1.8vw,22px)}
+    .screw-br{right:clamp(14px,1.8vw,22px);bottom:clamp(14px,1.8vw,22px)}
     @keyframes tube-enter{from{opacity:.28;transform:translateY(4px) scale(.988);filter:brightness(.62) saturate(.7)}to{opacity:1;transform:translateY(0) scale(1);filter:brightness(1) saturate(1)}}
-    @media(max-width:620px){.device.panel{padding:44px 21px 34px}.caption{margin-bottom:10px;letter-spacing:.13em}.tube-row{gap:clamp(1px,.34vw,4px)}.screw{width:54px}.base-board{height:29px;margin-top:-12px}.tube-slot{max-width:114px}.separator-slot{max-width:68px}}
-    @media(max-width:390px){.device.panel{padding:40px 16px 31px;border-radius:20px}.caption{margin-left:12%;margin-right:12%;letter-spacing:.09em}.title{font-size:12px}.screw{width:46px}.separator-slot{min-width:8px}.tube-row{padding:0}}
+    @media(max-width:620px){.device.panel{padding:44px 21px 34px}.caption{margin-bottom:10px;letter-spacing:.13em}.tube-row{gap:clamp(1px,.34vw,4px)}.screw-wrap{width:${screwMobile}px}.base-board{height:29px;margin-top:-12px}.tube-slot{max-width:114px}.separator-slot{max-width:68px}}
+    @media(max-width:390px){.device.panel{padding:40px 16px 31px;border-radius:20px}.caption{margin-left:12%;margin-right:12%;letter-spacing:.09em}.title{font-size:12px}.screw-wrap{width:${screwSmall}px}.separator-slot{min-width:8px}.tube-row{padding:0}}
     @media(prefers-reduced-motion:reduce){.tube-slot,.separator-slot{animation:none!important}}
   </style>`;
 }
 
 
-const VERSION = "0.3.10";
+const VERSION = "0.3.11";
 const DEFAULT_CONFIG = Object.freeze({
   text:"HELLO",attribute:null,prefix:"",suffix:"",title:"",subtitle:"",unit:"",unit_separator:" ",
   decimals:null,decimal_separator:"auto",unavailable_text:"----",unknown_text:"----",
   min_characters:0,max_characters:12,pad:"left",pad_character:" ",overflow:"left",
   show_blank_tubes:true,show_cathode_stack:true,separator_style:"mini_tube",align:"center",
-  mounting:"free",screws:false,max_width:1200,tube_gap:7,tube_color:"#ff5000",core_color:"#fff1cf",
+  mounting:"free",screws:false,screw_scale:1,max_width:1200,tube_gap:7,tube_color:"#ff5000",core_color:"#fff1cf",
   glass_tint:"#dff6ff",glass_opacity:.62,mesh_opacity:.40,pcb_color:"#0b0d0c",panel_color:"#08090a",
   panel_edge:"#272b2e",brightness:1,animate:true,animation_speed:480,tap_action:{action:"more-info"}
 });
@@ -341,9 +348,10 @@ class GlassTubeDisplayCard extends HTMLElement {
     if(!["free","panel"].includes(String(cfg.mounting).toLowerCase()))throw new Error("glass-tube-display-card: 'mounting' must be 'free' or 'panel'");
     if(!["mini_tube","bare"].includes(String(cfg.separator_style).toLowerCase()))throw new Error("glass-tube-display-card: 'separator_style' must be 'mini_tube' or 'bare'");
     if(!["left","center","right"].includes(String(cfg.align).toLowerCase()))throw new Error("glass-tube-display-card: 'align' must be 'left', 'center' or 'right'");
-    for(const field of ["min_characters","max_characters","max_width","tube_gap","brightness","animation_speed"]){if(!Number.isFinite(Number(cfg[field])))throw new Error(`glass-tube-display-card: '${field}' must be numeric`)}
+    for(const field of ["min_characters","max_characters","max_width","tube_gap","brightness","animation_speed","screw_scale"]){if(!Number.isFinite(Number(cfg[field])))throw new Error(`glass-tube-display-card: '${field}' must be numeric`)}
     if(Number(cfg.max_characters)<1||Number(cfg.max_characters)>40)throw new Error("glass-tube-display-card: 'max_characters' must be between 1 and 40");
     if(Number(cfg.min_characters)<0||Number(cfg.min_characters)>Number(cfg.max_characters))throw new Error("glass-tube-display-card: 'min_characters' must be between 0 and 'max_characters'");
+    if(Number(cfg.screw_scale)<.5||Number(cfg.screw_scale)>1.5)throw new Error("glass-tube-display-card: 'screw_scale' must be between 0.5 and 1.5");
   }
 
   _entityValue(){

@@ -2,13 +2,13 @@ import { normaliseCharacter } from "./glyphs.js";
 import { renderPanelBackdrop, renderTube, renderSeparator, renderScrews } from "./tube-renderer.js";
 import { renderStyles } from "./card-styles.js";
 
-const VERSION = "0.3.10";
+const VERSION = "0.3.11";
 const DEFAULT_CONFIG = Object.freeze({
   text:"HELLO",attribute:null,prefix:"",suffix:"",title:"",subtitle:"",unit:"",unit_separator:" ",
   decimals:null,decimal_separator:"auto",unavailable_text:"----",unknown_text:"----",
   min_characters:0,max_characters:12,pad:"left",pad_character:" ",overflow:"left",
   show_blank_tubes:true,show_cathode_stack:true,separator_style:"mini_tube",align:"center",
-  mounting:"free",screws:false,max_width:1200,tube_gap:7,tube_color:"#ff5000",core_color:"#fff1cf",
+  mounting:"free",screws:false,screw_scale:1,max_width:1200,tube_gap:7,tube_color:"#ff5000",core_color:"#fff1cf",
   glass_tint:"#dff6ff",glass_opacity:.62,mesh_opacity:.40,pcb_color:"#0b0d0c",panel_color:"#08090a",
   panel_edge:"#272b2e",brightness:1,animate:true,animation_speed:480,tap_action:{action:"more-info"}
 });
@@ -39,9 +39,10 @@ class GlassTubeDisplayCard extends HTMLElement {
     if(!["free","panel"].includes(String(cfg.mounting).toLowerCase()))throw new Error("glass-tube-display-card: 'mounting' must be 'free' or 'panel'");
     if(!["mini_tube","bare"].includes(String(cfg.separator_style).toLowerCase()))throw new Error("glass-tube-display-card: 'separator_style' must be 'mini_tube' or 'bare'");
     if(!["left","center","right"].includes(String(cfg.align).toLowerCase()))throw new Error("glass-tube-display-card: 'align' must be 'left', 'center' or 'right'");
-    for(const field of ["min_characters","max_characters","max_width","tube_gap","brightness","animation_speed"]){if(!Number.isFinite(Number(cfg[field])))throw new Error(`glass-tube-display-card: '${field}' must be numeric`)}
+    for(const field of ["min_characters","max_characters","max_width","tube_gap","brightness","animation_speed","screw_scale"]){if(!Number.isFinite(Number(cfg[field])))throw new Error(`glass-tube-display-card: '${field}' must be numeric`)}
     if(Number(cfg.max_characters)<1||Number(cfg.max_characters)>40)throw new Error("glass-tube-display-card: 'max_characters' must be between 1 and 40");
     if(Number(cfg.min_characters)<0||Number(cfg.min_characters)>Number(cfg.max_characters))throw new Error("glass-tube-display-card: 'min_characters' must be between 0 and 'max_characters'");
+    if(Number(cfg.screw_scale)<.5||Number(cfg.screw_scale)>1.5)throw new Error("glass-tube-display-card: 'screw_scale' must be between 0.5 and 1.5");
   }
 
   _entityValue(){

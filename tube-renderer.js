@@ -167,6 +167,6 @@ export function renderSeparator(character, index, config, uid) {
 export function renderScrews(enabled) {
   if (!enabled) return "";
   return ["tl", "tr", "bl", "br"].map((position) =>
-    `<img class="screw screw-${position}" src="${SCREW_ASSET_URI}" alt="" aria-hidden="true">`
+    `<span class="screw-wrap screw-${position}" aria-hidden="true"><img class="screw-asset" src="${SCREW_ASSET_URI}" alt=""></span>`
   ).join("");
 }
