@@ -1,0 +1,34 @@
+# Live entity regression card
+type: custom:glass-tube-display-card
+entity: sensor.bigpool_cpu_temperature
+decimals: 1
+decimal_separator: comma
+unit: "°C"
+title: "CPU TEMPERATURE"
+subtitle: "BIGPOOL SERVER"
+min_characters: 5
+max_characters: 8
+mounting: panel
+screws: true
+separator_style: mini_tube
+show_blank_tubes: true
+show_cathode_stack: true
+max_width: 1000
+tube_gap: 7
+brightness: 1
+glass_opacity: 0.62
+mesh_opacity: 0.38
+tube_color: "#ff5000"
+core_color: "#fff1cf"
+glass_tint: "#dff6ff"
+
+# Static punctuation regression card
+# Use as a separate Lovelace card configuration.
+---
+type: custom:glass-tube-display-card
+text: "48,0 °C"
+title: "GLASS TUBE DISPLAY"
+mounting: panel
+screws: true
+separator_style: mini_tube
+max_width: 1000
