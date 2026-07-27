@@ -11,8 +11,8 @@ export function renderStyles(config, { justify, brightness, animationMs }) {
     ha-card{width:100%;min-width:0;background:transparent;border:0;box-shadow:none;overflow:hidden}
     .device{--tube:${escapeCss(config.tube_color)};--core:${escapeCss(config.core_color)};position:relative;width:min(100%,${maxWidth}px);min-width:0;margin:0 auto;box-sizing:border-box;user-select:none;-webkit-tap-highlight-color:transparent;cursor:${config.entity ? "pointer" : "default"};filter:brightness(${brightness});isolation:isolate}
     .device.free{padding:4px 4px 15px}
-    .device.panel{padding:clamp(48px,6vw,74px) clamp(30px,5vw,66px) clamp(36px,4.6vw,60px);border-radius:clamp(24px,3vw,38px);background:transparent;box-shadow:none;overflow:hidden;filter:brightness(${brightness}) drop-shadow(0 12px 18px rgba(0,0,0,.28))}
-    .panel-backdrop{position:absolute;inset:0;z-index:0;width:100%;height:100%;display:block;object-fit:fill;pointer-events:none;filter:saturate(.97) contrast(1.03) brightness(.99)}
+    .device.panel{padding:clamp(48px,6vw,74px) clamp(30px,5vw,66px) clamp(36px,4.6vw,60px);border-radius:clamp(24px,3vw,38px);background:transparent;box-shadow:none;overflow:hidden}
+    .panel-backdrop{position:absolute;inset:0;z-index:0;width:100%;height:100%;display:block;object-fit:fill;pointer-events:none;transform:scale(1.10);transform-origin:50% 50%;filter:saturate(.97) contrast(1.03) brightness(.99)}
     .caption{position:relative;z-index:8;text-align:center;margin:0 11% clamp(14px,2vw,25px);letter-spacing:.20em;line-height:1.16;text-transform:uppercase;text-shadow:0 2px 2px #000,0 0 14px rgba(255,255,255,.06)}
     .title{display:inline-block;font:500 clamp(13px,2vw,24px)/1.12 Arial,Helvetica,sans-serif;background:linear-gradient(180deg,#ffffff 0%,#d9dcdf 25%,#91969a 47%,#53575b 52%,#dfe1e3 79%,#8b9094 100%);-webkit-background-clip:text;background-clip:text;color:transparent;filter:drop-shadow(0 1px 0 #000) drop-shadow(0 0 1px rgba(255,255,255,.35))}
     .subtitle{margin-top:6px;font:400 clamp(8px,1.2vw,12px)/1.2 Arial,Helvetica,sans-serif;color:rgba(194,198,202,.54);letter-spacing:.18em}
@@ -39,11 +39,11 @@ export function renderStyles(config, { justify, brightness, animationMs }) {
     .separator-aura .separator-dot{fill:var(--tube);stroke:var(--tube);stroke-width:2}
     .separator-dot{fill:#ff6814;stroke:var(--core);stroke-width:1.25;filter:drop-shadow(0 0 1.8px #ff3c00)}
     .separator-comma-shadow,.separator-comma-far,.separator-comma-aura,.separator-comma-hot,.separator-comma-core,.separator-comma-beads,.separator-comma-spark{fill:none;stroke-linecap:round;stroke-linejoin:round}
-    .separator-comma-shadow{stroke:#170300;stroke-width:6.4;opacity:.94}
-    .separator-comma-far{stroke:#ff3d00;stroke-width:7.2;opacity:.16;mix-blend-mode:screen}
-    .separator-comma-aura{stroke:var(--tube);stroke-width:4.8;opacity:.58;mix-blend-mode:screen}
-    .separator-comma-hot{stroke:#ff6a16;stroke-width:3.1;filter:drop-shadow(0 0 1.25px #ff3600)}
-    .separator-comma-core{stroke:var(--core);stroke-width:1.25;opacity:1;filter:drop-shadow(0 0 .6px #fff2cf)}
+    .separator-comma-shadow{stroke:#170300;stroke-width:6.1;opacity:.94}
+    .separator-comma-far{stroke:#ff3d00;stroke-width:7;opacity:.17;mix-blend-mode:screen}
+    .separator-comma-aura{stroke:var(--tube);stroke-width:4.6;opacity:.60;mix-blend-mode:screen}
+    .separator-comma-hot{stroke:#ff6a16;stroke-width:3;filter:drop-shadow(0 0 1.2px #ff3600)}
+    .separator-comma-core{stroke:var(--core);stroke-width:1.2;opacity:1;filter:drop-shadow(0 0 .6px #fff2cf)}
     .separator-comma-beads{stroke:#fff8e9;stroke-width:1.15;stroke-dasharray:.001 2.35;opacity:.72;mix-blend-mode:screen}
     .separator-comma-spark{stroke:#fff;stroke-width:.52;stroke-dasharray:.001 5.1;opacity:.62;mix-blend-mode:screen}
     .separator-degree-far,.separator-degree-aura,.separator-degree-hot,.separator-degree-core{fill:none;stroke-linecap:round}

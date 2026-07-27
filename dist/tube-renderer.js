@@ -97,9 +97,9 @@ export function renderTube(character, index, config, uid) {
 }
 
 function renderCommaCathode(id) {
-  // A small open cathode with a rounded head and a short descending tail.
-  // It remains one continuous wire: no filled blob, detached dot or closed loop.
-  const d = "M35 179 C34.5 173.2 39.2 169.2 44.5 170.2 C49.1 171.2 50.4 176.8 48.2 180.9 C46.2 184.5 42.2 186.3 38.4 185.4 C38.1 190.8 35.8 196.3 31.8 201.2";
+  // A compact open comma cathode: one upper hook flowing directly into a short descending tail.
+  // It contains no loop, detached dot, filled blob or question-mark geometry.
+  const d = "M46 175 C49 179 48 184 44 187 C41 189 38 189 36 187 C37 193 34 198 30 202";
   return `<g class="comma-cathode">
     <path d="${d}" class="separator-comma-shadow"/>
     <path d="${d}" class="separator-comma-far" filter="url(#sep-comma-far-${id})"/>
