@@ -1,5 +1,5 @@
-/* Glass Tube Display Card v0.3.3
- * Corrected panel, punctuation and standard HACS resource bundle: no runtime imports.
+/* Glass Tube Display Card v0.3.4
+ * Clean-panel, true comma and self-contained HACS bundle: no runtime imports.
  */
 (() => {
 const GLYPH_PATHS = Object.freeze({
@@ -161,7 +161,7 @@ function renderSeparator(character, index, config, uid) {
   const isColon = character === ":" || character === ";";
   const isComma = character === "," || character === ";";
   const isDegree = character === "°";
-  const commaPath = `<path d="M38 174 C43 171 48 173 48 178 C48 182 45 185 40 187 C40 192 37 197 32 201" class="separator-comma"/>`;
+  const commaPath = `<path d="M38 170 C45 170 50 174 50 180 C50 186 46 190 41 191 C42 197 39 203 32 208 C35 201 34 195 31 191 C27 188 26 182 28 177 C30 173 33 171 38 170 Z" class="separator-comma"/>`;
   const marks = isDegree
     ? `<circle cx="38" cy="112" r="9.5" class="separator-ring"/><circle cx="38" cy="112" r="6.1" class="separator-ring-core"/>`
     : isColon
@@ -177,7 +177,7 @@ function renderSeparator(character, index, config, uid) {
         <linearGradient id="sep-glass-${id}" x1="0" y1="0" x2="1" y2="0"><stop offset="0%" stop-color="#76909d" stop-opacity=".08"/><stop offset="9%" stop-color="#fff" stop-opacity=".70"/><stop offset="18%" stop-color="${escapeAttr(config.glass_tint)}" stop-opacity=".23"/><stop offset="66%" stop-color="#839da9" stop-opacity=".04"/><stop offset="86%" stop-color="#fff" stop-opacity=".53"/><stop offset="100%" stop-color="#5a707b" stop-opacity=".08"/></linearGradient>
         <linearGradient id="sep-base-${id}" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#5a5f64"/><stop offset="8%" stop-color="#24272a"/><stop offset="24%" stop-color="#0d0f10"/><stop offset="76%" stop-color="#020303"/><stop offset="100%" stop-color="#2a2e31"/></linearGradient>
         <pattern id="sep-mesh-${id}" width="6.2" height="5.37" patternUnits="userSpaceOnUse"><path d="M1.55 0 H4.65 L6.2 2.685 L4.65 5.37 H1.55 L0 2.685 Z" fill="#151615" fill-opacity=".08" stroke="#aaa49a" stroke-width=".42" opacity="${Number(config.mesh_opacity)}"/></pattern>
-        <filter id="sep-glow-far-${id}" x="-220%" y="-220%" width="540%" height="540%"><feGaussianBlur stdDeviation="5.8"/></filter><filter id="sep-glow-${id}" x="-190%" y="-190%" width="480%" height="480%"><feGaussianBlur stdDeviation="2.8"/></filter><filter id="sep-shadow-${id}" x="-100%" y="-35%" width="300%" height="205%"><feDropShadow dx="0" dy="6" stdDeviation="3.4" flood-color="#000" flood-opacity=".92"/></filter>
+        <filter id="sep-glow-far-${id}" x="-220%" y="-220%" width="540%" height="540%"><feGaussianBlur stdDeviation="5.5"/></filter><filter id="sep-glow-${id}" x="-190%" y="-190%" width="480%" height="480%"><feGaussianBlur stdDeviation="2.6"/></filter><filter id="sep-shadow-${id}" x="-100%" y="-35%" width="300%" height="205%"><feDropShadow dx="0" dy="6" stdDeviation="3.4" flood-color="#000" flood-opacity=".92"/></filter>
         <clipPath id="sep-inside-${id}"><path d="${inside}"/></clipPath>
       </defs>
       ${bare ? "" : `<g filter="url(#sep-shadow-${id})"><path d="${outer}" fill="#030506" fill-opacity=".40" stroke="#0a0d0e" stroke-width="1.1"/></g>`}
@@ -188,9 +188,29 @@ function renderSeparator(character, index, config, uid) {
   </div>`;
 }
 
-function renderScrews(enabled) {
+function renderScrews(enabled, uid = "gtd") {
   if (!enabled) return "";
-  return ["tl", "tr", "bl", "br"].map((position) => `<span class="screw screw-${position}" aria-hidden="true"></span>`).join("");
+  const rotations = { tl: -7, tr: 5, bl: 9, br: -4 };
+  return ["tl", "tr", "bl", "br"].map((position) => {
+    const id = `${uid}-screw-${position}`;
+    return `<svg class="screw screw-${position}" viewBox="0 0 64 64" aria-hidden="true" style="transform:rotate(${rotations[position]}deg)">
+      <defs>
+        <radialGradient id="${id}-head" cx="31%" cy="25%" r="72%"><stop offset="0%" stop-color="#4b4f52"/><stop offset="17%" stop-color="#24272a"/><stop offset="52%" stop-color="#0a0b0c"/><stop offset="78%" stop-color="#020303"/><stop offset="100%" stop-color="#25282b"/></radialGradient>
+        <linearGradient id="${id}-rim" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#85898c"/><stop offset="18%" stop-color="#303336"/><stop offset="62%" stop-color="#070808"/><stop offset="100%" stop-color="#55595c"/></linearGradient>
+        <linearGradient id="${id}-slot" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#000"/><stop offset="45%" stop-color="#101214"/><stop offset="55%" stop-color="#33373a"/><stop offset="100%" stop-color="#010202"/></linearGradient>
+        <filter id="${id}-shadow" x="-30%" y="-30%" width="160%" height="170%"><feDropShadow dx="0" dy="3" stdDeviation="2.2" flood-color="#000" flood-opacity=".82"/></filter>
+      </defs>
+      <g filter="url(#${id}-shadow)">
+        <circle cx="32" cy="32" r="29" fill="url(#${id}-rim)"/>
+        <circle cx="32" cy="32" r="26.5" fill="url(#${id}-head)" stroke="#020303" stroke-width="1.2"/>
+        <circle cx="32" cy="32" r="23.8" fill="none" stroke="#ffffff" stroke-opacity=".055" stroke-width="1"/>
+        <path d="M28 13 H36 L37.5 26.5 L51 28 V36 L37.5 37.5 L36 51 H28 L26.5 37.5 L13 36 V28 L26.5 26.5 Z" fill="url(#${id}-slot)" stroke="#000" stroke-width="1.2" stroke-linejoin="round"/>
+        <path d="M29 15 H35 L36.2 28.1 L49 29 V32 H35.5 L34.5 48 H31.5 L30.5 35.5 H15 V32 H28.2 Z" fill="#767b7e" fill-opacity=".20"/>
+        <path d="M17 27.7 H28 L28.8 16 M36 16 L36.8 28 H48 M48 36 H36.8 L36 48 M28 48 L27.2 36 H16" fill="none" stroke="#8b9093" stroke-opacity=".18" stroke-width="1.2" stroke-linecap="round"/>
+        <ellipse cx="24" cy="19" rx="9" ry="5" fill="#ffffff" opacity=".055" transform="rotate(-28 24 19)"/>
+      </g>
+    </svg>`;
+  }).join("");
 }
 
 const escapeCss = (value) => String(value ?? "").replace(/[{};<>]/g, "");
@@ -200,26 +220,16 @@ function renderStyles(config, { justify, brightness, animationMs }) {
   const gapPx = Math.max(0, Number(config.tube_gap));
   const gapVw = Math.max(.05, Math.min(1.05, gapPx / 11)).toFixed(2);
   const animation = config.animate === false ? "none" : `tube-enter ${animationMs}ms cubic-bezier(.22,1,.36,1)`;
-  const analogAsset = "/hacsfiles/analog-gauge-card/assets/base.webp";
-  const screwStyle = config.screws === true ? `
-    .device.panel .screw{display:block;z-index:20;width:clamp(34px,5vw,56px);aspect-ratio:1;border:0;border-radius:50%;overflow:hidden;clip-path:circle(48% at 50% 50%);background-image:url("${analogAsset}");background-repeat:no-repeat;background-size:1150% 1150%;box-shadow:none;filter:saturate(.96) contrast(1.06) brightness(.99) drop-shadow(0 3px 4px rgba(0,0,0,.72))}
-    .device.panel .screw:before,.device.panel .screw:after{display:none}
-    .device.panel .screw-tl{background-position:3.2% 3.2%}
-    .device.panel .screw-tr{background-position:96.8% 3.2%}
-    .device.panel .screw-bl{background-position:3.2% 96.8%}
-    .device.panel .screw-br{background-position:96.8% 96.8%}
-  ` : ``;
 
   return `<style>
     :host{display:block;width:100%;min-width:0}
     ha-card{width:100%;min-width:0;background:transparent;border:0;box-shadow:none;overflow:hidden}
     .device{--tube:${escapeCss(config.tube_color)};--core:${escapeCss(config.core_color)};position:relative;width:min(100%,${maxWidth}px);min-width:0;margin:0 auto;box-sizing:border-box;user-select:none;-webkit-tap-highlight-color:transparent;cursor:${config.entity ? "pointer" : "default"};filter:brightness(${brightness});isolation:isolate}
     .device.free{padding:4px 4px 15px}
-    .device.panel{padding:clamp(50px,6.2vw,76px) clamp(28px,4.8vw,64px) clamp(34px,4.4vw,58px);border-radius:clamp(21px,2.7vw,34px);background:radial-gradient(ellipse at 50% -12%,rgba(255,255,255,.11),transparent 34%),repeating-linear-gradient(116deg,rgba(255,255,255,.010) 0 1px,transparent 1px 4px),linear-gradient(180deg,#202326 0%,${escapeCss(config.panel_edge)} 4%,${escapeCss(config.panel_color)} 14%,#070808 84%,#171a1c 96%,#050606 100%);border:1px solid rgba(255,255,255,.09);box-shadow:inset 0 2px 0 rgba(255,255,255,.08),inset 0 -2px 0 rgba(0,0,0,.96),inset 0 0 44px rgba(0,0,0,.34),0 18px 40px rgba(0,0,0,.52),0 4px 8px rgba(0,0,0,.78);overflow:hidden}
-    .device.panel:before{content:"";position:absolute;inset:clamp(9px,1.35vw,16px);z-index:1;border-radius:clamp(14px,1.9vw,24px);background:repeating-linear-gradient(116deg,rgba(255,255,255,.004) 0 1px,transparent 1px 4px);border:1px solid rgba(255,255,255,.07);box-shadow:inset 0 1px 0 rgba(255,255,255,.035),inset 0 -2px 0 rgba(0,0,0,.93),0 1px 0 rgba(0,0,0,.8);pointer-events:none}
-    .device.panel:after{content:"";position:absolute;inset:clamp(4px,.65vw,8px);z-index:18;pointer-events:none;border-radius:clamp(17px,2.25vw,29px);border:1px solid rgba(210,218,224,.13);box-shadow:inset 0 1px 0 rgba(255,255,255,.05),inset 0 -1px 0 rgba(0,0,0,.95)}
-    ${screwStyle}
-    .caption{position:relative;z-index:8;text-align:center;margin:0 9% clamp(14px,2vw,25px);letter-spacing:.20em;line-height:1.16;text-transform:uppercase;text-shadow:0 2px 2px #000,0 0 14px rgba(255,255,255,.06)}
+    .device.panel{padding:clamp(46px,5.8vw,70px) clamp(28px,4.8vw,64px) clamp(34px,4.4vw,58px);border-radius:clamp(21px,2.7vw,34px);background:radial-gradient(ellipse at 50% -10%,rgba(255,255,255,.105),transparent 34%),repeating-linear-gradient(116deg,rgba(255,255,255,.008) 0 1px,transparent 1px 4px),linear-gradient(180deg,#202326 0%,${escapeCss(config.panel_edge)} 4%,${escapeCss(config.panel_color)} 14%,#070808 84%,#171a1c 96%,#050606 100%);border:1px solid rgba(255,255,255,.09);box-shadow:inset 0 2px 0 rgba(255,255,255,.08),inset 0 -2px 0 rgba(0,0,0,.96),inset 0 0 44px rgba(0,0,0,.34),0 18px 40px rgba(0,0,0,.52),0 4px 8px rgba(0,0,0,.78);overflow:hidden}
+    .device.panel:before{content:"";position:absolute;inset:clamp(8px,1.25vw,15px);z-index:1;border-radius:clamp(14px,1.9vw,24px);border:1px solid rgba(255,255,255,.065);box-shadow:inset 0 1px 0 rgba(255,255,255,.032),inset 0 -2px 0 rgba(0,0,0,.93),0 1px 0 rgba(0,0,0,.8);pointer-events:none}
+    .device.panel:after{content:"";position:absolute;left:6%;right:6%;top:1.4%;height:1px;z-index:2;background:linear-gradient(90deg,transparent,rgba(255,255,255,.20),transparent);opacity:.78;pointer-events:none}
+    .caption{position:relative;z-index:8;text-align:center;margin:0 11% clamp(14px,2vw,25px);letter-spacing:.20em;line-height:1.16;text-transform:uppercase;text-shadow:0 2px 2px #000,0 0 14px rgba(255,255,255,.06)}
     .title{display:inline-block;font:500 clamp(13px,2vw,24px)/1.12 Arial,Helvetica,sans-serif;background:linear-gradient(180deg,#ffffff 0%,#d9dcdf 25%,#91969a 47%,#53575b 52%,#dfe1e3 79%,#8b9094 100%);-webkit-background-clip:text;background-clip:text;color:transparent;filter:drop-shadow(0 1px 0 #000) drop-shadow(0 0 1px rgba(255,255,255,.35))}
     .subtitle{margin-top:6px;font:400 clamp(8px,1.2vw,12px)/1.2 Arial,Helvetica,sans-serif;color:rgba(194,198,202,.54);letter-spacing:.18em}
     .tube-row{position:relative;z-index:5;display:flex;align-items:flex-end;justify-content:${justify};gap:clamp(1px,${gapVw}vw,${gapPx}px);width:100%;min-width:0;box-sizing:border-box;padding:0 clamp(1px,.45vw,6px)}
@@ -238,30 +248,32 @@ function renderStyles(config, { justify, brightness, animationMs }) {
     .cathode-core{fill:none;stroke:var(--core);stroke-width:1.45;stroke-linecap:round;stroke-linejoin:round;opacity:1;filter:drop-shadow(0 0 .75px #fff2cf)}
     .cathode-beads{fill:none;stroke:#fff8e9;stroke-width:1.42;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:.001 2.05;opacity:.87;mix-blend-mode:screen}
     .cathode-spark{fill:none;stroke:#ffffff;stroke-width:.66;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:.001 5.4;opacity:.84;mix-blend-mode:screen}
-    .separator-far{opacity:.22;fill:none;stroke:var(--tube);stroke-width:8.5;stroke-linecap:round;stroke-linejoin:round}
-    .separator-aura{opacity:.80;fill:none;stroke:var(--tube);stroke-width:5.5;stroke-linecap:round;stroke-linejoin:round}
-    .separator-dot{fill:#ff6814;stroke:var(--core);stroke-width:1.35;filter:drop-shadow(0 0 2px #ff3c00)}
-    .separator-ring{fill:none;stroke:#ff5e0d;stroke-width:4.8;filter:drop-shadow(0 0 2px #ff3c00)}
-    .separator-ring-core{fill:none;stroke:var(--core);stroke-width:1.3;opacity:.98}
-    .separator-comma{fill:none;stroke:#ff6412;stroke-width:3.7;stroke-linecap:round;stroke-linejoin:round;filter:drop-shadow(0 0 1.8px #ff3c00)}
-    .separator-tail{fill:none;stroke:#ff6412;stroke-width:4.1;stroke-linecap:round;filter:drop-shadow(0 0 2px #ff3c00)}
+    .separator-far{opacity:.24;mix-blend-mode:screen}
+    .separator-aura{opacity:.78;mix-blend-mode:screen}
+    .separator-far .separator-dot,.separator-far .separator-comma{fill:var(--tube);stroke:var(--tube);stroke-width:4}
+    .separator-aura .separator-dot,.separator-aura .separator-comma{fill:var(--tube);stroke:var(--tube);stroke-width:2.2}
+    .separator-far .separator-ring,.separator-aura .separator-ring{fill:none;stroke:var(--tube)}
+    .separator-dot{fill:#ff6814;stroke:var(--core);stroke-width:1.25;filter:drop-shadow(0 0 1.8px #ff3c00)}
+    .separator-ring{fill:none;stroke:#ff5e0d;stroke-width:4.6;filter:drop-shadow(0 0 1.8px #ff3c00)}
+    .separator-ring-core{fill:none;stroke:var(--core);stroke-width:1.25;opacity:.98}
+    .separator-comma{fill:#ff6412;stroke:var(--core);stroke-width:.75;stroke-linejoin:round;filter:drop-shadow(0 0 1.5px #ff3c00)}
     .base-board{position:relative;z-index:3;width:98.5%;height:clamp(29px,4vw,48px);margin:clamp(-21px,-2vw,-11px) auto 0;border-radius:clamp(8px,1.05vw,13px);background:radial-gradient(ellipse at 50% 0%,rgba(255,255,255,.10),transparent 30%),linear-gradient(180deg,#44484c 0%,#202326 8%,#111315 22%,#070808 72%,#010202 100%);border:1px solid rgba(255,255,255,.09);box-shadow:inset 0 2px 0 rgba(255,255,255,.10),inset 0 -5px 8px rgba(0,0,0,.94),0 13px 18px rgba(0,0,0,.64)}
     .base-board:before{content:"";position:absolute;left:2%;right:2%;top:3%;height:25%;border-radius:50%;background:linear-gradient(90deg,transparent,rgba(255,125,31,.22),transparent);filter:blur(6px);opacity:.72}
     .base-board:after{content:"";position:absolute;left:4%;right:4%;bottom:-12px;height:13px;border-radius:0 0 11px 11px;background:linear-gradient(180deg,#111315,#010202);box-shadow:0 9px 13px rgba(0,0,0,.62)}
-    .screw{position:absolute;width:clamp(34px,5vw,56px);aspect-ratio:1;pointer-events:none}
-    .screw-tl{left:clamp(14px,2.1vw,25px);top:clamp(14px,2.1vw,25px)}
-    .screw-tr{right:clamp(14px,2.1vw,25px);top:clamp(14px,2.1vw,25px)}
-    .screw-bl{left:clamp(14px,2.1vw,25px);bottom:clamp(14px,2.1vw,25px)}
-    .screw-br{right:clamp(14px,2.1vw,25px);bottom:clamp(14px,2.1vw,25px)}
+    .screw{position:absolute;z-index:20;width:clamp(28px,4.2vw,44px);aspect-ratio:1;pointer-events:none;overflow:visible;filter:drop-shadow(0 3px 4px rgba(0,0,0,.78))}
+    .screw-tl{left:clamp(15px,2.1vw,25px);top:clamp(15px,2.1vw,25px)}
+    .screw-tr{right:clamp(15px,2.1vw,25px);top:clamp(15px,2.1vw,25px)}
+    .screw-bl{left:clamp(15px,2.1vw,25px);bottom:clamp(15px,2.1vw,25px)}
+    .screw-br{right:clamp(15px,2.1vw,25px);bottom:clamp(15px,2.1vw,25px)}
     @keyframes tube-enter{from{opacity:.28;transform:translateY(4px) scale(.988);filter:brightness(.62) saturate(.7)}to{opacity:1;transform:translateY(0) scale(1);filter:brightness(1) saturate(1)}}
-    @media(max-width:620px){.device.panel{padding:46px 21px 34px}.device.panel:before{inset:9px}.caption{margin-bottom:10px;letter-spacing:.13em}.tube-row{gap:clamp(1px,.34vw,4px)}.screw{width:34px}.base-board{height:29px;margin-top:-12px}.tube-slot{max-width:114px}.separator-slot{max-width:74px}}
-    @media(max-width:390px){.device.panel{padding:42px 16px 31px;border-radius:17px}.caption{margin-left:11%;margin-right:11%;letter-spacing:.09em}.title{font-size:12px}.screw{width:30px}.separator-slot{min-width:8px}.tube-row{padding:0}}
+    @media(max-width:620px){.device.panel{padding:43px 21px 34px}.caption{margin-bottom:10px;letter-spacing:.13em}.tube-row{gap:clamp(1px,.34vw,4px)}.screw{width:31px}.base-board{height:29px;margin-top:-12px}.tube-slot{max-width:114px}.separator-slot{max-width:74px}}
+    @media(max-width:390px){.device.panel{padding:40px 16px 31px;border-radius:17px}.caption{margin-left:12%;margin-right:12%;letter-spacing:.09em}.title{font-size:12px}.screw{width:27px}.separator-slot{min-width:8px}.tube-row{padding:0}}
     @media(prefers-reduced-motion:reduce){.tube-slot,.separator-slot{animation:none!important}}
   </style>`;
 }
 
 
-const VERSION = "0.3.3";
+const VERSION = "0.3.4";
 const DEFAULT_CONFIG = Object.freeze({
   text:"HELLO",attribute:null,prefix:"",suffix:"",title:"",subtitle:"",unit:"",unit_separator:" ",
   decimals:null,decimal_separator:"auto",unavailable_text:"----",unknown_text:"----",
@@ -336,7 +348,7 @@ class GlassTubeDisplayCard extends HTMLElement {
     const tubeHtml=this._tokens(display).map((token,index)=>token.kind==="separator"?renderSeparator(token.char,index,cfg,this._uid):renderTube(token.char,index,cfg,this._uid)).join("");
     const mounted=String(cfg.mounting).toLowerCase()==="panel";const justify={left:"flex-start",center:"center",right:"flex-end"}[String(cfg.align).toLowerCase()]||"center";
     const brightness=Math.max(.1,Math.min(3,Number(cfg.brightness)));const animationMs=Math.max(0,Number(cfg.animation_speed));
-    this.shadowRoot.innerHTML=`${renderStyles(cfg,{justify,brightness,animationMs})}<ha-card><div class="device ${mounted?"panel":"free"}" role="button" tabindex="${cfg.entity?"0":"-1"}">${renderScrews(cfg.screws===true)}${cfg.title||cfg.subtitle?`<div class="caption">${cfg.title?`<div class="title">${escapeHtml(cfg.title)}</div>`:""}${cfg.subtitle?`<div class="subtitle">${escapeHtml(cfg.subtitle)}</div>`:""}</div>`:""}<div class="tube-row">${tubeHtml}</div><div class="base-board" aria-hidden="true"></div></div></ha-card>`;
+    this.shadowRoot.innerHTML=`${renderStyles(cfg,{justify,brightness,animationMs})}<ha-card><div class="device ${mounted?"panel":"free"}" role="button" tabindex="${cfg.entity?"0":"-1"}">${renderScrews(cfg.screws===true,this._uid)}${cfg.title||cfg.subtitle?`<div class="caption">${cfg.title?`<div class="title">${escapeHtml(cfg.title)}</div>`:""}${cfg.subtitle?`<div class="subtitle">${escapeHtml(cfg.subtitle)}</div>`:""}</div>`:""}<div class="tube-row">${tubeHtml}</div><div class="base-board" aria-hidden="true"></div></div></ha-card>`;
     const device=this.shadowRoot.querySelector(".device");if(device&&cfg.entity){device.addEventListener("click",()=>this._handleAction(cfg.tap_action));device.addEventListener("keydown",event=>{if(event.key==="Enter"||event.key===" "){event.preventDefault();this._handleAction(cfg.tap_action)}})}
   }
 
