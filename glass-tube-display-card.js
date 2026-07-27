@@ -1,5 +1,5 @@
-/* Glass Tube Display Card v0.3.6
- * Self-contained HACS bundle with embedded panel and screw assets.
+/* Glass Tube Display Card v0.3.7
+ * Single-layer Gauge-family panel with independently balanced punctuation cathodes.
  */
 (() => {
 const GLYPH_PATHS = Object.freeze({
@@ -162,13 +162,22 @@ function renderTube(character, index, config, uid) {
 }
 
 function renderCommaCathode(id) {
-  const d = "M42 178 C43 184 41 189 38 192 C36 194 35 198 34 202";
+  const d = "M41 174 C45.5 174 47.5 177 46.7 180.8 C45.9 184.4 42.6 186.8 39.4 188.1 C39.1 192.8 37.3 197.1 33.8 201.2";
   return `<g class="comma-cathode">
     <path d="${d}" class="separator-comma-shadow"/>
-    <path d="${d}" class="separator-comma-far" filter="url(#sep-glow-far-${id})"/>
-    <path d="${d}" class="separator-comma-aura" filter="url(#sep-glow-${id})"/>
+    <path d="${d}" class="separator-comma-far" filter="url(#sep-comma-far-${id})"/>
+    <path d="${d}" class="separator-comma-aura" filter="url(#sep-comma-glow-${id})"/>
     <path d="${d}" class="separator-comma-hot"/>
     <path d="${d}" class="separator-comma-core"/>
+  </g>`;
+}
+
+function renderDegreeCathode(id) {
+  return `<g class="degree-cathode">
+    <circle cx="38" cy="112" r="7.4" class="separator-degree-far" filter="url(#sep-degree-far-${id})"/>
+    <circle cx="38" cy="112" r="7.4" class="separator-degree-aura" filter="url(#sep-degree-glow-${id})"/>
+    <circle cx="38" cy="112" r="6.8" class="separator-degree-hot"/>
+    <circle cx="38" cy="112" r="6.8" class="separator-degree-core"/>
   </g>`;
 }
 
@@ -179,7 +188,7 @@ function renderSeparator(character, index, config, uid) {
   const isComma = character === "," || character === ";";
   const isDegree = character === "°";
   const standardMarks = isDegree
-    ? `<circle cx="38" cy="112" r="9.5" class="separator-ring"/><circle cx="38" cy="112" r="6.1" class="separator-ring-core"/>`
+    ? ""
     : isColon
       ? `<circle cx="38" cy="116" r="5.7" class="separator-dot"/>${isComma ? "" : '<circle cx="38" cy="163" r="5.7" class="separator-dot"/>'}`
       : isComma ? "" : `<circle cx="38" cy="178" r="5.9" class="separator-dot"/>`;
@@ -187,6 +196,7 @@ function renderSeparator(character, index, config, uid) {
     ? `<g class="separator-far" filter="url(#sep-glow-far-${id})">${standardMarks}</g><g class="separator-aura" filter="url(#sep-glow-${id})">${standardMarks}</g><g>${standardMarks}</g>`
     : "";
   const commaMarks = isComma ? renderCommaCathode(id) : "";
+  const degreeMarks = isDegree ? renderDegreeCathode(id) : "";
 
   const outer = "M14 238 C12 207 12 78 14 52 C15 38 21 28 31 23 C35 21 36 17 36 12 C36 6 37 3 38 3 C40 3 41 6 41 12 C41 17 42 21 46 23 C56 28 62 38 63 52 C65 78 65 207 63 238 C62 250 15 250 14 238 Z";
   const inside = "M18 232 C16 203 16 82 18 56 C19 44 24 36 32 32 C36 30 36 27 36 22 H41 C41 27 41 30 45 32 C53 36 58 44 59 56 C61 82 61 203 59 232 Z";
@@ -199,12 +209,16 @@ function renderSeparator(character, index, config, uid) {
         <pattern id="sep-mesh-${id}" width="6.2" height="5.37" patternUnits="userSpaceOnUse"><path d="M1.55 0 H4.65 L6.2 2.685 L4.65 5.37 H1.55 L0 2.685 Z" fill="#151615" fill-opacity=".08" stroke="#aaa49a" stroke-width=".42" opacity="${Number(config.mesh_opacity)}"/></pattern>
         <filter id="sep-glow-far-${id}" x="-220%" y="-220%" width="540%" height="540%"><feGaussianBlur stdDeviation="4.8"/></filter>
         <filter id="sep-glow-${id}" x="-190%" y="-190%" width="480%" height="480%"><feGaussianBlur stdDeviation="2.2"/></filter>
+        <filter id="sep-comma-far-${id}" x="-220%" y="-220%" width="540%" height="540%"><feGaussianBlur stdDeviation="3.6"/></filter>
+        <filter id="sep-comma-glow-${id}" x="-190%" y="-190%" width="480%" height="480%"><feGaussianBlur stdDeviation="1.8"/></filter>
+        <filter id="sep-degree-far-${id}" x="-160%" y="-160%" width="420%" height="420%"><feGaussianBlur stdDeviation="2.0"/></filter>
+        <filter id="sep-degree-glow-${id}" x="-140%" y="-140%" width="380%" height="380%"><feGaussianBlur stdDeviation=".9"/></filter>
         <filter id="sep-shadow-${id}" x="-100%" y="-35%" width="300%" height="205%"><feDropShadow dx="0" dy="6" stdDeviation="3.4" flood-color="#000" flood-opacity=".92"/></filter>
         <clipPath id="sep-inside-${id}"><path d="${inside}"/></clipPath>
       </defs>
       ${bare ? "" : `<g filter="url(#sep-shadow-${id})"><path d="${outer}" fill="#030506" fill-opacity=".40" stroke="#0a0d0e" stroke-width="1.1"/></g>`}
       ${bare ? "" : `<g clip-path="url(#sep-inside-${id})"><rect x="18" y="63" width="41" height="170" fill="#030404" opacity=".46"/><rect x="20" y="72" width="37" height="143" fill="url(#sep-mesh-${id})" opacity=".80"/><path d="M22 61 L22 232 M54 61 L54 232" stroke="#aaa49a" stroke-width=".8" opacity=".58"/><path d="M27 65 L27 229 M49 65 L49 229" stroke="#8e887f" stroke-width=".6" opacity=".32"/><ellipse cx="38" cy="58" rx="18" ry="4.4" fill="#d9d2c7" opacity=".48"/><ellipse cx="38" cy="221" rx="18" ry="4.4" fill="#d9d2c7" opacity=".40"/></g>`}
-      ${glowMarks}${commaMarks}
+      ${glowMarks}${commaMarks}${degreeMarks}
       ${bare ? "" : `<path d="${outer}" fill="url(#sep-glass-${id})" fill-opacity="${Number(config.glass_opacity)}" stroke="#e4f5fb" stroke-opacity=".72" stroke-width=".95"/><path d="M19 56 C17 94 17 207 19 230" fill="none" stroke="#fff" stroke-width="3.2" stroke-linecap="round" opacity=".31"/><path d="M23 40 C19 45 17 51 16 59" fill="none" stroke="#fff" stroke-width="1.5" stroke-linecap="round" opacity=".80"/><path d="M55 50 C59 73 59 104 59 129" fill="none" stroke="#eafaff" stroke-width="1.4" opacity=".24"/><ellipse cx="38" cy="12" rx="2.4" ry="5.2" fill="#fff" opacity=".48"/><ellipse cx="38" cy="239" rx="25" ry="5.8" fill="#303438" stroke="#6b7075" stroke-width=".8"/><path d="M12 239 C16 246 60 246 64 239 L64 266 C59 275 17 275 12 266 Z" fill="url(#sep-base-${id})" stroke="#050606" stroke-width=".9"/><ellipse cx="38" cy="266" rx="26" ry="5.9" fill="#020303" stroke="#292d30" stroke-width=".8"/><path d="M25 269 L25 283 M31 269 L31 284 M38 269 L38 285 M45 269 L45 284 M51 269 L51 283" stroke="#746b61" stroke-width="1.1" opacity=".78"/>`}
     </svg>
   </div>`;
@@ -231,8 +245,8 @@ function renderStyles(config, { justify, brightness, animationMs }) {
     ha-card{width:100%;min-width:0;background:transparent;border:0;box-shadow:none;overflow:hidden}
     .device{--tube:${escapeCss(config.tube_color)};--core:${escapeCss(config.core_color)};position:relative;width:min(100%,${maxWidth}px);min-width:0;margin:0 auto;box-sizing:border-box;user-select:none;-webkit-tap-highlight-color:transparent;cursor:${config.entity ? "pointer" : "default"};filter:brightness(${brightness});isolation:isolate}
     .device.free{padding:4px 4px 15px}
-    .device.panel{padding:clamp(48px,6vw,74px) clamp(30px,5vw,66px) clamp(36px,4.6vw,60px);border-radius:clamp(24px,3vw,38px);background:#050606;box-shadow:none;overflow:hidden}
-    .panel-backdrop{position:absolute;inset:0;z-index:0;width:100%;height:100%;display:block;object-fit:fill;pointer-events:none;filter:saturate(.95) contrast(1.04) brightness(.99)}
+    .device.panel{padding:clamp(48px,6vw,74px) clamp(30px,5vw,66px) clamp(36px,4.6vw,60px);border-radius:clamp(24px,3vw,38px);background:transparent;box-shadow:none;overflow:hidden;filter:brightness(${brightness}) drop-shadow(0 12px 18px rgba(0,0,0,.28))}
+    .panel-backdrop{position:absolute;inset:0;z-index:0;width:100%;height:100%;display:block;object-fit:fill;pointer-events:none;filter:saturate(.97) contrast(1.03) brightness(.99)}
     .caption{position:relative;z-index:8;text-align:center;margin:0 11% clamp(14px,2vw,25px);letter-spacing:.20em;line-height:1.16;text-transform:uppercase;text-shadow:0 2px 2px #000,0 0 14px rgba(255,255,255,.06)}
     .title{display:inline-block;font:500 clamp(13px,2vw,24px)/1.12 Arial,Helvetica,sans-serif;background:linear-gradient(180deg,#ffffff 0%,#d9dcdf 25%,#91969a 47%,#53575b 52%,#dfe1e3 79%,#8b9094 100%);-webkit-background-clip:text;background-clip:text;color:transparent;filter:drop-shadow(0 1px 0 #000) drop-shadow(0 0 1px rgba(255,255,255,.35))}
     .subtitle{margin-top:6px;font:400 clamp(8px,1.2vw,12px)/1.2 Arial,Helvetica,sans-serif;color:rgba(194,198,202,.54);letter-spacing:.18em}
@@ -256,16 +270,18 @@ function renderStyles(config, { justify, brightness, animationMs }) {
     .separator-aura{opacity:.64;mix-blend-mode:screen}
     .separator-far .separator-dot{fill:var(--tube);stroke:var(--tube);stroke-width:3.6}
     .separator-aura .separator-dot{fill:var(--tube);stroke:var(--tube);stroke-width:2}
-    .separator-far .separator-ring,.separator-aura .separator-ring{fill:none;stroke:var(--tube)}
     .separator-dot{fill:#ff6814;stroke:var(--core);stroke-width:1.25;filter:drop-shadow(0 0 1.8px #ff3c00)}
-    .separator-ring{fill:none;stroke:#ff5e0d;stroke-width:4.6;filter:drop-shadow(0 0 1.8px #ff3c00)}
-    .separator-ring-core{fill:none;stroke:var(--core);stroke-width:1.25;opacity:.98}
     .separator-comma-shadow,.separator-comma-far,.separator-comma-aura,.separator-comma-hot,.separator-comma-core{fill:none;stroke-linecap:round;stroke-linejoin:round}
-    .separator-comma-shadow{stroke:#170300;stroke-width:5;opacity:.92}
-    .separator-comma-far{stroke:#ff3d00;stroke-width:5.4;opacity:.12;mix-blend-mode:screen}
-    .separator-comma-aura{stroke:var(--tube);stroke-width:3.3;opacity:.38;mix-blend-mode:screen}
-    .separator-comma-hot{stroke:#ff6a16;stroke-width:2.2;filter:drop-shadow(0 0 .65px #ff3600)}
-    .separator-comma-core{stroke:var(--core);stroke-width:.8;opacity:.96}
+    .separator-comma-shadow{stroke:#170300;stroke-width:5.4;opacity:.92}
+    .separator-comma-far{stroke:#ff3d00;stroke-width:5.8;opacity:.18;mix-blend-mode:screen}
+    .separator-comma-aura{stroke:var(--tube);stroke-width:3.6;opacity:.52;mix-blend-mode:screen}
+    .separator-comma-hot{stroke:#ff6a16;stroke-width:2.25;filter:drop-shadow(0 0 1.2px #ff3600)}
+    .separator-comma-core{stroke:var(--core);stroke-width:.95;opacity:.98}
+    .separator-degree-far,.separator-degree-aura,.separator-degree-hot,.separator-degree-core{fill:none;stroke-linecap:round}
+    .separator-degree-far{stroke:#ff3d00;stroke-width:3.2;opacity:.10;mix-blend-mode:screen}
+    .separator-degree-aura{stroke:var(--tube);stroke-width:2.2;opacity:.28;mix-blend-mode:screen}
+    .separator-degree-hot{stroke:#ff6a16;stroke-width:1.7;opacity:.98}
+    .separator-degree-core{stroke:var(--core);stroke-width:.72;opacity:.98}
     .base-board{position:relative;z-index:3;width:98.5%;height:clamp(29px,4vw,48px);margin:clamp(-21px,-2vw,-11px) auto 0;border-radius:clamp(8px,1.05vw,13px);background:radial-gradient(ellipse at 50% 0%,rgba(255,255,255,.10),transparent 30%),linear-gradient(180deg,#44484c 0%,#202326 8%,#111315 22%,#070808 72%,#010202 100%);border:1px solid rgba(255,255,255,.09);box-shadow:inset 0 2px 0 rgba(255,255,255,.10),inset 0 -5px 8px rgba(0,0,0,.94),0 13px 18px rgba(0,0,0,.64)}
     .base-board:before{content:"";position:absolute;left:2%;right:2%;top:3%;height:25%;border-radius:50%;background:linear-gradient(90deg,transparent,rgba(255,125,31,.22),transparent);filter:blur(6px);opacity:.72}
     .base-board:after{content:"";position:absolute;left:4%;right:4%;bottom:-12px;height:13px;border-radius:0 0 11px 11px;background:linear-gradient(180deg,#111315,#010202);box-shadow:0 9px 13px rgba(0,0,0,.62)}
@@ -282,7 +298,7 @@ function renderStyles(config, { justify, brightness, animationMs }) {
 }
 
 
-const VERSION = "0.3.6";
+const VERSION = "0.3.7";
 const DEFAULT_CONFIG = Object.freeze({
   text:"HELLO",attribute:null,prefix:"",suffix:"",title:"",subtitle:"",unit:"",unit_separator:" ",
   decimals:null,decimal_separator:"auto",unavailable_text:"----",unknown_text:"----",

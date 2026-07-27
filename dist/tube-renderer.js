@@ -97,13 +97,22 @@ export function renderTube(character, index, config, uid) {
 }
 
 function renderCommaCathode(id) {
-  const d = "M42 178 C43 184 41 189 38 192 C36 194 35 198 34 202";
+  const d = "M41 174 C45.5 174 47.5 177 46.7 180.8 C45.9 184.4 42.6 186.8 39.4 188.1 C39.1 192.8 37.3 197.1 33.8 201.2";
   return `<g class="comma-cathode">
     <path d="${d}" class="separator-comma-shadow"/>
-    <path d="${d}" class="separator-comma-far" filter="url(#sep-glow-far-${id})"/>
-    <path d="${d}" class="separator-comma-aura" filter="url(#sep-glow-${id})"/>
+    <path d="${d}" class="separator-comma-far" filter="url(#sep-comma-far-${id})"/>
+    <path d="${d}" class="separator-comma-aura" filter="url(#sep-comma-glow-${id})"/>
     <path d="${d}" class="separator-comma-hot"/>
     <path d="${d}" class="separator-comma-core"/>
+  </g>`;
+}
+
+function renderDegreeCathode(id) {
+  return `<g class="degree-cathode">
+    <circle cx="38" cy="112" r="7.4" class="separator-degree-far" filter="url(#sep-degree-far-${id})"/>
+    <circle cx="38" cy="112" r="7.4" class="separator-degree-aura" filter="url(#sep-degree-glow-${id})"/>
+    <circle cx="38" cy="112" r="6.8" class="separator-degree-hot"/>
+    <circle cx="38" cy="112" r="6.8" class="separator-degree-core"/>
   </g>`;
 }
 
@@ -114,7 +123,7 @@ export function renderSeparator(character, index, config, uid) {
   const isComma = character === "," || character === ";";
   const isDegree = character === "°";
   const standardMarks = isDegree
-    ? `<circle cx="38" cy="112" r="9.5" class="separator-ring"/><circle cx="38" cy="112" r="6.1" class="separator-ring-core"/>`
+    ? ""
     : isColon
       ? `<circle cx="38" cy="116" r="5.7" class="separator-dot"/>${isComma ? "" : '<circle cx="38" cy="163" r="5.7" class="separator-dot"/>'}`
       : isComma ? "" : `<circle cx="38" cy="178" r="5.9" class="separator-dot"/>`;
@@ -122,6 +131,7 @@ export function renderSeparator(character, index, config, uid) {
     ? `<g class="separator-far" filter="url(#sep-glow-far-${id})">${standardMarks}</g><g class="separator-aura" filter="url(#sep-glow-${id})">${standardMarks}</g><g>${standardMarks}</g>`
     : "";
   const commaMarks = isComma ? renderCommaCathode(id) : "";
+  const degreeMarks = isDegree ? renderDegreeCathode(id) : "";
 
   const outer = "M14 238 C12 207 12 78 14 52 C15 38 21 28 31 23 C35 21 36 17 36 12 C36 6 37 3 38 3 C40 3 41 6 41 12 C41 17 42 21 46 23 C56 28 62 38 63 52 C65 78 65 207 63 238 C62 250 15 250 14 238 Z";
   const inside = "M18 232 C16 203 16 82 18 56 C19 44 24 36 32 32 C36 30 36 27 36 22 H41 C41 27 41 30 45 32 C53 36 58 44 59 56 C61 82 61 203 59 232 Z";
@@ -134,12 +144,16 @@ export function renderSeparator(character, index, config, uid) {
         <pattern id="sep-mesh-${id}" width="6.2" height="5.37" patternUnits="userSpaceOnUse"><path d="M1.55 0 H4.65 L6.2 2.685 L4.65 5.37 H1.55 L0 2.685 Z" fill="#151615" fill-opacity=".08" stroke="#aaa49a" stroke-width=".42" opacity="${Number(config.mesh_opacity)}"/></pattern>
         <filter id="sep-glow-far-${id}" x="-220%" y="-220%" width="540%" height="540%"><feGaussianBlur stdDeviation="4.8"/></filter>
         <filter id="sep-glow-${id}" x="-190%" y="-190%" width="480%" height="480%"><feGaussianBlur stdDeviation="2.2"/></filter>
+        <filter id="sep-comma-far-${id}" x="-220%" y="-220%" width="540%" height="540%"><feGaussianBlur stdDeviation="3.6"/></filter>
+        <filter id="sep-comma-glow-${id}" x="-190%" y="-190%" width="480%" height="480%"><feGaussianBlur stdDeviation="1.8"/></filter>
+        <filter id="sep-degree-far-${id}" x="-160%" y="-160%" width="420%" height="420%"><feGaussianBlur stdDeviation="2.0"/></filter>
+        <filter id="sep-degree-glow-${id}" x="-140%" y="-140%" width="380%" height="380%"><feGaussianBlur stdDeviation=".9"/></filter>
         <filter id="sep-shadow-${id}" x="-100%" y="-35%" width="300%" height="205%"><feDropShadow dx="0" dy="6" stdDeviation="3.4" flood-color="#000" flood-opacity=".92"/></filter>
         <clipPath id="sep-inside-${id}"><path d="${inside}"/></clipPath>
       </defs>
       ${bare ? "" : `<g filter="url(#sep-shadow-${id})"><path d="${outer}" fill="#030506" fill-opacity=".40" stroke="#0a0d0e" stroke-width="1.1"/></g>`}
       ${bare ? "" : `<g clip-path="url(#sep-inside-${id})"><rect x="18" y="63" width="41" height="170" fill="#030404" opacity=".46"/><rect x="20" y="72" width="37" height="143" fill="url(#sep-mesh-${id})" opacity=".80"/><path d="M22 61 L22 232 M54 61 L54 232" stroke="#aaa49a" stroke-width=".8" opacity=".58"/><path d="M27 65 L27 229 M49 65 L49 229" stroke="#8e887f" stroke-width=".6" opacity=".32"/><ellipse cx="38" cy="58" rx="18" ry="4.4" fill="#d9d2c7" opacity=".48"/><ellipse cx="38" cy="221" rx="18" ry="4.4" fill="#d9d2c7" opacity=".40"/></g>`}
-      ${glowMarks}${commaMarks}
+      ${glowMarks}${commaMarks}${degreeMarks}
       ${bare ? "" : `<path d="${outer}" fill="url(#sep-glass-${id})" fill-opacity="${Number(config.glass_opacity)}" stroke="#e4f5fb" stroke-opacity=".72" stroke-width=".95"/><path d="M19 56 C17 94 17 207 19 230" fill="none" stroke="#fff" stroke-width="3.2" stroke-linecap="round" opacity=".31"/><path d="M23 40 C19 45 17 51 16 59" fill="none" stroke="#fff" stroke-width="1.5" stroke-linecap="round" opacity=".80"/><path d="M55 50 C59 73 59 104 59 129" fill="none" stroke="#eafaff" stroke-width="1.4" opacity=".24"/><ellipse cx="38" cy="12" rx="2.4" ry="5.2" fill="#fff" opacity=".48"/><ellipse cx="38" cy="239" rx="25" ry="5.8" fill="#303438" stroke="#6b7075" stroke-width=".8"/><path d="M12 239 C16 246 60 246 64 239 L64 266 C59 275 17 275 12 266 Z" fill="url(#sep-base-${id})" stroke="#050606" stroke-width=".9"/><ellipse cx="38" cy="266" rx="26" ry="5.9" fill="#020303" stroke="#292d30" stroke-width=".8"/><path d="M25 269 L25 283 M31 269 L31 284 M38 269 L38 285 M45 269 L45 284 M51 269 L51 283" stroke="#746b61" stroke-width="1.1" opacity=".78"/>`}
     </svg>
   </div>`;
