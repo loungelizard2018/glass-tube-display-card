@@ -1,5 +1,15 @@
 # Changelog
 
+## 0.3.3
+
+- Removed the opaque inner panel layer that visually covered the enclosure background.
+- Replaced the Analog Gauge border-image approach with a clean uniform enclosure and tightly cropped original Analog Gauge screw heads only.
+- Added extra top clearance so the title is never covered by the screw layer.
+- Reduced punctuation-tube width and glow intensity.
+- Replaced the comma with a smaller continuous curved cathode without a loop or detached dot.
+- Switched `hacs.json` to the standard dashboard-resource manifest used by the Analog Gauge Card so HACS manages the `/hacsfiles/...` resource automatically.
+- Kept the existing Lovelace configuration API compatible.
+
 ## 0.3.2
 
 - Removed the thick Analog Gauge `base.webp` nine-slice that exposed parts of the circular dial housing.
