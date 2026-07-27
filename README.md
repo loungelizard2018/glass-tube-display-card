@@ -25,7 +25,13 @@ A responsive alphanumeric glass-tube display for Home Assistant dashboards. It r
 4. Install **Glass Tube Display Card**.
 5. Reload Home Assistant when prompted and refresh the browser without cache.
 
-HACS loads `glass-tube-display-card.js` from the repository root and normally registers the dashboard resource automatically.
+HACS installs `glass-tube-display-card.js` and automatically registers exactly one dashboard resource under:
+
+```text
+/hacsfiles/glass-tube-display-card/glass-tube-display-card.js
+```
+
+Do not add a second `/local/community/...` resource for a HACS installation. If an older manual resource exists, delete it once and retain only the HACS-managed `/hacsfiles/...` entry.
 
 ## Manual installation
 
@@ -118,61 +124,4 @@ Accented Latin letters are reduced to their base letter. Unsupported characters 
 
 ## Configuration reference
 
-| Option | Default | Purpose |
-|---|---:|---|
-| `entity` | — | Home Assistant entity to display |
-| `attribute` | — | Optional entity attribute instead of its state |
-| `text` | — | Static text when no entity is used |
-| `prefix`, `suffix` | empty | Characters added before or after the value |
-| `title`, `subtitle` | empty | Optional captions above the tubes |
-| `unit` | empty | Unit appended after the value |
-| `unit_separator` | one space | Characters inserted before `unit` |
-| `decimals` | automatic | Numeric decimal places from `0` to `8` |
-| `decimal_separator` | `auto` | `auto`, `dot` or `comma` |
-| `unavailable_text`, `unknown_text` | `----` | Replacement text for missing states |
-| `min_characters` | `0` | Minimum number of full-size tube positions |
-| `max_characters` | `12` | Maximum number of full-size tube positions, up to `40` |
-| `pad` | `left` | Add blank positions on the `left` or `right` |
-| `pad_character` | space | Character used for padding |
-| `overflow` | `left` | Keep the left or right side when the value is too long |
-| `show_blank_tubes` | `true` | Show physical empty tubes for spaces |
-| `show_cathode_stack` | `true` | Show faint inactive cathodes behind the lit glyph |
-| `separator_style` | `mini_tube` | `mini_tube` or `bare` punctuation |
-| `align` | `center` | `left`, `center` or `right` |
-| `mounting` | `free` | `free` or `panel` |
-| `screws` | `false` | Show four black cross-head screws |
-| `screwed` | `false` | Shorthand for panel plus screws |
-| `max_width` | `920` | Maximum card width in pixels |
-| `tube_gap` | `8` | Requested gap between tubes |
-| `tube_color` | `#ff6a00` | Main cathode glow colour |
-| `core_color` | `#ffd0a3` | Hot inner cathode colour |
-| `glass_tint` | `#d7edff` | Glass reflection tint |
-| `glass_opacity` | `0.72` | Glass body opacity |
-| `mesh_opacity` | `0.34` | Honeycomb mesh opacity |
-| `pcb_color` | `#131713` | Circuit-board colour |
-| `panel_color` | `#090a0b` | Main panel colour |
-| `panel_edge` | `#22262a` | Upper panel edge colour |
-| `brightness` | `1` | Overall brightness multiplier |
-| `animate` | `true` | Animate value changes |
-| `animation_speed` | `420` | Animation duration in milliseconds |
-| `tap_action` | more-info | Home Assistant action configuration |
-
-## Tap actions
-
-Supported actions are `more-info`, `navigate`, `url`, `toggle`, `call-service` and `none`.
-
-```yaml
-tap_action:
-  action: navigate
-  navigation_path: /lovelace/system
-```
-
-## Development check
-
-```bash
-npm run check
-```
-
-## Licence
-
-MIT
+The full set of options is documented in the examples and source defaults. Existing configurations remain backward compatible across the current release series.
