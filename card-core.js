@@ -1,8 +1,8 @@
 import { normaliseCharacter } from "./glyphs.js";
-import { renderTube, renderSeparator, renderScrews } from "./tube-renderer.js";
+import { renderPanelBackdrop, renderTube, renderSeparator, renderScrews } from "./tube-renderer.js";
 import { renderStyles } from "./card-styles.js";
 
-const VERSION = "0.3.4";
+const VERSION = "0.3.5";
 const DEFAULT_CONFIG = Object.freeze({
   text:"HELLO",attribute:null,prefix:"",suffix:"",title:"",subtitle:"",unit:"",unit_separator:" ",
   decimals:null,decimal_separator:"auto",unavailable_text:"----",unknown_text:"----",
@@ -77,7 +77,7 @@ class GlassTubeDisplayCard extends HTMLElement {
     const tubeHtml=this._tokens(display).map((token,index)=>token.kind==="separator"?renderSeparator(token.char,index,cfg,this._uid):renderTube(token.char,index,cfg,this._uid)).join("");
     const mounted=String(cfg.mounting).toLowerCase()==="panel";const justify={left:"flex-start",center:"center",right:"flex-end"}[String(cfg.align).toLowerCase()]||"center";
     const brightness=Math.max(.1,Math.min(3,Number(cfg.brightness)));const animationMs=Math.max(0,Number(cfg.animation_speed));
-    this.shadowRoot.innerHTML=`${renderStyles(cfg,{justify,brightness,animationMs})}<ha-card><div class="device ${mounted?"panel":"free"}" role="button" tabindex="${cfg.entity?"0":"-1"}">${renderScrews(cfg.screws===true,this._uid)}${cfg.title||cfg.subtitle?`<div class="caption">${cfg.title?`<div class="title">${escapeHtml(cfg.title)}</div>`:""}${cfg.subtitle?`<div class="subtitle">${escapeHtml(cfg.subtitle)}</div>`:""}</div>`:""}<div class="tube-row">${tubeHtml}</div><div class="base-board" aria-hidden="true"></div></div></ha-card>`;
+    this.shadowRoot.innerHTML=`${renderStyles(cfg,{justify,brightness,animationMs})}<ha-card><div class="device ${mounted?"panel":"free"}" role="button" tabindex="${cfg.entity?"0":"-1"}">${mounted?renderPanelBackdrop(this._uid):""}${renderScrews(mounted&&cfg.screws===true,this._uid)}${cfg.title||cfg.subtitle?`<div class="caption">${cfg.title?`<div class="title">${escapeHtml(cfg.title)}</div>`:""}${cfg.subtitle?`<div class="subtitle">${escapeHtml(cfg.subtitle)}</div>`:""}</div>`:""}<div class="tube-row">${tubeHtml}</div><div class="base-board" aria-hidden="true"></div></div></ha-card>`;
     const device=this.shadowRoot.querySelector(".device");if(device&&cfg.entity){device.addEventListener("click",()=>this._handleAction(cfg.tap_action));device.addEventListener("keydown",event=>{if(event.key==="Enter"||event.key===" "){event.preventDefault();this._handleAction(cfg.tap_action)}})}
   }
 
