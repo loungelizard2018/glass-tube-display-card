@@ -1,6 +1,6 @@
 import { mkdir, readFile, writeFile } from "node:fs/promises";
 
-const VERSION = "0.3.4";
+const VERSION = "0.3.5";
 const read = (path) => readFile(new URL(`../${path}`, import.meta.url), "utf8");
 
 const stripImports = (source) => source
@@ -14,6 +14,7 @@ const glyphs = (await read("glyphs.js"))
   .replace("export function glyphPath", "function glyphPath");
 
 const renderer = stripImports(await read("tube-renderer.js"))
+  .replace("export function renderPanelBackdrop", "function renderPanelBackdrop")
   .replace("export function renderTube", "function renderTube")
   .replace("export function renderSeparator", "function renderSeparator")
   .replace("export function renderScrews", "function renderScrews");
@@ -24,7 +25,7 @@ const styles = (await read("card-styles.js"))
 const core = stripImports(await read("card-core.js"));
 
 const bundle = `/* Glass Tube Display Card v${VERSION}
- * Clean-panel, true comma and self-contained HACS bundle: no runtime imports.
+ * Analog-Gauge-family enclosure, open-wire comma cathode and self-contained HACS bundle.
  */
 (() => {
 ${glyphs}
