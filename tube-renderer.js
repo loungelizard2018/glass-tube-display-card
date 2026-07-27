@@ -98,7 +98,7 @@ export function renderSeparator(character, index, config, uid) {
   const isColon = character === ":" || character === ";";
   const isComma = character === "," || character === ";";
   const isDegree = character === "°";
-  const commaPath = `<path d="M38 174 C43 171 48 173 48 178 C48 182 45 185 40 187 C40 192 37 197 32 201" class="separator-comma"/>`;
+  const commaPath = `<path d="M38 170 C45 170 50 174 50 180 C50 186 46 190 41 191 C42 197 39 203 32 208 C35 201 34 195 31 191 C27 188 26 182 28 177 C30 173 33 171 38 170 Z" class="separator-comma"/>`;
   const marks = isDegree
     ? `<circle cx="38" cy="112" r="9.5" class="separator-ring"/><circle cx="38" cy="112" r="6.1" class="separator-ring-core"/>`
     : isColon
@@ -114,7 +114,7 @@ export function renderSeparator(character, index, config, uid) {
         <linearGradient id="sep-glass-${id}" x1="0" y1="0" x2="1" y2="0"><stop offset="0%" stop-color="#76909d" stop-opacity=".08"/><stop offset="9%" stop-color="#fff" stop-opacity=".70"/><stop offset="18%" stop-color="${escapeAttr(config.glass_tint)}" stop-opacity=".23"/><stop offset="66%" stop-color="#839da9" stop-opacity=".04"/><stop offset="86%" stop-color="#fff" stop-opacity=".53"/><stop offset="100%" stop-color="#5a707b" stop-opacity=".08"/></linearGradient>
         <linearGradient id="sep-base-${id}" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#5a5f64"/><stop offset="8%" stop-color="#24272a"/><stop offset="24%" stop-color="#0d0f10"/><stop offset="76%" stop-color="#020303"/><stop offset="100%" stop-color="#2a2e31"/></linearGradient>
         <pattern id="sep-mesh-${id}" width="6.2" height="5.37" patternUnits="userSpaceOnUse"><path d="M1.55 0 H4.65 L6.2 2.685 L4.65 5.37 H1.55 L0 2.685 Z" fill="#151615" fill-opacity=".08" stroke="#aaa49a" stroke-width=".42" opacity="${Number(config.mesh_opacity)}"/></pattern>
-        <filter id="sep-glow-far-${id}" x="-220%" y="-220%" width="540%" height="540%"><feGaussianBlur stdDeviation="5.8"/></filter><filter id="sep-glow-${id}" x="-190%" y="-190%" width="480%" height="480%"><feGaussianBlur stdDeviation="2.8"/></filter><filter id="sep-shadow-${id}" x="-100%" y="-35%" width="300%" height="205%"><feDropShadow dx="0" dy="6" stdDeviation="3.4" flood-color="#000" flood-opacity=".92"/></filter>
+        <filter id="sep-glow-far-${id}" x="-220%" y="-220%" width="540%" height="540%"><feGaussianBlur stdDeviation="5.5"/></filter><filter id="sep-glow-${id}" x="-190%" y="-190%" width="480%" height="480%"><feGaussianBlur stdDeviation="2.6"/></filter><filter id="sep-shadow-${id}" x="-100%" y="-35%" width="300%" height="205%"><feDropShadow dx="0" dy="6" stdDeviation="3.4" flood-color="#000" flood-opacity=".92"/></filter>
         <clipPath id="sep-inside-${id}"><path d="${inside}"/></clipPath>
       </defs>
       ${bare ? "" : `<g filter="url(#sep-shadow-${id})"><path d="${outer}" fill="#030506" fill-opacity=".40" stroke="#0a0d0e" stroke-width="1.1"/></g>`}
@@ -125,7 +125,27 @@ export function renderSeparator(character, index, config, uid) {
   </div>`;
 }
 
-export function renderScrews(enabled) {
+export function renderScrews(enabled, uid = "gtd") {
   if (!enabled) return "";
-  return ["tl", "tr", "bl", "br"].map((position) => `<span class="screw screw-${position}" aria-hidden="true"></span>`).join("");
+  const rotations = { tl: -7, tr: 5, bl: 9, br: -4 };
+  return ["tl", "tr", "bl", "br"].map((position) => {
+    const id = `${uid}-screw-${position}`;
+    return `<svg class="screw screw-${position}" viewBox="0 0 64 64" aria-hidden="true" style="transform:rotate(${rotations[position]}deg)">
+      <defs>
+        <radialGradient id="${id}-head" cx="31%" cy="25%" r="72%"><stop offset="0%" stop-color="#4b4f52"/><stop offset="17%" stop-color="#24272a"/><stop offset="52%" stop-color="#0a0b0c"/><stop offset="78%" stop-color="#020303"/><stop offset="100%" stop-color="#25282b"/></radialGradient>
+        <linearGradient id="${id}-rim" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#85898c"/><stop offset="18%" stop-color="#303336"/><stop offset="62%" stop-color="#070808"/><stop offset="100%" stop-color="#55595c"/></linearGradient>
+        <linearGradient id="${id}-slot" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#000"/><stop offset="45%" stop-color="#101214"/><stop offset="55%" stop-color="#33373a"/><stop offset="100%" stop-color="#010202"/></linearGradient>
+        <filter id="${id}-shadow" x="-30%" y="-30%" width="160%" height="170%"><feDropShadow dx="0" dy="3" stdDeviation="2.2" flood-color="#000" flood-opacity=".82"/></filter>
+      </defs>
+      <g filter="url(#${id}-shadow)">
+        <circle cx="32" cy="32" r="29" fill="url(#${id}-rim)"/>
+        <circle cx="32" cy="32" r="26.5" fill="url(#${id}-head)" stroke="#020303" stroke-width="1.2"/>
+        <circle cx="32" cy="32" r="23.8" fill="none" stroke="#ffffff" stroke-opacity=".055" stroke-width="1"/>
+        <path d="M28 13 H36 L37.5 26.5 L51 28 V36 L37.5 37.5 L36 51 H28 L26.5 37.5 L13 36 V28 L26.5 26.5 Z" fill="url(#${id}-slot)" stroke="#000" stroke-width="1.2" stroke-linejoin="round"/>
+        <path d="M29 15 H35 L36.2 28.1 L49 29 V32 H35.5 L34.5 48 H31.5 L30.5 35.5 H15 V32 H28.2 Z" fill="#767b7e" fill-opacity=".20"/>
+        <path d="M17 27.7 H28 L28.8 16 M36 16 L36.8 28 H48 M48 36 H36.8 L36 48 M28 48 L27.2 36 H16" fill="none" stroke="#8b9093" stroke-opacity=".18" stroke-width="1.2" stroke-linecap="round"/>
+        <ellipse cx="24" cy="19" rx="9" ry="5" fill="#ffffff" opacity=".055" transform="rotate(-28 24 19)"/>
+      </g>
+    </svg>`;
+  }).join("");
 }
