@@ -14,19 +14,21 @@ const panelAssets = await read("panel-asset.js");
 const hacs = JSON.parse(await read("hacs.json"));
 
 if (/^\s*import\s/m.test(bundle)) fail("root HACS bundle contains runtime imports");
-if (!bundle.includes("Glass Tube Display Card v0.3.7")) fail("root bundle version is not v0.3.7");
+if (!bundle.includes("Glass Tube Display Card v0.3.8")) fail("root bundle version is not v0.3.8");
 if (!bundle.includes("data:image/webp;base64,")) fail("embedded WebP panel assets are missing");
 if (!renderer.includes('src="${PANEL_ASSET_URI}"')) fail("panel renderer does not use the generated panel asset");
 if (!renderer.includes('src="${SCREW_ASSET_URI}"')) fail("screw renderer does not use the generated Gauge screw asset");
-if (!styles.includes(".device.panel{padding:") || !styles.includes("background:transparent;box-shadow:none")) fail("panel still paints a duplicate visible enclosure layer");
-if (!renderer.includes("M41 174 C45.5 174 47.5 177 46.7 180.8 C45.9 184.4 42.6 186.8 39.4 188.1 C39.1 192.8 37.3 197.1 33.8 201.2")) fail("v0.3.7 comma cathode path is missing");
-if (!renderer.includes("sep-comma-far-${id}") || !renderer.includes("sep-comma-glow-${id}")) fail("comma does not use dedicated glow filters");
-if (!styles.includes(".separator-comma-far{stroke:#ff3d00;stroke-width:5.8;opacity:.18")) fail("comma far glow is not balanced for v0.3.7");
-if (!styles.includes(".separator-comma-aura{stroke:var(--tube);stroke-width:3.6;opacity:.52")) fail("comma aura is not balanced for v0.3.7");
+if (!styles.includes(".device.panel{padding:") || !styles.includes("background:transparent;box-shadow:none")) fail("panel paints a duplicate visible enclosure layer");
+if (!renderer.includes("M35 179 C34.5 173.2 39.2 169.2 44.5 170.2 C49.1 171.2 50.4 176.8 48.2 180.9 C46.2 184.5 42.2 186.3 38.4 185.4 C38.1 190.8 35.8 196.3 31.8 201.2")) fail("v0.3.8 rounded comma cathode path is missing");
+if (!renderer.includes("separator-comma-beads") || !renderer.includes("separator-comma-spark")) fail("comma lacks incandescent bead and spark layers");
+if (!renderer.includes('separator-slot${isComma ? " separator-slot-comma" : ""}')) fail("comma tube does not receive its dedicated width class");
+if (!styles.includes(".separator-slot-comma{flex:.66 1 0;max-width:84px}")) fail("comma tube width is not configured");
+if (!styles.includes(".separator-comma-aura{stroke:var(--tube);stroke-width:4.8;opacity:.58")) fail("comma aura is not balanced for v0.3.8");
+if (!styles.includes(".separator-comma-core{stroke:var(--core);stroke-width:1.25")) fail("comma core is not bright enough for v0.3.8");
 if (!renderer.includes("renderDegreeCathode") || !renderer.includes("sep-degree-far-${id}") || !renderer.includes("sep-degree-glow-${id}")) fail("degree symbol lacks dedicated glow rendering");
 if (!styles.includes(".separator-degree-far{stroke:#ff3d00;stroke-width:3.2;opacity:.10")) fail("degree far glow is too strong or missing");
 if (!styles.includes(".separator-degree-aura{stroke:var(--tube);stroke-width:2.2;opacity:.28")) fail("degree aura is too strong or missing");
-if (!core.includes('const VERSION = "0.3.7"')) fail("card-core version is not v0.3.7");
+if (!core.includes('const VERSION = "0.3.8"')) fail("card-core version is not v0.3.8");
 if (!panelAssets.includes("PANEL_ASSET_URI") || !panelAssets.includes("SCREW_ASSET_URI")) fail("generated panel asset module is incomplete");
 if (hacs.name !== "Glass Tube Display Card" || hacs.filename !== "glass-tube-display-card.js") fail("hacs.json is not the standard single-resource manifest");
 
@@ -40,4 +42,4 @@ for (const option of requiredOptions) {
   if (!core.includes(option)) fail(`configuration option '${option}' is missing from card-core.js`);
 }
 
-if (!process.exitCode) console.log("Glass Tube Display Card v0.3.7 verification passed.");
+if (!process.exitCode) console.log("Glass Tube Display Card v0.3.8 verification passed.");
