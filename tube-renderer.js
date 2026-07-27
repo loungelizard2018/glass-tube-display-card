@@ -1,4 +1,5 @@
 import { glyphPath } from "./glyphs.js";
+import { PANEL_ASSET_URI, SCREW_ASSET_URI } from "./panel-asset.js";
 
 const escapeAttr = (value) => String(value ?? "")
   .replace(/&/g, "&amp;")
@@ -37,57 +38,8 @@ function glassNoise(id) {
   </filter>`;
 }
 
-export function renderPanelBackdrop(uid = "gtd") {
-  const id = `${uid}-panel`;
-  return `<svg class="panel-backdrop" viewBox="0 0 1000 760" preserveAspectRatio="none" aria-hidden="true">
-    <defs>
-      <linearGradient id="${id}-outer" x1="0" y1="0" x2="0" y2="1">
-        <stop offset="0%" stop-color="#292c2e"/>
-        <stop offset="3%" stop-color="#131516"/>
-        <stop offset="16%" stop-color="#08090a"/>
-        <stop offset="82%" stop-color="#050606"/>
-        <stop offset="96%" stop-color="#141617"/>
-        <stop offset="100%" stop-color="#020303"/>
-      </linearGradient>
-      <linearGradient id="${id}-face" x1="0" y1="0" x2="0" y2="1">
-        <stop offset="0%" stop-color="#161819"/>
-        <stop offset="8%" stop-color="#0d0f10"/>
-        <stop offset="58%" stop-color="#070808"/>
-        <stop offset="100%" stop-color="#040505"/>
-      </linearGradient>
-      <linearGradient id="${id}-rim" x1="0" y1="0" x2="0" y2="1">
-        <stop offset="0%" stop-color="#8a8d8f" stop-opacity=".62"/>
-        <stop offset="16%" stop-color="#292c2e" stop-opacity=".96"/>
-        <stop offset="72%" stop-color="#050606"/>
-        <stop offset="100%" stop-color="#4b4e50" stop-opacity=".52"/>
-      </linearGradient>
-      <radialGradient id="${id}-vignette" cx="50%" cy="38%" r="74%">
-        <stop offset="55%" stop-color="#000" stop-opacity="0"/>
-        <stop offset="100%" stop-color="#000" stop-opacity=".46"/>
-      </radialGradient>
-      <filter id="${id}-grain" x="-10%" y="-10%" width="120%" height="120%">
-        <feTurbulence type="fractalNoise" baseFrequency=".72" numOctaves="3" seed="17" stitchTiles="stitch" result="grain"/>
-        <feColorMatrix in="grain" type="matrix" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 .16 0"/>
-        <feBlend in="SourceGraphic" in2="grain" mode="soft-light"/>
-      </filter>
-      <filter id="${id}-shadow" x="-8%" y="-8%" width="116%" height="122%">
-        <feDropShadow dx="0" dy="17" stdDeviation="13" flood-color="#000" flood-opacity=".68"/>
-      </filter>
-      <clipPath id="${id}-clip"><rect x="5" y="5" width="990" height="748" rx="48"/></clipPath>
-    </defs>
-    <g filter="url(#${id}-shadow)">
-      <rect x="5" y="5" width="990" height="748" rx="48" fill="url(#${id}-outer)" stroke="#020303" stroke-width="5"/>
-    </g>
-    <g clip-path="url(#${id}-clip)">
-      <rect x="12" y="12" width="976" height="734" rx="42" fill="url(#${id}-face)" filter="url(#${id}-grain)"/>
-      <rect x="20" y="20" width="960" height="718" rx="36" fill="none" stroke="url(#${id}-rim)" stroke-width="4"/>
-      <rect x="31" y="31" width="938" height="696" rx="29" fill="none" stroke="#000" stroke-opacity=".86" stroke-width="5"/>
-      <rect x="36" y="36" width="928" height="686" rx="25" fill="none" stroke="#9da0a2" stroke-opacity=".13" stroke-width="2"/>
-      <path d="M48 42 C215 23 785 23 952 42" fill="none" stroke="#ffffff" stroke-opacity=".18" stroke-width="3" stroke-linecap="round"/>
-      <path d="M51 716 C226 730 774 730 949 716" fill="none" stroke="#000" stroke-opacity=".92" stroke-width="7" stroke-linecap="round"/>
-      <rect x="12" y="12" width="976" height="734" rx="42" fill="url(#${id}-vignette)"/>
-    </g>
-  </svg>`;
+export function renderPanelBackdrop() {
+  return `<img class="panel-backdrop" src="${PANEL_ASSET_URI}" alt="" aria-hidden="true">`;
 }
 
 export function renderTube(character, index, config, uid) {
@@ -145,7 +97,7 @@ export function renderTube(character, index, config, uid) {
 }
 
 function renderCommaCathode(id) {
-  const d = "M41 174 C46 174 48 177 47 181 C46 185 42 187 39 188 C39 193 37 197 33 201";
+  const d = "M42 178 C43 184 41 189 38 192 C36 194 35 198 34 202";
   return `<g class="comma-cathode">
     <path d="${d}" class="separator-comma-shadow"/>
     <path d="${d}" class="separator-comma-far" filter="url(#sep-glow-far-${id})"/>
@@ -193,27 +145,10 @@ export function renderSeparator(character, index, config, uid) {
   </div>`;
 }
 
-export function renderScrews(enabled, uid = "gtd") {
+export function renderScrews(enabled) {
   if (!enabled) return "";
-  const rotations = { tl: -8, tr: 6, bl: 10, br: -5 };
-  return ["tl", "tr", "bl", "br"].map((position) => {
-    const id = `${uid}-screw-${position}`;
-    return `<svg class="screw screw-${position}" viewBox="0 0 64 64" aria-hidden="true" style="transform:rotate(${rotations[position]}deg)">
-      <defs>
-        <radialGradient id="${id}-head" cx="29%" cy="24%" r="76%"><stop offset="0%" stop-color="#484b4d"/><stop offset="16%" stop-color="#202325"/><stop offset="53%" stop-color="#08090a"/><stop offset="82%" stop-color="#020303"/><stop offset="100%" stop-color="#1c1f21"/></radialGradient>
-        <linearGradient id="${id}-rim" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#7d8082"/><stop offset="18%" stop-color="#2a2d2f"/><stop offset="67%" stop-color="#050606"/><stop offset="100%" stop-color="#424648"/></linearGradient>
-        <linearGradient id="${id}-slot" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#000"/><stop offset="58%" stop-color="#030404"/><stop offset="100%" stop-color="#181a1c"/></linearGradient>
-        <filter id="${id}-shadow" x="-35%" y="-35%" width="170%" height="180%"><feDropShadow dx="0" dy="3" stdDeviation="2.4" flood-color="#000" flood-opacity=".88"/></filter>
-      </defs>
-      <g filter="url(#${id}-shadow)">
-        <circle cx="32" cy="32" r="29" fill="#030404" stroke="#35383a" stroke-width="1.4"/>
-        <circle cx="32" cy="32" r="25.7" fill="url(#${id}-rim)"/>
-        <circle cx="32" cy="32" r="23.5" fill="url(#${id}-head)" stroke="#000" stroke-width="1.1"/>
-        <path d="M29 13 H35 L36.2 26.3 L49 28.1 V35.9 L36.2 37.7 L35 51 H29 L27.8 37.7 L15 35.9 V28.1 L27.8 26.3 Z" fill="url(#${id}-slot)" stroke="#000" stroke-width="1.35" stroke-linejoin="round"/>
-        <path d="M29.7 15.5 H33.8 L34.6 28.1 L47 29.5" fill="none" stroke="#8a8d8f" stroke-opacity=".15" stroke-width="1.15" stroke-linecap="round"/>
-        <path d="M16.8 34.2 L29.2 35.1 L30.3 48.5" fill="none" stroke="#000" stroke-opacity=".95" stroke-width="1.2" stroke-linecap="round"/>
-        <ellipse cx="23" cy="18" rx="8" ry="4" fill="#ffffff" opacity=".045" transform="rotate(-28 23 18)"/>
-      </g>
-    </svg>`;
-  }).join("");
+  const rotations = { tl: -7, tr: 5, bl: 8, br: -4 };
+  return ["tl", "tr", "bl", "br"].map((position) =>
+    `<img class="screw screw-${position}" src="${SCREW_ASSET_URI}" alt="" aria-hidden="true" style="transform:rotate(${rotations[position]}deg)">`
+  ).join("");
 }
