@@ -1,6 +1,6 @@
 import { mkdir, readFile, writeFile } from "node:fs/promises";
 
-const VERSION = "0.3.9";
+const VERSION = "0.3.10";
 const read = (path) => readFile(new URL(`../${path}`, import.meta.url), "utf8");
 
 const stripImports = (source) => source
@@ -14,7 +14,12 @@ const glyphs = (await read("glyphs.js"))
   .replace("export function glyphPath", "function glyphPath");
 
 const panelAssets = (await read("panel-asset.js"))
-  .replace("export const PANEL_ASSET_URI", "const PANEL_ASSET_URI")
+  .split("\n")
+  .filter((line) => line.startsWith("export const PANEL_ASSET_URI"))
+  .join("\n")
+  .replace("export const PANEL_ASSET_URI", "const PANEL_ASSET_URI");
+
+const screwAsset = (await read("exact-screw-asset.js"))
   .replace("export const SCREW_ASSET_URI", "const SCREW_ASSET_URI");
 
 const renderer = stripImports(await read("tube-renderer.js"))
@@ -29,11 +34,12 @@ const styles = (await read("card-styles.js"))
 const core = stripImports(await read("card-core.js"));
 
 const bundle = `/* Glass Tube Display Card v${VERSION}
- * Cropped single Gauge-family face with a compact open-hook comma cathode.
+ * Single Gauge-family panel using the exact Analog Gauge recessed screw artwork.
  */
 (() => {
 ${glyphs}
 ${panelAssets}
+${screwAsset}
 ${renderer}
 ${styles}
 ${core}
