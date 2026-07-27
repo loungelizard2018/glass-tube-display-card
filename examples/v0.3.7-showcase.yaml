@@ -1,0 +1,100 @@
+type: vertical-stack
+cards:
+  # Live value: entity, decimals, comma separator, unit, panel and screws
+  - type: custom:glass-tube-display-card
+    entity: sensor.bigpool_cpu_temperature
+    decimals: 1
+    decimal_separator: comma
+    unit: "°C"
+    title: "CPU TEMPERATURE"
+    subtitle: "BIGPOOL SERVER"
+    min_characters: 5
+    max_characters: 8
+    mounting: panel
+    screws: true
+    separator_style: mini_tube
+    show_blank_tubes: true
+    show_cathode_stack: true
+    max_width: 1000
+    tube_gap: 7
+    brightness: 1
+    glass_opacity: 0.62
+    mesh_opacity: 0.38
+    tube_color: "#ff5000"
+    core_color: "#fff1cf"
+    glass_tint: "#dff6ff"
+    tap_action:
+      action: more-info
+
+  # Every separately rendered punctuation type: dot, comma, colon, semicolon and degree
+  - type: custom:glass-tube-display-card
+    text: "0.1,2:3;4 °C"
+    title: "PUNCTUATION TEST"
+    subtitle: "DOT COMMA COLON SEMICOLON DEGREE"
+    min_characters: 8
+    max_characters: 14
+    mounting: panel
+    screws: true
+    separator_style: mini_tube
+    show_blank_tubes: true
+    show_cathode_stack: true
+    max_width: 1200
+    tube_gap: 6
+    brightness: 1
+    glass_opacity: 0.62
+    mesh_opacity: 0.38
+    tube_color: "#ff5000"
+    core_color: "#fff1cf"
+    glass_tint: "#dff6ff"
+
+  # All digits
+  - type: custom:glass-tube-display-card
+    text: "0123456789"
+    title: "DIGITS"
+    subtitle: "0 TO 9"
+    min_characters: 10
+    max_characters: 10
+    mounting: free
+    separator_style: mini_tube
+    show_cathode_stack: true
+    max_width: 1200
+    tube_gap: 5
+    brightness: 1
+
+  # Every supported non-alphanumeric glyph
+  - type: custom:glass-tube-display-card
+    text: '-_/\+=?!%'
+    title: "SYMBOLS"
+    subtitle: "SUPPORTED GLYPHS"
+    min_characters: 10
+    max_characters: 12
+    mounting: free
+    show_blank_tubes: true
+    show_cathode_stack: true
+    max_width: 1100
+    tube_gap: 7
+    brightness: 1
+
+  # Alphabet, first half
+  - type: custom:glass-tube-display-card
+    text: "ABCDEFGHIJKLM"
+    title: "ALPHABET A-M"
+    min_characters: 13
+    max_characters: 13
+    mounting: free
+    show_cathode_stack: true
+    max_width: 1300
+    tube_gap: 4
+    brightness: 1
+
+  # Alphabet, second half
+  - type: custom:glass-tube-display-card
+    text: "NOPQRSTUVWXYZ"
+    title: "ALPHABET N-Z"
+    min_characters: 13
+    max_characters: 13
+    mounting: free
+    show_cathode_stack: true
+    max_width: 1300
+    tube_gap: 4
+    brightness: 1
