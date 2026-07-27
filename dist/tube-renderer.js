@@ -1,5 +1,6 @@
 import { glyphPath } from "./glyphs.js";
-import { PANEL_ASSET_URI, SCREW_ASSET_URI } from "./panel-asset.js";
+import { PANEL_ASSET_URI } from "./panel-asset.js";
+import { SCREW_ASSET_URI } from "./exact-screw-asset.js";
 
 const escapeAttr = (value) => String(value ?? "")
   .replace(/&/g, "&amp;")
@@ -165,8 +166,7 @@ export function renderSeparator(character, index, config, uid) {
 
 export function renderScrews(enabled) {
   if (!enabled) return "";
-  const rotations = { tl: -7, tr: 5, bl: 8, br: -4 };
   return ["tl", "tr", "bl", "br"].map((position) =>
-    `<img class="screw screw-${position}" src="${SCREW_ASSET_URI}" alt="" aria-hidden="true" style="transform:rotate(${rotations[position]}deg)">`
+    `<img class="screw screw-${position}" src="${SCREW_ASSET_URI}" alt="" aria-hidden="true">`
   ).join("");
 }

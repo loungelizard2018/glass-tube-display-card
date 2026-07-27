@@ -54,14 +54,14 @@ export function renderStyles(config, { justify, brightness, animationMs }) {
     .base-board{position:relative;z-index:3;width:98.5%;height:clamp(29px,4vw,48px);margin:clamp(-21px,-2vw,-11px) auto 0;border-radius:clamp(8px,1.05vw,13px);background:radial-gradient(ellipse at 50% 0%,rgba(255,255,255,.10),transparent 30%),linear-gradient(180deg,#44484c 0%,#202326 8%,#111315 22%,#070808 72%,#010202 100%);border:1px solid rgba(255,255,255,.09);box-shadow:inset 0 2px 0 rgba(255,255,255,.10),inset 0 -5px 8px rgba(0,0,0,.94),0 13px 18px rgba(0,0,0,.64)}
     .base-board:before{content:"";position:absolute;left:2%;right:2%;top:3%;height:25%;border-radius:50%;background:linear-gradient(90deg,transparent,rgba(255,125,31,.22),transparent);filter:blur(6px);opacity:.72}
     .base-board:after{content:"";position:absolute;left:4%;right:4%;bottom:-12px;height:13px;border-radius:0 0 11px 11px;background:linear-gradient(180deg,#111315,#010202);box-shadow:0 9px 13px rgba(0,0,0,.62)}
-    .screw{position:absolute;z-index:20;width:clamp(31px,4vw,42px);height:auto;aspect-ratio:1;pointer-events:none;filter:saturate(.95) contrast(1.04) brightness(.99) drop-shadow(0 3px 4px rgba(0,0,0,.72))}
-    .screw-tl{left:clamp(18px,2.2vw,27px);top:clamp(18px,2.2vw,27px)}
-    .screw-tr{right:clamp(18px,2.2vw,27px);top:clamp(18px,2.2vw,27px)}
-    .screw-bl{left:clamp(18px,2.2vw,27px);bottom:clamp(18px,2.2vw,27px)}
-    .screw-br{right:clamp(18px,2.2vw,27px);bottom:clamp(18px,2.2vw,27px)}
+    .screw{position:absolute;z-index:20;width:clamp(58px,8.2vw,88px);height:auto;aspect-ratio:1;pointer-events:none;object-fit:contain;filter:none}
+    .screw-tl{left:clamp(9px,1.25vw,15px);top:clamp(9px,1.25vw,15px)}
+    .screw-tr{right:clamp(9px,1.25vw,15px);top:clamp(9px,1.25vw,15px)}
+    .screw-bl{left:clamp(9px,1.25vw,15px);bottom:clamp(9px,1.25vw,15px)}
+    .screw-br{right:clamp(9px,1.25vw,15px);bottom:clamp(9px,1.25vw,15px)}
     @keyframes tube-enter{from{opacity:.28;transform:translateY(4px) scale(.988);filter:brightness(.62) saturate(.7)}to{opacity:1;transform:translateY(0) scale(1);filter:brightness(1) saturate(1)}}
-    @media(max-width:620px){.device.panel{padding:44px 21px 34px}.caption{margin-bottom:10px;letter-spacing:.13em}.tube-row{gap:clamp(1px,.34vw,4px)}.screw{width:27px}.base-board{height:29px;margin-top:-12px}.tube-slot{max-width:114px}.separator-slot{max-width:68px}}
-    @media(max-width:390px){.device.panel{padding:40px 16px 31px;border-radius:20px}.caption{margin-left:12%;margin-right:12%;letter-spacing:.09em}.title{font-size:12px}.screw{width:23px}.separator-slot{min-width:8px}.tube-row{padding:0}}
+    @media(max-width:620px){.device.panel{padding:44px 21px 34px}.caption{margin-bottom:10px;letter-spacing:.13em}.tube-row{gap:clamp(1px,.34vw,4px)}.screw{width:54px}.base-board{height:29px;margin-top:-12px}.tube-slot{max-width:114px}.separator-slot{max-width:68px}}
+    @media(max-width:390px){.device.panel{padding:40px 16px 31px;border-radius:20px}.caption{margin-left:12%;margin-right:12%;letter-spacing:.09em}.title{font-size:12px}.screw{width:46px}.separator-slot{min-width:8px}.tube-row{padding:0}}
     @media(prefers-reduced-motion:reduce){.tube-slot,.separator-slot{animation:none!important}}
   </style>`;
 }
