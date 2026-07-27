@@ -1,6 +1,6 @@
 import { mkdir, readFile, writeFile } from "node:fs/promises";
 
-const VERSION = "0.3.10";
+const VERSION = "0.3.11";
 const read = (path) => readFile(new URL(`../${path}`, import.meta.url), "utf8");
 
 const stripImports = (source) => source
@@ -34,7 +34,7 @@ const styles = (await read("card-styles.js"))
 const core = stripImports(await read("card-core.js"));
 
 const bundle = `/* Glass Tube Display Card v${VERSION}
- * Single Gauge-family panel using the exact Analog Gauge recessed screw artwork.
+ * Exact Gauge screw artwork, cropped to the screw head and optionally scaled with screw_scale.
  */
 (() => {
 ${glyphs}
