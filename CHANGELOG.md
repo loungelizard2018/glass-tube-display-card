@@ -1,5 +1,17 @@
 # Changelog
 
+## 0.3.5
+
+- Rebuilt the rectangular instrument enclosure as a dedicated self-contained SVG surface instead of approximating it with flat CSS layers.
+- Matched the Analog Gauge product family with a pebbled black face, raised outer shell, thin upper metal highlight, recessed inner bezel, deep lower edge and matching light direction.
+- Kept the panel completely rectangular and free of all circular dial, scale, needle, gear and gauge-housing structures.
+- Reworked the four Phillips screws as smaller recessed black screw heads without grey plus-sign faces or oversized circular holders.
+- Replaced the filled comma glyph with one open wire cathode curve rendered through five stroke-only layers: shadow, far glow, aura, hot wire and bright core.
+- Limited comma bloom to 0.23 / 0.62 opacity so the punctuation remains small and legible.
+- Retained a full-height separator tube at 60% of normal tube width with matching glass, mica, mesh, base and pins.
+- Added automated bundle verification for versioning, HACS packaging, runtime imports, panel isolation, comma geometry and configuration compatibility.
+- Kept the existing Lovelace configuration API compatible.
+
 ## 0.3.4
 
 - Removed every use of cropped Analog Gauge image regions from the panel and screw rendering.
