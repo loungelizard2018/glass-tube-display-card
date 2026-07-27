@@ -1,5 +1,15 @@
 # Changelog
 
+## 0.3.8
+
+- Replaced the slash-like comma with a larger open-wire cathode containing a rounded upper head and short descending tail.
+- Kept the comma as one continuous, unfilled cathode path without a detached dot or closed loop.
+- Gave comma tubes a dedicated 66% width so the punctuation is legible without approaching full digit width.
+- Added hot-wire, bright-core, incandescent bead and pinpoint spark layers matching the material treatment of the main digits.
+- Increased only the comma glow and retained the independently restrained degree-sign glow from v0.3.7.
+- Added regression checks for the new comma geometry, dedicated tube width and incandescent layers.
+- Kept the panel, existing Lovelace API and automatic HACS resource management unchanged.
+
 ## 0.3.7
 
 - Removed the remaining visible CSS panel surface so the embedded Gauge-family WebP is now the only enclosure layer.
