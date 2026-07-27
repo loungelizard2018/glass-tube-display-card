@@ -1,5 +1,5 @@
-/* Glass Tube Display Card v0.3.2
- * Corrected frame and punctuation self-contained HACS bundle: no runtime imports.
+/* Glass Tube Display Card v0.3.3
+ * Corrected panel, punctuation and standard HACS resource bundle: no runtime imports.
  */
 (() => {
 const GLYPH_PATHS = Object.freeze({
@@ -114,9 +114,7 @@ function renderTube(character, index, config, uid) {
   return `<div class="tube-slot" aria-label="${escapeAttr(character === " " ? "blank" : character)}">
     <svg class="tube-svg" viewBox="0 0 100 286" role="img" aria-hidden="true">
       <defs>
-        <linearGradient id="glass-fill-${id}" x1="0" y1="0" x2="1" y2="0">
-          <stop offset="0%" stop-color="#68818e" stop-opacity=".10"/><stop offset="5%" stop-color="#dff6ff" stop-opacity=".34"/><stop offset="11%" stop-color="#ffffff" stop-opacity=".76"/><stop offset="17%" stop-color="${escapeAttr(config.glass_tint)}" stop-opacity=".25"/><stop offset="29%" stop-color="#738994" stop-opacity=".035"/><stop offset="49%" stop-color="#ffffff" stop-opacity=".018"/><stop offset="67%" stop-color="#7f97a2" stop-opacity=".045"/><stop offset="82%" stop-color="#effbff" stop-opacity=".29"/><stop offset="89%" stop-color="#ffffff" stop-opacity=".61"/><stop offset="96%" stop-color="#9eb9c5" stop-opacity=".14"/><stop offset="100%" stop-color="#4e6671" stop-opacity=".08"/>
-        </linearGradient>
+        <linearGradient id="glass-fill-${id}" x1="0" y1="0" x2="1" y2="0"><stop offset="0%" stop-color="#68818e" stop-opacity=".10"/><stop offset="5%" stop-color="#dff6ff" stop-opacity=".34"/><stop offset="11%" stop-color="#ffffff" stop-opacity=".76"/><stop offset="17%" stop-color="${escapeAttr(config.glass_tint)}" stop-opacity=".25"/><stop offset="29%" stop-color="#738994" stop-opacity=".035"/><stop offset="49%" stop-color="#ffffff" stop-opacity=".018"/><stop offset="67%" stop-color="#7f97a2" stop-opacity=".045"/><stop offset="82%" stop-color="#effbff" stop-opacity=".29"/><stop offset="89%" stop-color="#ffffff" stop-opacity=".61"/><stop offset="96%" stop-color="#9eb9c5" stop-opacity=".14"/><stop offset="100%" stop-color="#4e6671" stop-opacity=".08"/></linearGradient>
         <linearGradient id="glass-edge-${id}" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#ffffff" stop-opacity=".88"/><stop offset="12%" stop-color="#d9eff8" stop-opacity=".56"/><stop offset="56%" stop-color="#72909e" stop-opacity=".15"/><stop offset="88%" stop-color="#dff7ff" stop-opacity=".44"/><stop offset="100%" stop-color="#ffffff" stop-opacity=".68"/></linearGradient>
         <linearGradient id="base-${id}" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#666b70"/><stop offset="5%" stop-color="#2b2e31"/><stop offset="17%" stop-color="#111315"/><stop offset="58%" stop-color="#020303"/><stop offset="82%" stop-color="#0d0f10"/><stop offset="100%" stop-color="#303438"/></linearGradient>
         <linearGradient id="mica-${id}" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#fff9ee" stop-opacity=".82"/><stop offset="24%" stop-color="#aaa49a" stop-opacity=".45"/><stop offset="52%" stop-color="#625e58" stop-opacity=".24"/><stop offset="82%" stop-color="#f4ede1" stop-opacity=".67"/><stop offset="100%" stop-color="#8d8982" stop-opacity=".35"/></linearGradient>
@@ -163,29 +161,29 @@ function renderSeparator(character, index, config, uid) {
   const isColon = character === ":" || character === ";";
   const isComma = character === "," || character === ";";
   const isDegree = character === "°";
-  const commaPath = `<path d="M34 169 C34 162 39 157 45 158 C51 159 54 164 52 171 C50 178 43 183 39 188 C35 193 33 199 32 205" class="separator-comma"/>`;
+  const commaPath = `<path d="M38 174 C43 171 48 173 48 178 C48 182 45 185 40 187 C40 192 37 197 32 201" class="separator-comma"/>`;
   const marks = isDegree
-    ? `<circle cx="41" cy="112" r="10.5" class="separator-ring"/><circle cx="41" cy="112" r="6.8" class="separator-ring-core"/>`
+    ? `<circle cx="38" cy="112" r="9.5" class="separator-ring"/><circle cx="38" cy="112" r="6.1" class="separator-ring-core"/>`
     : isColon
-      ? `<circle cx="41" cy="116" r="6.1" class="separator-dot"/>${isComma ? commaPath : '<circle cx="41" cy="163" r="6.1" class="separator-dot"/>'}`
-      : isComma ? commaPath : `<circle cx="41" cy="176" r="6.2" class="separator-dot"/>`;
+      ? `<circle cx="38" cy="116" r="5.7" class="separator-dot"/>${isComma ? commaPath : '<circle cx="38" cy="163" r="5.7" class="separator-dot"/>'}`
+      : isComma ? commaPath : `<circle cx="38" cy="176" r="5.9" class="separator-dot"/>`;
 
-  const outer = "M14 238 C12 207 12 78 14 52 C15 38 22 28 34 23 C38 21 39 17 39 12 C39 6 40 3 41 3 C43 3 44 6 44 12 C44 17 45 21 49 23 C60 28 67 38 68 52 C70 78 70 207 68 238 C67 250 15 250 14 238 Z";
-  const inside = "M19 232 C17 203 17 82 19 56 C20 44 26 36 35 32 C39 30 39 27 39 22 H44 C44 27 44 30 48 32 C57 36 63 44 64 56 C66 82 66 203 64 232 Z";
+  const outer = "M14 238 C12 207 12 78 14 52 C15 38 21 28 31 23 C35 21 36 17 36 12 C36 6 37 3 38 3 C40 3 41 6 41 12 C41 17 42 21 46 23 C56 28 62 38 63 52 C65 78 65 207 63 238 C62 250 15 250 14 238 Z";
+  const inside = "M18 232 C16 203 16 82 18 56 C19 44 24 36 32 32 C36 30 36 27 36 22 H41 C41 27 41 30 45 32 C53 36 58 44 59 56 C61 82 61 203 59 232 Z";
 
   return `<div class="separator-slot" aria-label="${escapeAttr(character)}">
-    <svg class="separator-svg" viewBox="0 0 82 286" role="img" aria-hidden="true">
+    <svg class="separator-svg" viewBox="0 0 76 286" role="img" aria-hidden="true">
       <defs>
         <linearGradient id="sep-glass-${id}" x1="0" y1="0" x2="1" y2="0"><stop offset="0%" stop-color="#76909d" stop-opacity=".08"/><stop offset="9%" stop-color="#fff" stop-opacity=".70"/><stop offset="18%" stop-color="${escapeAttr(config.glass_tint)}" stop-opacity=".23"/><stop offset="66%" stop-color="#839da9" stop-opacity=".04"/><stop offset="86%" stop-color="#fff" stop-opacity=".53"/><stop offset="100%" stop-color="#5a707b" stop-opacity=".08"/></linearGradient>
         <linearGradient id="sep-base-${id}" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#5a5f64"/><stop offset="8%" stop-color="#24272a"/><stop offset="24%" stop-color="#0d0f10"/><stop offset="76%" stop-color="#020303"/><stop offset="100%" stop-color="#2a2e31"/></linearGradient>
         <pattern id="sep-mesh-${id}" width="6.2" height="5.37" patternUnits="userSpaceOnUse"><path d="M1.55 0 H4.65 L6.2 2.685 L4.65 5.37 H1.55 L0 2.685 Z" fill="#151615" fill-opacity=".08" stroke="#aaa49a" stroke-width=".42" opacity="${Number(config.mesh_opacity)}"/></pattern>
-        <filter id="sep-glow-far-${id}" x="-220%" y="-220%" width="540%" height="540%"><feGaussianBlur stdDeviation="6.6"/></filter><filter id="sep-glow-${id}" x="-190%" y="-190%" width="480%" height="480%"><feGaussianBlur stdDeviation="3.2"/></filter><filter id="sep-shadow-${id}" x="-100%" y="-35%" width="300%" height="205%"><feDropShadow dx="0" dy="6" stdDeviation="3.4" flood-color="#000" flood-opacity=".92"/></filter>
+        <filter id="sep-glow-far-${id}" x="-220%" y="-220%" width="540%" height="540%"><feGaussianBlur stdDeviation="5.8"/></filter><filter id="sep-glow-${id}" x="-190%" y="-190%" width="480%" height="480%"><feGaussianBlur stdDeviation="2.8"/></filter><filter id="sep-shadow-${id}" x="-100%" y="-35%" width="300%" height="205%"><feDropShadow dx="0" dy="6" stdDeviation="3.4" flood-color="#000" flood-opacity=".92"/></filter>
         <clipPath id="sep-inside-${id}"><path d="${inside}"/></clipPath>
       </defs>
       ${bare ? "" : `<g filter="url(#sep-shadow-${id})"><path d="${outer}" fill="#030506" fill-opacity=".40" stroke="#0a0d0e" stroke-width="1.1"/></g>`}
-      ${bare ? "" : `<g clip-path="url(#sep-inside-${id})"><rect x="19" y="63" width="45" height="170" fill="#030404" opacity=".46"/><rect x="21" y="72" width="41" height="143" fill="url(#sep-mesh-${id})" opacity=".80"/><path d="M23 61 L23 232 M59 61 L59 232" stroke="#aaa49a" stroke-width=".8" opacity=".58"/><path d="M29 65 L29 229 M53 65 L53 229" stroke="#8e887f" stroke-width=".6" opacity=".32"/><ellipse cx="41" cy="58" rx="20" ry="4.5" fill="#d9d2c7" opacity=".48"/><ellipse cx="41" cy="221" rx="20" ry="4.5" fill="#d9d2c7" opacity=".40"/></g>`}
+      ${bare ? "" : `<g clip-path="url(#sep-inside-${id})"><rect x="18" y="63" width="41" height="170" fill="#030404" opacity=".46"/><rect x="20" y="72" width="37" height="143" fill="url(#sep-mesh-${id})" opacity=".80"/><path d="M22 61 L22 232 M54 61 L54 232" stroke="#aaa49a" stroke-width=".8" opacity=".58"/><path d="M27 65 L27 229 M49 65 L49 229" stroke="#8e887f" stroke-width=".6" opacity=".32"/><ellipse cx="38" cy="58" rx="18" ry="4.4" fill="#d9d2c7" opacity=".48"/><ellipse cx="38" cy="221" rx="18" ry="4.4" fill="#d9d2c7" opacity=".40"/></g>`}
       <g class="separator-far" filter="url(#sep-glow-far-${id})">${marks}</g><g class="separator-aura" filter="url(#sep-glow-${id})">${marks}</g><g>${marks}</g>
-      ${bare ? "" : `<path d="${outer}" fill="url(#sep-glass-${id})" fill-opacity="${Number(config.glass_opacity)}" stroke="#e4f5fb" stroke-opacity=".72" stroke-width=".95"/><path d="M20 56 C18 94 18 207 20 230" fill="none" stroke="#fff" stroke-width="3.5" stroke-linecap="round" opacity=".31"/><path d="M25 40 C20 45 18 51 17 59" fill="none" stroke="#fff" stroke-width="1.65" stroke-linecap="round" opacity=".80"/><path d="M60 50 C64 73 64 104 64 129" fill="none" stroke="#eafaff" stroke-width="1.5" opacity=".24"/><ellipse cx="41" cy="12" rx="2.4" ry="5.2" fill="#fff" opacity=".48"/><ellipse cx="41" cy="239" rx="28" ry="5.9" fill="#303438" stroke="#6b7075" stroke-width=".8"/><path d="M13 239 C17 246 65 246 69 239 L69 266 C63 275 19 275 13 266 Z" fill="url(#sep-base-${id})" stroke="#050606" stroke-width=".9"/><ellipse cx="41" cy="266" rx="29" ry="6" fill="#020303" stroke="#292d30" stroke-width=".8"/><path d="M27 269 L27 283 M34 269 L34 284 M41 269 L41 285 M48 269 L48 284 M55 269 L55 283" stroke="#746b61" stroke-width="1.1" opacity=".78"/>`}
+      ${bare ? "" : `<path d="${outer}" fill="url(#sep-glass-${id})" fill-opacity="${Number(config.glass_opacity)}" stroke="#e4f5fb" stroke-opacity=".72" stroke-width=".95"/><path d="M19 56 C17 94 17 207 19 230" fill="none" stroke="#fff" stroke-width="3.2" stroke-linecap="round" opacity=".31"/><path d="M23 40 C19 45 17 51 16 59" fill="none" stroke="#fff" stroke-width="1.5" stroke-linecap="round" opacity=".80"/><path d="M55 50 C59 73 59 104 59 129" fill="none" stroke="#eafaff" stroke-width="1.4" opacity=".24"/><ellipse cx="38" cy="12" rx="2.4" ry="5.2" fill="#fff" opacity=".48"/><ellipse cx="38" cy="239" rx="25" ry="5.8" fill="#303438" stroke="#6b7075" stroke-width=".8"/><path d="M12 239 C16 246 60 246 64 239 L64 266 C59 275 17 275 12 266 Z" fill="url(#sep-base-${id})" stroke="#050606" stroke-width=".9"/><ellipse cx="38" cy="266" rx="26" ry="5.9" fill="#020303" stroke="#292d30" stroke-width=".8"/><path d="M25 269 L25 283 M31 269 L31 284 M38 269 L38 285 M45 269 L45 284 M51 269 L51 283" stroke="#746b61" stroke-width="1.1" opacity=".78"/>`}
     </svg>
   </div>`;
 }
@@ -203,33 +201,31 @@ function renderStyles(config, { justify, brightness, animationMs }) {
   const gapVw = Math.max(.05, Math.min(1.05, gapPx / 11)).toFixed(2);
   const animation = config.animate === false ? "none" : `tube-enter ${animationMs}ms cubic-bezier(.22,1,.36,1)`;
   const analogAsset = "/hacsfiles/analog-gauge-card/assets/base.webp";
-  const analogFrame = config.screws === true ? `
-    .device.panel:after{content:"";position:absolute;inset:0;z-index:18;pointer-events:none;border:clamp(8px,1.25vw,16px) solid transparent;border-image-source:url("${analogAsset}");border-image-slice:58;border-image-width:clamp(8px,1.25vw,16px);border-image-repeat:stretch;filter:saturate(.95) contrast(1.04) brightness(.99);border-radius:inherit}
-    .device.panel .screw{display:block;z-index:20;width:clamp(34px,5.4vw,62px);aspect-ratio:1;border:0;border-radius:50%;background-image:url("${analogAsset}");background-repeat:no-repeat;background-size:640% 640%;box-shadow:none;filter:saturate(.96) contrast(1.05) brightness(.99) drop-shadow(0 3px 4px rgba(0,0,0,.72))}
+  const screwStyle = config.screws === true ? `
+    .device.panel .screw{display:block;z-index:20;width:clamp(34px,5vw,56px);aspect-ratio:1;border:0;border-radius:50%;overflow:hidden;clip-path:circle(48% at 50% 50%);background-image:url("${analogAsset}");background-repeat:no-repeat;background-size:1150% 1150%;box-shadow:none;filter:saturate(.96) contrast(1.06) brightness(.99) drop-shadow(0 3px 4px rgba(0,0,0,.72))}
     .device.panel .screw:before,.device.panel .screw:after{display:none}
-    .device.panel .screw-tl{background-position:10.4% 10.4%}
-    .device.panel .screw-tr{background-position:89.6% 10.4%}
-    .device.panel .screw-bl{background-position:10.4% 89.6%}
-    .device.panel .screw-br{background-position:89.6% 89.6%}
-  ` : `
-    .device.panel:after{content:"";position:absolute;inset:0;z-index:18;pointer-events:none;border-radius:inherit;border:1px solid rgba(255,255,255,.10);box-shadow:inset 0 2px 0 rgba(255,255,255,.06),inset 0 -2px 0 rgba(0,0,0,.95)}
-  `;
+    .device.panel .screw-tl{background-position:3.2% 3.2%}
+    .device.panel .screw-tr{background-position:96.8% 3.2%}
+    .device.panel .screw-bl{background-position:3.2% 96.8%}
+    .device.panel .screw-br{background-position:96.8% 96.8%}
+  ` : ``;
 
   return `<style>
     :host{display:block;width:100%;min-width:0}
     ha-card{width:100%;min-width:0;background:transparent;border:0;box-shadow:none;overflow:hidden}
     .device{--tube:${escapeCss(config.tube_color)};--core:${escapeCss(config.core_color)};position:relative;width:min(100%,${maxWidth}px);min-width:0;margin:0 auto;box-sizing:border-box;user-select:none;-webkit-tap-highlight-color:transparent;cursor:${config.entity ? "pointer" : "default"};filter:brightness(${brightness});isolation:isolate}
     .device.free{padding:4px 4px 15px}
-    .device.panel{padding:clamp(32px,4.5vw,58px) clamp(27px,4.8vw,64px) clamp(34px,4.4vw,58px);border-radius:clamp(21px,2.7vw,34px);background:radial-gradient(ellipse at 50% -14%,rgba(255,255,255,.095),transparent 35%),repeating-linear-gradient(116deg,rgba(255,255,255,.008) 0 1px,transparent 1px 4px),linear-gradient(180deg,#191c1e 0%,${escapeCss(config.panel_edge)} 4%,${escapeCss(config.panel_color)} 14%,#070808 84%,#171a1c 96%,#050606 100%);border:1px solid rgba(255,255,255,.08);box-shadow:inset 0 1px 0 rgba(255,255,255,.07),inset 0 -2px 0 rgba(0,0,0,.96),inset 0 0 42px rgba(0,0,0,.34),0 18px 40px rgba(0,0,0,.52),0 4px 8px rgba(0,0,0,.78);overflow:hidden}
-    .device.panel:before{content:"";position:absolute;inset:clamp(18px,2.8vw,34px);z-index:0;border-radius:clamp(13px,1.7vw,21px);background:radial-gradient(ellipse at 50% 0%,rgba(255,255,255,.035),transparent 31%),repeating-linear-gradient(116deg,rgba(255,255,255,.006) 0 1px,transparent 1px 4px),linear-gradient(180deg,#101214,#070808 70%,#050606);border:1px solid rgba(255,255,255,.055);box-shadow:inset 0 1px 0 rgba(255,255,255,.03),inset 0 -1px 0 rgba(0,0,0,.92);pointer-events:none}
-    ${analogFrame}
-    .caption{position:relative;z-index:8;text-align:center;margin:0 8% clamp(12px,1.9vw,24px);letter-spacing:.20em;line-height:1.16;text-transform:uppercase;text-shadow:0 2px 2px #000,0 0 14px rgba(255,255,255,.06)}
+    .device.panel{padding:clamp(50px,6.2vw,76px) clamp(28px,4.8vw,64px) clamp(34px,4.4vw,58px);border-radius:clamp(21px,2.7vw,34px);background:radial-gradient(ellipse at 50% -12%,rgba(255,255,255,.11),transparent 34%),repeating-linear-gradient(116deg,rgba(255,255,255,.010) 0 1px,transparent 1px 4px),linear-gradient(180deg,#202326 0%,${escapeCss(config.panel_edge)} 4%,${escapeCss(config.panel_color)} 14%,#070808 84%,#171a1c 96%,#050606 100%);border:1px solid rgba(255,255,255,.09);box-shadow:inset 0 2px 0 rgba(255,255,255,.08),inset 0 -2px 0 rgba(0,0,0,.96),inset 0 0 44px rgba(0,0,0,.34),0 18px 40px rgba(0,0,0,.52),0 4px 8px rgba(0,0,0,.78);overflow:hidden}
+    .device.panel:before{content:"";position:absolute;inset:clamp(9px,1.35vw,16px);z-index:1;border-radius:clamp(14px,1.9vw,24px);background:repeating-linear-gradient(116deg,rgba(255,255,255,.004) 0 1px,transparent 1px 4px);border:1px solid rgba(255,255,255,.07);box-shadow:inset 0 1px 0 rgba(255,255,255,.035),inset 0 -2px 0 rgba(0,0,0,.93),0 1px 0 rgba(0,0,0,.8);pointer-events:none}
+    .device.panel:after{content:"";position:absolute;inset:clamp(4px,.65vw,8px);z-index:18;pointer-events:none;border-radius:clamp(17px,2.25vw,29px);border:1px solid rgba(210,218,224,.13);box-shadow:inset 0 1px 0 rgba(255,255,255,.05),inset 0 -1px 0 rgba(0,0,0,.95)}
+    ${screwStyle}
+    .caption{position:relative;z-index:8;text-align:center;margin:0 9% clamp(14px,2vw,25px);letter-spacing:.20em;line-height:1.16;text-transform:uppercase;text-shadow:0 2px 2px #000,0 0 14px rgba(255,255,255,.06)}
     .title{display:inline-block;font:500 clamp(13px,2vw,24px)/1.12 Arial,Helvetica,sans-serif;background:linear-gradient(180deg,#ffffff 0%,#d9dcdf 25%,#91969a 47%,#53575b 52%,#dfe1e3 79%,#8b9094 100%);-webkit-background-clip:text;background-clip:text;color:transparent;filter:drop-shadow(0 1px 0 #000) drop-shadow(0 0 1px rgba(255,255,255,.35))}
     .subtitle{margin-top:6px;font:400 clamp(8px,1.2vw,12px)/1.2 Arial,Helvetica,sans-serif;color:rgba(194,198,202,.54);letter-spacing:.18em}
     .tube-row{position:relative;z-index:5;display:flex;align-items:flex-end;justify-content:${justify};gap:clamp(1px,${gapVw}vw,${gapPx}px);width:100%;min-width:0;box-sizing:border-box;padding:0 clamp(1px,.45vw,6px)}
     .tube-slot{flex:1 1 0;min-width:0;max-width:126px;aspect-ratio:100/286;animation:${animation};filter:drop-shadow(0 8px 6px rgba(0,0,0,.72)) drop-shadow(0 0 7px rgba(255,78,0,.055))}
     .tube-slot-empty{opacity:0}
-    .separator-slot{flex:.76 1 0;min-width:12px;max-width:96px;aspect-ratio:82/286;animation:${animation};filter:drop-shadow(0 8px 6px rgba(0,0,0,.68)) drop-shadow(0 0 6px rgba(255,78,0,.05))}
+    .separator-slot{flex:.66 1 0;min-width:10px;max-width:82px;aspect-ratio:76/286;animation:${animation};filter:drop-shadow(0 8px 6px rgba(0,0,0,.68)) drop-shadow(0 0 6px rgba(255,78,0,.05))}
     .tube-svg,.separator-svg{display:block;width:100%;height:auto;overflow:visible;shape-rendering:geometricPrecision;text-rendering:geometricPrecision}
     .support-wires,.bottom-leads{fill:none;stroke:#aaa39a;stroke-width:.86;stroke-linecap:round;opacity:.68;filter:drop-shadow(0 0 .45px rgba(255,205,150,.28))}
     .tube-pins{fill:none;stroke:#857a6e;stroke-width:1.22;stroke-linecap:round;opacity:.82}
@@ -242,30 +238,30 @@ function renderStyles(config, { justify, brightness, animationMs }) {
     .cathode-core{fill:none;stroke:var(--core);stroke-width:1.45;stroke-linecap:round;stroke-linejoin:round;opacity:1;filter:drop-shadow(0 0 .75px #fff2cf)}
     .cathode-beads{fill:none;stroke:#fff8e9;stroke-width:1.42;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:.001 2.05;opacity:.87;mix-blend-mode:screen}
     .cathode-spark{fill:none;stroke:#ffffff;stroke-width:.66;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:.001 5.4;opacity:.84;mix-blend-mode:screen}
-    .separator-far{opacity:.24;fill:none;stroke:var(--tube);stroke-width:10;stroke-linecap:round;stroke-linejoin:round}
-    .separator-aura{opacity:.82;fill:none;stroke:var(--tube);stroke-width:6.8;stroke-linecap:round;stroke-linejoin:round}
-    .separator-dot{fill:#ff6814;stroke:var(--core);stroke-width:1.45;filter:drop-shadow(0 0 2px #ff3c00)}
-    .separator-ring{fill:none;stroke:#ff5e0d;stroke-width:5.2;filter:drop-shadow(0 0 2px #ff3c00)}
-    .separator-ring-core{fill:none;stroke:var(--core);stroke-width:1.4;opacity:.98}
-    .separator-comma{fill:none;stroke:#ff6412;stroke-width:4.6;stroke-linecap:round;stroke-linejoin:round;filter:drop-shadow(0 0 2px #ff3c00)}
-    .separator-tail{fill:none;stroke:#ff6412;stroke-width:4.5;stroke-linecap:round;filter:drop-shadow(0 0 2px #ff3c00)}
+    .separator-far{opacity:.22;fill:none;stroke:var(--tube);stroke-width:8.5;stroke-linecap:round;stroke-linejoin:round}
+    .separator-aura{opacity:.80;fill:none;stroke:var(--tube);stroke-width:5.5;stroke-linecap:round;stroke-linejoin:round}
+    .separator-dot{fill:#ff6814;stroke:var(--core);stroke-width:1.35;filter:drop-shadow(0 0 2px #ff3c00)}
+    .separator-ring{fill:none;stroke:#ff5e0d;stroke-width:4.8;filter:drop-shadow(0 0 2px #ff3c00)}
+    .separator-ring-core{fill:none;stroke:var(--core);stroke-width:1.3;opacity:.98}
+    .separator-comma{fill:none;stroke:#ff6412;stroke-width:3.7;stroke-linecap:round;stroke-linejoin:round;filter:drop-shadow(0 0 1.8px #ff3c00)}
+    .separator-tail{fill:none;stroke:#ff6412;stroke-width:4.1;stroke-linecap:round;filter:drop-shadow(0 0 2px #ff3c00)}
     .base-board{position:relative;z-index:3;width:98.5%;height:clamp(29px,4vw,48px);margin:clamp(-21px,-2vw,-11px) auto 0;border-radius:clamp(8px,1.05vw,13px);background:radial-gradient(ellipse at 50% 0%,rgba(255,255,255,.10),transparent 30%),linear-gradient(180deg,#44484c 0%,#202326 8%,#111315 22%,#070808 72%,#010202 100%);border:1px solid rgba(255,255,255,.09);box-shadow:inset 0 2px 0 rgba(255,255,255,.10),inset 0 -5px 8px rgba(0,0,0,.94),0 13px 18px rgba(0,0,0,.64)}
     .base-board:before{content:"";position:absolute;left:2%;right:2%;top:3%;height:25%;border-radius:50%;background:linear-gradient(90deg,transparent,rgba(255,125,31,.22),transparent);filter:blur(6px);opacity:.72}
     .base-board:after{content:"";position:absolute;left:4%;right:4%;bottom:-12px;height:13px;border-radius:0 0 11px 11px;background:linear-gradient(180deg,#111315,#010202);box-shadow:0 9px 13px rgba(0,0,0,.62)}
-    .screw{position:absolute;width:clamp(34px,5.4vw,62px);aspect-ratio:1;pointer-events:none}
-    .screw-tl{left:clamp(12px,2vw,24px);top:clamp(12px,2vw,24px)}
-    .screw-tr{right:clamp(12px,2vw,24px);top:clamp(12px,2vw,24px)}
-    .screw-bl{left:clamp(12px,2vw,24px);bottom:clamp(12px,2vw,24px)}
-    .screw-br{right:clamp(12px,2vw,24px);bottom:clamp(12px,2vw,24px)}
+    .screw{position:absolute;width:clamp(34px,5vw,56px);aspect-ratio:1;pointer-events:none}
+    .screw-tl{left:clamp(14px,2.1vw,25px);top:clamp(14px,2.1vw,25px)}
+    .screw-tr{right:clamp(14px,2.1vw,25px);top:clamp(14px,2.1vw,25px)}
+    .screw-bl{left:clamp(14px,2.1vw,25px);bottom:clamp(14px,2.1vw,25px)}
+    .screw-br{right:clamp(14px,2.1vw,25px);bottom:clamp(14px,2.1vw,25px)}
     @keyframes tube-enter{from{opacity:.28;transform:translateY(4px) scale(.988);filter:brightness(.62) saturate(.7)}to{opacity:1;transform:translateY(0) scale(1);filter:brightness(1) saturate(1)}}
-    @media(max-width:620px){.device.panel{padding:28px 21px 34px}.device.panel:before{inset:18px}.caption{margin-bottom:10px;letter-spacing:.13em}.tube-row{gap:clamp(1px,.34vw,4px)}.screw{width:34px}.base-board{height:29px;margin-top:-12px}.tube-slot{max-width:114px}.separator-slot{max-width:84px}}
-    @media(max-width:390px){.device.panel{padding:25px 16px 31px;border-radius:17px}.device.panel:before{inset:14px}.caption{margin-left:11%;margin-right:11%;letter-spacing:.09em}.title{font-size:12px}.screw{width:30px}.separator-slot{min-width:9px}.tube-row{padding:0}}
+    @media(max-width:620px){.device.panel{padding:46px 21px 34px}.device.panel:before{inset:9px}.caption{margin-bottom:10px;letter-spacing:.13em}.tube-row{gap:clamp(1px,.34vw,4px)}.screw{width:34px}.base-board{height:29px;margin-top:-12px}.tube-slot{max-width:114px}.separator-slot{max-width:74px}}
+    @media(max-width:390px){.device.panel{padding:42px 16px 31px;border-radius:17px}.caption{margin-left:11%;margin-right:11%;letter-spacing:.09em}.title{font-size:12px}.screw{width:30px}.separator-slot{min-width:8px}.tube-row{padding:0}}
     @media(prefers-reduced-motion:reduce){.tube-slot,.separator-slot{animation:none!important}}
   </style>`;
 }
 
 
-const VERSION = "0.3.2";
+const VERSION = "0.3.3";
 const DEFAULT_CONFIG = Object.freeze({
   text:"HELLO",attribute:null,prefix:"",suffix:"",title:"",subtitle:"",unit:"",unit_separator:" ",
   decimals:null,decimal_separator:"auto",unavailable_text:"----",unknown_text:"----",
