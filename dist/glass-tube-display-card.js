@@ -1,5 +1,5 @@
-/* Glass Tube Display Card v0.3.1
- * Corrected photorealistic self-contained HACS bundle: no runtime imports.
+/* Glass Tube Display Card v0.3.2
+ * Corrected frame and punctuation self-contained HACS bundle: no runtime imports.
  */
 (() => {
 const GLYPH_PATHS = Object.freeze({
@@ -115,54 +115,14 @@ function renderTube(character, index, config, uid) {
     <svg class="tube-svg" viewBox="0 0 100 286" role="img" aria-hidden="true">
       <defs>
         <linearGradient id="glass-fill-${id}" x1="0" y1="0" x2="1" y2="0">
-          <stop offset="0%" stop-color="#68818e" stop-opacity=".10"/>
-          <stop offset="5%" stop-color="#dff6ff" stop-opacity=".34"/>
-          <stop offset="11%" stop-color="#ffffff" stop-opacity=".76"/>
-          <stop offset="17%" stop-color="${escapeAttr(config.glass_tint)}" stop-opacity=".25"/>
-          <stop offset="29%" stop-color="#738994" stop-opacity=".035"/>
-          <stop offset="49%" stop-color="#ffffff" stop-opacity=".018"/>
-          <stop offset="67%" stop-color="#7f97a2" stop-opacity=".045"/>
-          <stop offset="82%" stop-color="#effbff" stop-opacity=".29"/>
-          <stop offset="89%" stop-color="#ffffff" stop-opacity=".61"/>
-          <stop offset="96%" stop-color="#9eb9c5" stop-opacity=".14"/>
-          <stop offset="100%" stop-color="#4e6671" stop-opacity=".08"/>
+          <stop offset="0%" stop-color="#68818e" stop-opacity=".10"/><stop offset="5%" stop-color="#dff6ff" stop-opacity=".34"/><stop offset="11%" stop-color="#ffffff" stop-opacity=".76"/><stop offset="17%" stop-color="${escapeAttr(config.glass_tint)}" stop-opacity=".25"/><stop offset="29%" stop-color="#738994" stop-opacity=".035"/><stop offset="49%" stop-color="#ffffff" stop-opacity=".018"/><stop offset="67%" stop-color="#7f97a2" stop-opacity=".045"/><stop offset="82%" stop-color="#effbff" stop-opacity=".29"/><stop offset="89%" stop-color="#ffffff" stop-opacity=".61"/><stop offset="96%" stop-color="#9eb9c5" stop-opacity=".14"/><stop offset="100%" stop-color="#4e6671" stop-opacity=".08"/>
         </linearGradient>
-        <linearGradient id="glass-edge-${id}" x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0%" stop-color="#ffffff" stop-opacity=".88"/>
-          <stop offset="12%" stop-color="#d9eff8" stop-opacity=".56"/>
-          <stop offset="56%" stop-color="#72909e" stop-opacity=".15"/>
-          <stop offset="88%" stop-color="#dff7ff" stop-opacity=".44"/>
-          <stop offset="100%" stop-color="#ffffff" stop-opacity=".68"/>
-        </linearGradient>
-        <linearGradient id="base-${id}" x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0%" stop-color="#666b70"/>
-          <stop offset="5%" stop-color="#2b2e31"/>
-          <stop offset="17%" stop-color="#111315"/>
-          <stop offset="58%" stop-color="#020303"/>
-          <stop offset="82%" stop-color="#0d0f10"/>
-          <stop offset="100%" stop-color="#303438"/>
-        </linearGradient>
-        <linearGradient id="mica-${id}" x1="0" y1="0" x2="1" y2="1">
-          <stop offset="0%" stop-color="#fff9ee" stop-opacity=".82"/>
-          <stop offset="24%" stop-color="#aaa49a" stop-opacity=".45"/>
-          <stop offset="52%" stop-color="#625e58" stop-opacity=".24"/>
-          <stop offset="82%" stop-color="#f4ede1" stop-opacity=".67"/>
-          <stop offset="100%" stop-color="#8d8982" stop-opacity=".35"/>
-        </linearGradient>
-        <radialGradient id="warm-${id}" cx="50%" cy="52%" r="58%">
-          <stop offset="0%" stop-color="${escapeAttr(config.core_color)}" stop-opacity=".86"/>
-          <stop offset="18%" stop-color="${escapeAttr(config.tube_color)}" stop-opacity=".55"/>
-          <stop offset="58%" stop-color="#e53600" stop-opacity=".16"/>
-          <stop offset="100%" stop-color="#6d0c00" stop-opacity="0"/>
-        </radialGradient>
-        <radialGradient id="base-warm-${id}" cx="50%" cy="0%" r="82%">
-          <stop offset="0%" stop-color="#ff6a16" stop-opacity=".43"/>
-          <stop offset="42%" stop-color="#c42c00" stop-opacity=".11"/>
-          <stop offset="100%" stop-color="#000" stop-opacity="0"/>
-        </radialGradient>
-        <pattern id="mesh-${id}" width="7.4" height="6.4" patternUnits="userSpaceOnUse">
-          <path d="M1.85 0 H5.55 L7.4 3.2 L5.55 6.4 H1.85 L0 3.2 Z" fill="#171817" fill-opacity=".08" stroke="#aaa49a" stroke-width=".48" opacity="${Number(config.mesh_opacity)}"/>
-        </pattern>
+        <linearGradient id="glass-edge-${id}" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#ffffff" stop-opacity=".88"/><stop offset="12%" stop-color="#d9eff8" stop-opacity=".56"/><stop offset="56%" stop-color="#72909e" stop-opacity=".15"/><stop offset="88%" stop-color="#dff7ff" stop-opacity=".44"/><stop offset="100%" stop-color="#ffffff" stop-opacity=".68"/></linearGradient>
+        <linearGradient id="base-${id}" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#666b70"/><stop offset="5%" stop-color="#2b2e31"/><stop offset="17%" stop-color="#111315"/><stop offset="58%" stop-color="#020303"/><stop offset="82%" stop-color="#0d0f10"/><stop offset="100%" stop-color="#303438"/></linearGradient>
+        <linearGradient id="mica-${id}" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#fff9ee" stop-opacity=".82"/><stop offset="24%" stop-color="#aaa49a" stop-opacity=".45"/><stop offset="52%" stop-color="#625e58" stop-opacity=".24"/><stop offset="82%" stop-color="#f4ede1" stop-opacity=".67"/><stop offset="100%" stop-color="#8d8982" stop-opacity=".35"/></linearGradient>
+        <radialGradient id="warm-${id}" cx="50%" cy="52%" r="58%"><stop offset="0%" stop-color="${escapeAttr(config.core_color)}" stop-opacity=".86"/><stop offset="18%" stop-color="${escapeAttr(config.tube_color)}" stop-opacity=".55"/><stop offset="58%" stop-color="#e53600" stop-opacity=".16"/><stop offset="100%" stop-color="#6d0c00" stop-opacity="0"/></radialGradient>
+        <radialGradient id="base-warm-${id}" cx="50%" cy="0%" r="82%"><stop offset="0%" stop-color="#ff6a16" stop-opacity=".43"/><stop offset="42%" stop-color="#c42c00" stop-opacity=".11"/><stop offset="100%" stop-color="#000" stop-opacity="0"/></radialGradient>
+        <pattern id="mesh-${id}" width="7.4" height="6.4" patternUnits="userSpaceOnUse"><path d="M1.85 0 H5.55 L7.4 3.2 L5.55 6.4 H1.85 L0 3.2 Z" fill="#171817" fill-opacity=".08" stroke="#aaa49a" stroke-width=".48" opacity="${Number(config.mesh_opacity)}"/></pattern>
         <filter id="glass-shadow-${id}" x="-65%" y="-30%" width="230%" height="195%"><feDropShadow dx="0" dy="7" stdDeviation="5.3" flood-color="#000" flood-opacity=".94"/></filter>
         <filter id="glow-far-${id}" x="-190%" y="-190%" width="480%" height="480%"><feGaussianBlur stdDeviation="7.2"/></filter>
         <filter id="glow-wide-${id}" x="-160%" y="-160%" width="420%" height="420%"><feGaussianBlur stdDeviation="4.0"/></filter>
@@ -175,7 +135,6 @@ function renderTube(character, index, config, uid) {
 
       <ellipse cx="50" cy="249" rx="43" ry="24" fill="url(#warm-${id})" opacity="${active ? ".52" : ".09"}"/>
       <g filter="url(#glass-shadow-${id})"><path d="${outer}" fill="#030506" fill-opacity=".36" stroke="#0a0d0e" stroke-width="1.8"/></g>
-
       <g clip-path="url(#inside-${id})">
         <rect x="22" y="50" width="56" height="184" fill="#030404" opacity=".48"/>
         <ellipse cx="50" cy="48" rx="26" ry="6.4" fill="url(#mica-${id})" opacity=".78"/>
@@ -183,56 +142,17 @@ function renderTube(character, index, config, uid) {
         <ellipse cx="50" cy="63" rx="23" ry="4.8" fill="#d7d0c4" opacity=".28"/>
         <ellipse cx="50" cy="219" rx="25" ry="6" fill="url(#mica-${id})" opacity=".63"/>
         <path d="M26 215 C35 210 65 210 74 215 L72 224 C63 228 37 228 28 224 Z" fill="url(#mica-${id})" opacity=".40"/>
-
-        <g class="support-wires">
-          <path d="M29 53 L28 223 M71 53 L72 223"/>
-          <path d="M34 58 L34 221 M66 58 L66 221" opacity=".7"/>
-          <path d="M39 60 L38 221 M61 60 L62 221" opacity=".32"/>
-          <path d="M26 69 C37 64 63 64 74 69 M26 205 C37 211 63 211 74 205" opacity=".62"/>
-          <path d="M31 79 C42 75 58 75 69 79 M31 196 C42 200 58 200 69 196" opacity=".30"/>
-        </g>
-
+        <g class="support-wires"><path d="M29 53 L28 223 M71 53 L72 223"/><path d="M34 58 L34 221 M66 58 L66 221" opacity=".7"/><path d="M39 60 L38 221 M61 60 L62 221" opacity=".32"/><path d="M26 69 C37 64 63 64 74 69 M26 205 C37 211 63 211 74 205" opacity=".62"/><path d="M31 79 C42 75 58 75 69 79 M31 196 C42 200 58 200 69 196" opacity=".30"/></g>
         <rect x="26" y="68" width="48" height="139" fill="url(#mesh-${id})" opacity=".80"/>
         <path d="M26 68 H74 M26 207 H74" stroke="#b5aea3" stroke-width="1.05" opacity=".53"/>
-
-        <g clip-path="url(#cathode-window-${id})">
-          <g transform="${glyphTransform(character)}">
-            ${ghostCathodes(character, config)}
-            <path d="${path}" class="cathode-shadow" opacity="${active}"/>
-            <path d="${path}" class="cathode-far" filter="url(#glow-far-${id})" opacity="${active}"/>
-            <path d="${path}" class="cathode-aura" filter="url(#glow-wide-${id})" opacity="${active}"/>
-            <path d="${path}" class="cathode-glow" filter="url(#glow-mid-${id})" opacity="${active}"/>
-            <path d="${path}" class="cathode-hot" opacity="${active}"/>
-            <path d="${path}" class="cathode-core" opacity="${active}"/>
-            <path d="${path}" class="cathode-beads" opacity="${active}"/>
-            <path d="${path}" class="cathode-spark" opacity="${active}"/>
-          </g>
-        </g>
-
+        <g clip-path="url(#cathode-window-${id})"><g transform="${glyphTransform(character)}">${ghostCathodes(character, config)}<path d="${path}" class="cathode-shadow" opacity="${active}"/><path d="${path}" class="cathode-far" filter="url(#glow-far-${id})" opacity="${active}"/><path d="${path}" class="cathode-aura" filter="url(#glow-wide-${id})" opacity="${active}"/><path d="${path}" class="cathode-glow" filter="url(#glow-mid-${id})" opacity="${active}"/><path d="${path}" class="cathode-hot" opacity="${active}"/><path d="${path}" class="cathode-core" opacity="${active}"/><path d="${path}" class="cathode-beads" opacity="${active}"/><path d="${path}" class="cathode-spark" opacity="${active}"/></g></g>
         <rect x="25" y="68" width="50" height="140" fill="url(#warm-${id})" opacity="${active ? ".09" : ".012"}"/>
         <g class="bottom-leads"><path d="M30 219 L29 248 M37 220 L37 249 M44 221 L44 250 M50 221 L50 250 M56 221 L56 250 M63 220 L63 249 M70 219 L71 248"/></g>
         <ellipse cx="50" cy="231" rx="25" ry="6.5" fill="#ff4e08" opacity="${active ? ".22" : ".025"}" filter="url(#soft-${id})"/>
       </g>
-
       <path d="${outer}" fill="url(#glass-fill-${id})" fill-opacity="${Number(config.glass_opacity)}" stroke="url(#glass-edge-${id})" stroke-opacity=".82" stroke-width="1.15" filter="url(#glass-noise-${id})"/>
-      <path d="M25 50 C23 82 23 205 25 231" fill="none" stroke="#ffffff" stroke-width="5.2" stroke-linecap="round" opacity=".25"/>
-      <path d="M29 45 C27 82 27 184 29 213" fill="none" stroke="#dff8ff" stroke-width="1.35" stroke-linecap="round" opacity=".63"/>
-      <path d="M33 31 C27 35 24 41 23 50" fill="none" stroke="#ffffff" stroke-width="2.15" stroke-linecap="round" opacity=".88"/>
-      <path d="M39 25 C43 22 57 22 61 25" fill="none" stroke="#ffffff" stroke-width="1.3" stroke-linecap="round" opacity=".46"/>
-      <path d="M72 45 C77 69 77 101 77 125" fill="none" stroke="#f3fcff" stroke-width="2.6" stroke-linecap="round" opacity=".28"/>
-      <path d="M74 133 C76 163 76 205 73 226" fill="none" stroke="#cdeefa" stroke-width="1.2" stroke-linecap="round" opacity=".18"/>
-      <path d="M31 234 C39 239 61 239 69 234" fill="none" stroke="#ffffff" stroke-width="1.2" opacity=".28"/>
-      <ellipse cx="50" cy="10" rx="3.1" ry="6.4" fill="#ffffff" opacity=".51"/>
-      <ellipse cx="47.5" cy="7.2" rx="1.2" ry="2.4" fill="#ffffff" opacity=".92"/>
-      <ellipse cx="47" cy="31" rx="10" ry="2.6" fill="#ffffff" opacity=".23"/>
-
-      <ellipse cx="50" cy="239" rx="34" ry="7.8" fill="#303438" stroke="#747a7f" stroke-width="1"/>
-      <ellipse cx="50" cy="238" rx="27" ry="4.5" fill="url(#base-warm-${id})" opacity="${active ? ".82" : ".08"}"/>
-      <path d="M15 239 C19 246 81 246 85 239 L85 266 C77 276 23 276 15 266 Z" fill="url(#base-${id})" stroke="#050606" stroke-width="1.2"/>
-      <path d="M20 246 C34 250 66 250 80 246" fill="none" stroke="#ffffff" stroke-width="1" opacity=".12"/>
-      <path d="M18 261 C34 266 66 266 82 261" fill="none" stroke="#000" stroke-width="2" opacity=".75"/>
-      <ellipse cx="50" cy="266" rx="35" ry="7.5" fill="#020303" stroke="#2c3033" stroke-width="1"/>
-      <g class="tube-pins"><path d="M28 269 L28 283 M35 270 L35 284 M42 270 L42 285 M50 270 L50 285 M58 270 L58 285 M65 270 L65 284 M72 269 L72 283"/></g>
+      <path d="M25 50 C23 82 23 205 25 231" fill="none" stroke="#ffffff" stroke-width="5.2" stroke-linecap="round" opacity=".25"/><path d="M29 45 C27 82 27 184 29 213" fill="none" stroke="#dff8ff" stroke-width="1.35" stroke-linecap="round" opacity=".63"/><path d="M33 31 C27 35 24 41 23 50" fill="none" stroke="#ffffff" stroke-width="2.15" stroke-linecap="round" opacity=".88"/><path d="M39 25 C43 22 57 22 61 25" fill="none" stroke="#ffffff" stroke-width="1.3" stroke-linecap="round" opacity=".46"/><path d="M72 45 C77 69 77 101 77 125" fill="none" stroke="#f3fcff" stroke-width="2.6" stroke-linecap="round" opacity=".28"/><path d="M74 133 C76 163 76 205 73 226" fill="none" stroke="#cdeefa" stroke-width="1.2" stroke-linecap="round" opacity=".18"/><path d="M31 234 C39 239 61 239 69 234" fill="none" stroke="#ffffff" stroke-width="1.2" opacity=".28"/><ellipse cx="50" cy="10" rx="3.1" ry="6.4" fill="#ffffff" opacity=".51"/><ellipse cx="47.5" cy="7.2" rx="1.2" ry="2.4" fill="#ffffff" opacity=".92"/><ellipse cx="47" cy="31" rx="10" ry="2.6" fill="#ffffff" opacity=".23"/>
+      <ellipse cx="50" cy="239" rx="34" ry="7.8" fill="#303438" stroke="#747a7f" stroke-width="1"/><ellipse cx="50" cy="238" rx="27" ry="4.5" fill="url(#base-warm-${id})" opacity="${active ? ".82" : ".08"}"/><path d="M15 239 C19 246 81 246 85 239 L85 266 C77 276 23 276 15 266 Z" fill="url(#base-${id})" stroke="#050606" stroke-width="1.2"/><path d="M20 246 C34 250 66 250 80 246" fill="none" stroke="#ffffff" stroke-width="1" opacity=".12"/><path d="M18 261 C34 266 66 266 82 261" fill="none" stroke="#000" stroke-width="2" opacity=".75"/><ellipse cx="50" cy="266" rx="35" ry="7.5" fill="#020303" stroke="#2c3033" stroke-width="1"/><g class="tube-pins"><path d="M28 269 L28 283 M35 270 L35 284 M42 270 L42 285 M50 270 L50 285 M58 270 L58 285 M65 270 L65 284 M72 269 L72 283"/></g>
     </svg>
   </div>`;
 }
@@ -243,30 +163,29 @@ function renderSeparator(character, index, config, uid) {
   const isColon = character === ":" || character === ";";
   const isComma = character === "," || character === ";";
   const isDegree = character === "°";
+  const commaPath = `<path d="M34 169 C34 162 39 157 45 158 C51 159 54 164 52 171 C50 178 43 183 39 188 C35 193 33 199 32 205" class="separator-comma"/>`;
   const marks = isDegree
-    ? `<circle cx="36" cy="111" r="9.5" class="separator-ring"/><circle cx="36" cy="111" r="6.2" class="separator-ring-core"/>`
+    ? `<circle cx="41" cy="112" r="10.5" class="separator-ring"/><circle cx="41" cy="112" r="6.8" class="separator-ring-core"/>`
     : isColon
-      ? `<circle cx="36" cy="112" r="6" class="separator-dot"/><circle cx="36" cy="160" r="6" class="separator-dot"/>${isComma ? '<path d="M39 166 C42 180 35 191 25 198" class="separator-tail"/>' : ''}`
-      : `<circle cx="36" cy="173" r="6.4" class="separator-dot"/>${isComma ? '<path d="M40 180 C43 196 36 207 24 214" class="separator-tail"/>' : ''}`;
+      ? `<circle cx="41" cy="116" r="6.1" class="separator-dot"/>${isComma ? commaPath : '<circle cx="41" cy="163" r="6.1" class="separator-dot"/>'}`
+      : isComma ? commaPath : `<circle cx="41" cy="176" r="6.2" class="separator-dot"/>`;
 
-  const outer = "M14 238 C12 207 12 78 14 52 C15 38 21 28 30 23 C33 21 34 17 34 12 C34 6 35 3 36 3 C38 3 39 6 39 12 C39 17 40 21 43 23 C52 28 58 38 59 52 C61 78 61 207 59 238 C58 250 15 250 14 238 Z";
-  const inside = "M18 232 C16 203 16 82 18 56 C19 44 24 36 31 32 C34 30 34 27 34 22 H39 C39 27 39 30 42 32 C49 36 54 44 55 56 C57 82 57 203 55 232 Z";
+  const outer = "M14 238 C12 207 12 78 14 52 C15 38 22 28 34 23 C38 21 39 17 39 12 C39 6 40 3 41 3 C43 3 44 6 44 12 C44 17 45 21 49 23 C60 28 67 38 68 52 C70 78 70 207 68 238 C67 250 15 250 14 238 Z";
+  const inside = "M19 232 C17 203 17 82 19 56 C20 44 26 36 35 32 C39 30 39 27 39 22 H44 C44 27 44 30 48 32 C57 36 63 44 64 56 C66 82 66 203 64 232 Z";
 
   return `<div class="separator-slot" aria-label="${escapeAttr(character)}">
-    <svg class="separator-svg" viewBox="0 0 72 286" role="img" aria-hidden="true">
+    <svg class="separator-svg" viewBox="0 0 82 286" role="img" aria-hidden="true">
       <defs>
         <linearGradient id="sep-glass-${id}" x1="0" y1="0" x2="1" y2="0"><stop offset="0%" stop-color="#76909d" stop-opacity=".08"/><stop offset="9%" stop-color="#fff" stop-opacity=".70"/><stop offset="18%" stop-color="${escapeAttr(config.glass_tint)}" stop-opacity=".23"/><stop offset="66%" stop-color="#839da9" stop-opacity=".04"/><stop offset="86%" stop-color="#fff" stop-opacity=".53"/><stop offset="100%" stop-color="#5a707b" stop-opacity=".08"/></linearGradient>
         <linearGradient id="sep-base-${id}" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#5a5f64"/><stop offset="8%" stop-color="#24272a"/><stop offset="24%" stop-color="#0d0f10"/><stop offset="76%" stop-color="#020303"/><stop offset="100%" stop-color="#2a2e31"/></linearGradient>
         <pattern id="sep-mesh-${id}" width="6.2" height="5.37" patternUnits="userSpaceOnUse"><path d="M1.55 0 H4.65 L6.2 2.685 L4.65 5.37 H1.55 L0 2.685 Z" fill="#151615" fill-opacity=".08" stroke="#aaa49a" stroke-width=".42" opacity="${Number(config.mesh_opacity)}"/></pattern>
-        <filter id="sep-glow-far-${id}" x="-220%" y="-220%" width="540%" height="540%"><feGaussianBlur stdDeviation="6.6"/></filter>
-        <filter id="sep-glow-${id}" x="-190%" y="-190%" width="480%" height="480%"><feGaussianBlur stdDeviation="3.2"/></filter>
-        <filter id="sep-shadow-${id}" x="-100%" y="-35%" width="300%" height="205%"><feDropShadow dx="0" dy="6" stdDeviation="3.4" flood-color="#000" flood-opacity=".92"/></filter>
+        <filter id="sep-glow-far-${id}" x="-220%" y="-220%" width="540%" height="540%"><feGaussianBlur stdDeviation="6.6"/></filter><filter id="sep-glow-${id}" x="-190%" y="-190%" width="480%" height="480%"><feGaussianBlur stdDeviation="3.2"/></filter><filter id="sep-shadow-${id}" x="-100%" y="-35%" width="300%" height="205%"><feDropShadow dx="0" dy="6" stdDeviation="3.4" flood-color="#000" flood-opacity=".92"/></filter>
         <clipPath id="sep-inside-${id}"><path d="${inside}"/></clipPath>
       </defs>
       ${bare ? "" : `<g filter="url(#sep-shadow-${id})"><path d="${outer}" fill="#030506" fill-opacity=".40" stroke="#0a0d0e" stroke-width="1.1"/></g>`}
-      ${bare ? "" : `<g clip-path="url(#sep-inside-${id})"><rect x="18" y="63" width="37" height="170" fill="#030404" opacity=".46"/><rect x="20" y="72" width="33" height="143" fill="url(#sep-mesh-${id})" opacity=".80"/><path d="M22 61 L22 232 M50 61 L50 232" stroke="#aaa49a" stroke-width=".8" opacity=".58"/><path d="M27 65 L27 229 M45 65 L45 229" stroke="#8e887f" stroke-width=".6" opacity=".32"/><ellipse cx="36" cy="58" rx="16" ry="4.3" fill="#d9d2c7" opacity=".48"/><ellipse cx="36" cy="221" rx="16" ry="4.3" fill="#d9d2c7" opacity=".40"/></g>`}
+      ${bare ? "" : `<g clip-path="url(#sep-inside-${id})"><rect x="19" y="63" width="45" height="170" fill="#030404" opacity=".46"/><rect x="21" y="72" width="41" height="143" fill="url(#sep-mesh-${id})" opacity=".80"/><path d="M23 61 L23 232 M59 61 L59 232" stroke="#aaa49a" stroke-width=".8" opacity=".58"/><path d="M29 65 L29 229 M53 65 L53 229" stroke="#8e887f" stroke-width=".6" opacity=".32"/><ellipse cx="41" cy="58" rx="20" ry="4.5" fill="#d9d2c7" opacity=".48"/><ellipse cx="41" cy="221" rx="20" ry="4.5" fill="#d9d2c7" opacity=".40"/></g>`}
       <g class="separator-far" filter="url(#sep-glow-far-${id})">${marks}</g><g class="separator-aura" filter="url(#sep-glow-${id})">${marks}</g><g>${marks}</g>
-      ${bare ? "" : `<path d="${outer}" fill="url(#sep-glass-${id})" fill-opacity="${Number(config.glass_opacity)}" stroke="#e4f5fb" stroke-opacity=".72" stroke-width=".95"/><path d="M19 56 C17 94 17 207 19 230" fill="none" stroke="#fff" stroke-width="3.3" stroke-linecap="round" opacity=".31"/><path d="M23 40 C19 45 17 51 16 59" fill="none" stroke="#fff" stroke-width="1.55" stroke-linecap="round" opacity=".80"/><path d="M52 50 C56 73 56 104 56 129" fill="none" stroke="#eafaff" stroke-width="1.5" opacity=".24"/><ellipse cx="36" cy="12" rx="2.4" ry="5.2" fill="#fff" opacity=".48"/><ellipse cx="36" cy="239" rx="23" ry="5.7" fill="#303438" stroke="#6b7075" stroke-width=".8"/><path d="M12 239 C16 246 56 246 60 239 L60 266 C55 275 17 275 12 266 Z" fill="url(#sep-base-${id})" stroke="#050606" stroke-width=".9"/><ellipse cx="36" cy="266" rx="24" ry="5.8" fill="#020303" stroke="#292d30" stroke-width=".8"/><path d="M24 269 L24 283 M30 269 L30 284 M36 269 L36 285 M42 269 L42 284 M48 269 L48 283" stroke="#746b61" stroke-width="1.1" opacity=".78"/>`}
+      ${bare ? "" : `<path d="${outer}" fill="url(#sep-glass-${id})" fill-opacity="${Number(config.glass_opacity)}" stroke="#e4f5fb" stroke-opacity=".72" stroke-width=".95"/><path d="M20 56 C18 94 18 207 20 230" fill="none" stroke="#fff" stroke-width="3.5" stroke-linecap="round" opacity=".31"/><path d="M25 40 C20 45 18 51 17 59" fill="none" stroke="#fff" stroke-width="1.65" stroke-linecap="round" opacity=".80"/><path d="M60 50 C64 73 64 104 64 129" fill="none" stroke="#eafaff" stroke-width="1.5" opacity=".24"/><ellipse cx="41" cy="12" rx="2.4" ry="5.2" fill="#fff" opacity=".48"/><ellipse cx="41" cy="239" rx="28" ry="5.9" fill="#303438" stroke="#6b7075" stroke-width=".8"/><path d="M13 239 C17 246 65 246 69 239 L69 266 C63 275 19 275 13 266 Z" fill="url(#sep-base-${id})" stroke="#050606" stroke-width=".9"/><ellipse cx="41" cy="266" rx="29" ry="6" fill="#020303" stroke="#292d30" stroke-width=".8"/><path d="M27 269 L27 283 M34 269 L34 284 M41 269 L41 285 M48 269 L48 284 M55 269 L55 283" stroke="#746b61" stroke-width="1.1" opacity=".78"/>`}
     </svg>
   </div>`;
 }
@@ -283,9 +202,15 @@ function renderStyles(config, { justify, brightness, animationMs }) {
   const gapPx = Math.max(0, Number(config.tube_gap));
   const gapVw = Math.max(.05, Math.min(1.05, gapPx / 11)).toFixed(2);
   const animation = config.animate === false ? "none" : `tube-enter ${animationMs}ms cubic-bezier(.22,1,.36,1)`;
+  const analogAsset = "/hacsfiles/analog-gauge-card/assets/base.webp";
   const analogFrame = config.screws === true ? `
-    .device.panel:after{content:"";position:absolute;inset:0;z-index:18;pointer-events:none;border:clamp(35px,5.2vw,64px) solid transparent;border-image-source:url("/hacsfiles/analog-gauge-card/assets/base.webp");border-image-slice:135;border-image-width:clamp(35px,5.2vw,64px);border-image-repeat:stretch;filter:saturate(.95) contrast(1.04) brightness(.99);border-radius:inherit}
-    .device.panel .screw{z-index:17}
+    .device.panel:after{content:"";position:absolute;inset:0;z-index:18;pointer-events:none;border:clamp(8px,1.25vw,16px) solid transparent;border-image-source:url("${analogAsset}");border-image-slice:58;border-image-width:clamp(8px,1.25vw,16px);border-image-repeat:stretch;filter:saturate(.95) contrast(1.04) brightness(.99);border-radius:inherit}
+    .device.panel .screw{display:block;z-index:20;width:clamp(34px,5.4vw,62px);aspect-ratio:1;border:0;border-radius:50%;background-image:url("${analogAsset}");background-repeat:no-repeat;background-size:640% 640%;box-shadow:none;filter:saturate(.96) contrast(1.05) brightness(.99) drop-shadow(0 3px 4px rgba(0,0,0,.72))}
+    .device.panel .screw:before,.device.panel .screw:after{display:none}
+    .device.panel .screw-tl{background-position:10.4% 10.4%}
+    .device.panel .screw-tr{background-position:89.6% 10.4%}
+    .device.panel .screw-bl{background-position:10.4% 89.6%}
+    .device.panel .screw-br{background-position:89.6% 89.6%}
   ` : `
     .device.panel:after{content:"";position:absolute;inset:0;z-index:18;pointer-events:none;border-radius:inherit;border:1px solid rgba(255,255,255,.10);box-shadow:inset 0 2px 0 rgba(255,255,255,.06),inset 0 -2px 0 rgba(0,0,0,.95)}
   `;
@@ -295,8 +220,8 @@ function renderStyles(config, { justify, brightness, animationMs }) {
     ha-card{width:100%;min-width:0;background:transparent;border:0;box-shadow:none;overflow:hidden}
     .device{--tube:${escapeCss(config.tube_color)};--core:${escapeCss(config.core_color)};position:relative;width:min(100%,${maxWidth}px);min-width:0;margin:0 auto;box-sizing:border-box;user-select:none;-webkit-tap-highlight-color:transparent;cursor:${config.entity ? "pointer" : "default"};filter:brightness(${brightness});isolation:isolate}
     .device.free{padding:4px 4px 15px}
-    .device.panel{padding:clamp(28px,4vw,52px) clamp(25px,4.6vw,62px) clamp(31px,4.1vw,54px);border-radius:clamp(22px,3vw,38px);background:radial-gradient(ellipse at 50% -14%,rgba(255,255,255,.095),transparent 35%),repeating-linear-gradient(116deg,rgba(255,255,255,.008) 0 1px,transparent 1px 4px),linear-gradient(180deg,#191c1e 0%,${escapeCss(config.panel_edge)} 4%,${escapeCss(config.panel_color)} 14%,#070808 84%,#171a1c 96%,#050606 100%);border:1px solid rgba(255,255,255,.08);box-shadow:inset 0 1px 0 rgba(255,255,255,.07),inset 0 -2px 0 rgba(0,0,0,.96),inset 0 0 42px rgba(0,0,0,.34),0 18px 40px rgba(0,0,0,.52),0 4px 8px rgba(0,0,0,.78)}
-    .device.panel:before{content:"";position:absolute;inset:clamp(30px,5.1vw,62px);z-index:0;border-radius:clamp(13px,1.8vw,23px);background:radial-gradient(ellipse at 50% 0%,rgba(255,255,255,.035),transparent 31%),repeating-linear-gradient(116deg,rgba(255,255,255,.006) 0 1px,transparent 1px 4px),linear-gradient(180deg,#101214,#070808 70%,#050606);border:1px solid rgba(255,255,255,.055);box-shadow:inset 0 1px 0 rgba(255,255,255,.03),inset 0 -1px 0 rgba(0,0,0,.92);pointer-events:none}
+    .device.panel{padding:clamp(32px,4.5vw,58px) clamp(27px,4.8vw,64px) clamp(34px,4.4vw,58px);border-radius:clamp(21px,2.7vw,34px);background:radial-gradient(ellipse at 50% -14%,rgba(255,255,255,.095),transparent 35%),repeating-linear-gradient(116deg,rgba(255,255,255,.008) 0 1px,transparent 1px 4px),linear-gradient(180deg,#191c1e 0%,${escapeCss(config.panel_edge)} 4%,${escapeCss(config.panel_color)} 14%,#070808 84%,#171a1c 96%,#050606 100%);border:1px solid rgba(255,255,255,.08);box-shadow:inset 0 1px 0 rgba(255,255,255,.07),inset 0 -2px 0 rgba(0,0,0,.96),inset 0 0 42px rgba(0,0,0,.34),0 18px 40px rgba(0,0,0,.52),0 4px 8px rgba(0,0,0,.78);overflow:hidden}
+    .device.panel:before{content:"";position:absolute;inset:clamp(18px,2.8vw,34px);z-index:0;border-radius:clamp(13px,1.7vw,21px);background:radial-gradient(ellipse at 50% 0%,rgba(255,255,255,.035),transparent 31%),repeating-linear-gradient(116deg,rgba(255,255,255,.006) 0 1px,transparent 1px 4px),linear-gradient(180deg,#101214,#070808 70%,#050606);border:1px solid rgba(255,255,255,.055);box-shadow:inset 0 1px 0 rgba(255,255,255,.03),inset 0 -1px 0 rgba(0,0,0,.92);pointer-events:none}
     ${analogFrame}
     .caption{position:relative;z-index:8;text-align:center;margin:0 8% clamp(12px,1.9vw,24px);letter-spacing:.20em;line-height:1.16;text-transform:uppercase;text-shadow:0 2px 2px #000,0 0 14px rgba(255,255,255,.06)}
     .title{display:inline-block;font:500 clamp(13px,2vw,24px)/1.12 Arial,Helvetica,sans-serif;background:linear-gradient(180deg,#ffffff 0%,#d9dcdf 25%,#91969a 47%,#53575b 52%,#dfe1e3 79%,#8b9094 100%);-webkit-background-clip:text;background-clip:text;color:transparent;filter:drop-shadow(0 1px 0 #000) drop-shadow(0 0 1px rgba(255,255,255,.35))}
@@ -304,7 +229,7 @@ function renderStyles(config, { justify, brightness, animationMs }) {
     .tube-row{position:relative;z-index:5;display:flex;align-items:flex-end;justify-content:${justify};gap:clamp(1px,${gapVw}vw,${gapPx}px);width:100%;min-width:0;box-sizing:border-box;padding:0 clamp(1px,.45vw,6px)}
     .tube-slot{flex:1 1 0;min-width:0;max-width:126px;aspect-ratio:100/286;animation:${animation};filter:drop-shadow(0 8px 6px rgba(0,0,0,.72)) drop-shadow(0 0 7px rgba(255,78,0,.055))}
     .tube-slot-empty{opacity:0}
-    .separator-slot{flex:.62 1 0;min-width:10px;max-width:82px;aspect-ratio:72/286;animation:${animation};filter:drop-shadow(0 8px 6px rgba(0,0,0,.68)) drop-shadow(0 0 6px rgba(255,78,0,.05))}
+    .separator-slot{flex:.76 1 0;min-width:12px;max-width:96px;aspect-ratio:82/286;animation:${animation};filter:drop-shadow(0 8px 6px rgba(0,0,0,.68)) drop-shadow(0 0 6px rgba(255,78,0,.05))}
     .tube-svg,.separator-svg{display:block;width:100%;height:auto;overflow:visible;shape-rendering:geometricPrecision;text-rendering:geometricPrecision}
     .support-wires,.bottom-leads{fill:none;stroke:#aaa39a;stroke-width:.86;stroke-linecap:round;opacity:.68;filter:drop-shadow(0 0 .45px rgba(255,205,150,.28))}
     .tube-pins{fill:none;stroke:#857a6e;stroke-width:1.22;stroke-linecap:round;opacity:.82}
@@ -317,31 +242,30 @@ function renderStyles(config, { justify, brightness, animationMs }) {
     .cathode-core{fill:none;stroke:var(--core);stroke-width:1.45;stroke-linecap:round;stroke-linejoin:round;opacity:1;filter:drop-shadow(0 0 .75px #fff2cf)}
     .cathode-beads{fill:none;stroke:#fff8e9;stroke-width:1.42;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:.001 2.05;opacity:.87;mix-blend-mode:screen}
     .cathode-spark{fill:none;stroke:#ffffff;stroke-width:.66;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:.001 5.4;opacity:.84;mix-blend-mode:screen}
-    .separator-far{opacity:.28;fill:var(--tube);stroke:var(--tube)}
-    .separator-aura{opacity:.78;fill:var(--tube);stroke:var(--tube)}
+    .separator-far{opacity:.24;fill:none;stroke:var(--tube);stroke-width:10;stroke-linecap:round;stroke-linejoin:round}
+    .separator-aura{opacity:.82;fill:none;stroke:var(--tube);stroke-width:6.8;stroke-linecap:round;stroke-linejoin:round}
     .separator-dot{fill:#ff6814;stroke:var(--core);stroke-width:1.45;filter:drop-shadow(0 0 2px #ff3c00)}
     .separator-ring{fill:none;stroke:#ff5e0d;stroke-width:5.2;filter:drop-shadow(0 0 2px #ff3c00)}
     .separator-ring-core{fill:none;stroke:var(--core);stroke-width:1.4;opacity:.98}
+    .separator-comma{fill:none;stroke:#ff6412;stroke-width:4.6;stroke-linecap:round;stroke-linejoin:round;filter:drop-shadow(0 0 2px #ff3c00)}
     .separator-tail{fill:none;stroke:#ff6412;stroke-width:4.5;stroke-linecap:round;filter:drop-shadow(0 0 2px #ff3c00)}
     .base-board{position:relative;z-index:3;width:98.5%;height:clamp(29px,4vw,48px);margin:clamp(-21px,-2vw,-11px) auto 0;border-radius:clamp(8px,1.05vw,13px);background:radial-gradient(ellipse at 50% 0%,rgba(255,255,255,.10),transparent 30%),linear-gradient(180deg,#44484c 0%,#202326 8%,#111315 22%,#070808 72%,#010202 100%);border:1px solid rgba(255,255,255,.09);box-shadow:inset 0 2px 0 rgba(255,255,255,.10),inset 0 -5px 8px rgba(0,0,0,.94),0 13px 18px rgba(0,0,0,.64)}
     .base-board:before{content:"";position:absolute;left:2%;right:2%;top:3%;height:25%;border-radius:50%;background:linear-gradient(90deg,transparent,rgba(255,125,31,.22),transparent);filter:blur(6px);opacity:.72}
     .base-board:after{content:"";position:absolute;left:4%;right:4%;bottom:-12px;height:13px;border-radius:0 0 11px 11px;background:linear-gradient(180deg,#111315,#010202);box-shadow:0 9px 13px rgba(0,0,0,.62)}
-    .screw{position:absolute;z-index:17;width:clamp(19px,3.1vw,35px);aspect-ratio:1;border-radius:50%;background:radial-gradient(circle at 31% 25%,rgba(255,255,255,.24),transparent 18%),radial-gradient(circle at 50% 56%,#181b1d 0 29%,#020303 52%,#303438 72%,#040505 100%);border:1px solid rgba(255,255,255,.10);box-shadow:inset 0 1px 2px rgba(255,255,255,.12),inset 0 -3px 5px #000,0 4px 7px rgba(0,0,0,.86)}
-    .screw:before,.screw:after{content:"";position:absolute;left:17%;right:17%;top:44%;height:12%;border-radius:2px;background:linear-gradient(180deg,#010202,#303438 44%,#000 57%);box-shadow:inset 0 1px 0 rgba(255,255,255,.09)}
-    .screw:after{transform:rotate(90deg)}
-    .screw-tl{left:clamp(9px,1.4vw,18px);top:clamp(9px,1.4vw,18px);transform:rotate(8deg)}
-    .screw-tr{right:clamp(9px,1.4vw,18px);top:clamp(9px,1.4vw,18px);transform:rotate(-6deg)}
-    .screw-bl{left:clamp(9px,1.4vw,18px);bottom:clamp(9px,1.4vw,18px);transform:rotate(4deg)}
-    .screw-br{right:clamp(9px,1.4vw,18px);bottom:clamp(9px,1.4vw,18px);transform:rotate(-11deg)}
+    .screw{position:absolute;width:clamp(34px,5.4vw,62px);aspect-ratio:1;pointer-events:none}
+    .screw-tl{left:clamp(12px,2vw,24px);top:clamp(12px,2vw,24px)}
+    .screw-tr{right:clamp(12px,2vw,24px);top:clamp(12px,2vw,24px)}
+    .screw-bl{left:clamp(12px,2vw,24px);bottom:clamp(12px,2vw,24px)}
+    .screw-br{right:clamp(12px,2vw,24px);bottom:clamp(12px,2vw,24px)}
     @keyframes tube-enter{from{opacity:.28;transform:translateY(4px) scale(.988);filter:brightness(.62) saturate(.7)}to{opacity:1;transform:translateY(0) scale(1);filter:brightness(1) saturate(1)}}
-    @media(max-width:620px){.device.panel{padding:25px 21px 32px}.device.panel:before{inset:34px}.caption{margin-bottom:10px;letter-spacing:.13em}.tube-row{gap:clamp(1px,.34vw,4px)}.screw{width:18px}.base-board{height:29px;margin-top:-12px}.tube-slot{max-width:114px}.separator-slot{max-width:72px}}
-    @media(max-width:390px){.device.panel{padding:22px 16px 29px;border-radius:17px}.device.panel:before{inset:24px}.caption{margin-left:11%;margin-right:11%;letter-spacing:.09em}.title{font-size:12px}.screw{width:15px}.separator-slot{min-width:7px}.tube-row{padding:0}}
+    @media(max-width:620px){.device.panel{padding:28px 21px 34px}.device.panel:before{inset:18px}.caption{margin-bottom:10px;letter-spacing:.13em}.tube-row{gap:clamp(1px,.34vw,4px)}.screw{width:34px}.base-board{height:29px;margin-top:-12px}.tube-slot{max-width:114px}.separator-slot{max-width:84px}}
+    @media(max-width:390px){.device.panel{padding:25px 16px 31px;border-radius:17px}.device.panel:before{inset:14px}.caption{margin-left:11%;margin-right:11%;letter-spacing:.09em}.title{font-size:12px}.screw{width:30px}.separator-slot{min-width:9px}.tube-row{padding:0}}
     @media(prefers-reduced-motion:reduce){.tube-slot,.separator-slot{animation:none!important}}
   </style>`;
 }
 
 
-const VERSION = "0.3.1";
+const VERSION = "0.3.2";
 const DEFAULT_CONFIG = Object.freeze({
   text:"HELLO",attribute:null,prefix:"",suffix:"",title:"",subtitle:"",unit:"",unit_separator:" ",
   decimals:null,decimal_separator:"auto",unavailable_text:"----",unknown_text:"----",
