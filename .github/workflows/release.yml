@@ -3,7 +3,7 @@ name: Publish release
 on:
   push:
     paths:
-      - release-trigger-v0.3.8.txt
+      - release-trigger-v0.3.9.txt
   workflow_dispatch:
 
 permissions:
@@ -17,8 +17,8 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: "22"
-      - name: Apply v0.3.8 source changes
-        run: python3 scripts/apply_v038_sources.py
+      - name: Apply v0.3.9 source changes
+        run: python3 scripts/apply_v039_sources.py
       - name: Build self-contained HACS bundle
         run: npm run build
       - name: Validate JavaScript and regression requirements
@@ -34,27 +34,27 @@ jobs:
             glass-tube-display-card.js \
             dist/
           if ! git diff --cached --quiet; then
-            git commit -m "Build Glass Tube Display Card v0.3.8"
+            git commit -m "Build Glass Tube Display Card v0.3.9"
             git push
           fi
           echo "TARGET_SHA=$(git rev-parse HEAD)" >> "$GITHUB_ENV"
-      - name: Publish v0.3.8
+      - name: Publish v0.3.9
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
-          if gh release view v0.3.8 >/dev/null 2>&1; then
-            echo "Release v0.3.8 already exists."
+          if gh release view v0.3.9 >/dev/null 2>&1; then
+            echo "Release v0.3.9 already exists."
           else
-            gh release create v0.3.8 \
+            gh release create v0.3.9 \
               --target "${TARGET_SHA}" \
-              --title "Glass Tube Display Card v0.3.8" \
-              --notes "Replaces the slash-like comma with a larger open-wire comma cathode that has a rounded head and a short descending tail. The comma receives its own slightly wider tube, brighter hot-wire/core layers and fine incandescent bead highlights while remaining stroke-only and physically plausible. Existing panel, degree-sign balance, Lovelace API and automatic HACS resource management remain unchanged."
+              --title "Glass Tube Display Card v0.3.9" \
+              --notes "Removes the apparent second plate by cropping the embedded panel to one visible Gauge-family front face and removing the duplicate panel drop-shadow layer. Replaces the loop-like comma with a compact open hook flowing into a short tail, while retaining the dedicated wider separator tube and incandescent cathode layers. Existing degree rendering, Lovelace API and HACS resource management remain compatible."
           fi
       - name: Record successful publication
         run: |
-          printf 'Glass Tube Display Card v0.3.8 published successfully.\nSource commit: %s\n' "${TARGET_SHA}" > RELEASED-v0.3.8.txt
-          git add RELEASED-v0.3.8.txt
+          printf 'Glass Tube Display Card v0.3.9 published successfully.\nSource commit: %s\n' "${TARGET_SHA}" > RELEASED-v0.3.9.txt
+          git add RELEASED-v0.3.9.txt
           if ! git diff --cached --quiet; then
-            git commit -m "Confirm Glass Tube Display Card v0.3.8 release"
+            git commit -m "Confirm Glass Tube Display Card v0.3.9 release"
             git push
           fi
