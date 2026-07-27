@@ -1,5 +1,15 @@
 # Changelog
 
+## 0.3.6
+
+- Replaced the browser-generated SVG turbulence panel that caused coloured noise with a deterministic monochrome WebP panel.
+- Derived the panel material and optional screw artwork directly from the published Analog Gauge `base.webp` during the release build.
+- Embedded the generated panel and screw assets into the single HACS JavaScript resource, so no extra Lovelace resource is required.
+- Kept the panel rectangular and free from the Analog Gauge dial, scale, needle, gears and circular housing.
+- Replaced the comma curve with a shorter one-direction wire cathode that cannot form a question-mark hook.
+- Reduced comma glow from 0.23/0.62 to 0.12/0.38 and reduced the hot/core stroke widths.
+- Retained the existing separator tube, responsive layout, YAML API and automatic HACS resource management.
+
 ## 0.3.5
 
 - Rebuilt the rectangular instrument enclosure as a dedicated self-contained SVG surface instead of approximating it with flat CSS layers.
