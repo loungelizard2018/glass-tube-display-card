@@ -1,5 +1,17 @@
 # Changelog
 
+## 0.3.7
+
+- Removed the remaining visible CSS panel surface so the embedded Gauge-family WebP is now the only enclosure layer.
+- Kept only layout, clipping and one subtle external drop shadow on `.device.panel`.
+- Rebuilt the comma with dedicated far-glow and mid-glow filters instead of sharing the generic punctuation bloom.
+- Increased comma visibility while retaining an open wire shape and a small footprint in the lower third of the separator tube.
+- Rebuilt the degree symbol with independent far, aura, hot-wire and core layers.
+- Reduced the degree-sign radius, stroke widths, blur and opacity so it no longer overpowers the digits.
+- Added regression checks for a transparent panel wrapper, dedicated comma filters and dedicated low-intensity degree rendering.
+- Added a complete Lovelace showcase YAML covering live values, all punctuation, digits, symbols and the alphabet.
+- Kept the existing Lovelace API and standard single HACS resource compatible.
+
 ## 0.3.6
 
 - Replaced the browser-generated SVG turbulence panel that caused coloured noise with a deterministic monochrome WebP panel.
@@ -78,4 +90,3 @@
 - Reworked the black instrument panel, metallic title, rail and cross-head screws.
 - Refined the digit paths while preserving digits, uppercase letters and existing symbols.
 - Kept the existing Lovelace configuration API and responsive scaling behaviour.
-- Updated the root HACS bundle and the mirrored `dist` bundle.
