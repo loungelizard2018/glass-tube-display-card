@@ -1,5 +1,5 @@
-/* Glass Tube Display Card v0.3.7
- * Single-layer Gauge-family panel with independently balanced punctuation cathodes.
+/* Glass Tube Display Card v0.3.8
+ * Single-layer Gauge-family panel with a rounded open-wire comma cathode.
  */
 (() => {
 const GLYPH_PATHS = Object.freeze({
@@ -162,13 +162,17 @@ function renderTube(character, index, config, uid) {
 }
 
 function renderCommaCathode(id) {
-  const d = "M41 174 C45.5 174 47.5 177 46.7 180.8 C45.9 184.4 42.6 186.8 39.4 188.1 C39.1 192.8 37.3 197.1 33.8 201.2";
+  // A small open cathode with a rounded head and a short descending tail.
+  // It remains one continuous wire: no filled blob, detached dot or closed loop.
+  const d = "M35 179 C34.5 173.2 39.2 169.2 44.5 170.2 C49.1 171.2 50.4 176.8 48.2 180.9 C46.2 184.5 42.2 186.3 38.4 185.4 C38.1 190.8 35.8 196.3 31.8 201.2";
   return `<g class="comma-cathode">
     <path d="${d}" class="separator-comma-shadow"/>
     <path d="${d}" class="separator-comma-far" filter="url(#sep-comma-far-${id})"/>
     <path d="${d}" class="separator-comma-aura" filter="url(#sep-comma-glow-${id})"/>
     <path d="${d}" class="separator-comma-hot"/>
     <path d="${d}" class="separator-comma-core"/>
+    <path d="${d}" class="separator-comma-beads"/>
+    <path d="${d}" class="separator-comma-spark"/>
   </g>`;
 }
 
@@ -201,7 +205,7 @@ function renderSeparator(character, index, config, uid) {
   const outer = "M14 238 C12 207 12 78 14 52 C15 38 21 28 31 23 C35 21 36 17 36 12 C36 6 37 3 38 3 C40 3 41 6 41 12 C41 17 42 21 46 23 C56 28 62 38 63 52 C65 78 65 207 63 238 C62 250 15 250 14 238 Z";
   const inside = "M18 232 C16 203 16 82 18 56 C19 44 24 36 32 32 C36 30 36 27 36 22 H41 C41 27 41 30 45 32 C53 36 58 44 59 56 C61 82 61 203 59 232 Z";
 
-  return `<div class="separator-slot" aria-label="${escapeAttr(character)}">
+  return `<div class="separator-slot${isComma ? " separator-slot-comma" : ""}" aria-label="${escapeAttr(character)}">
     <svg class="separator-svg" viewBox="0 0 76 286" role="img" aria-hidden="true">
       <defs>
         <linearGradient id="sep-glass-${id}" x1="0" y1="0" x2="1" y2="0"><stop offset="0%" stop-color="#76909d" stop-opacity=".08"/><stop offset="9%" stop-color="#fff" stop-opacity=".70"/><stop offset="18%" stop-color="${escapeAttr(config.glass_tint)}" stop-opacity=".23"/><stop offset="66%" stop-color="#839da9" stop-opacity=".04"/><stop offset="86%" stop-color="#fff" stop-opacity=".53"/><stop offset="100%" stop-color="#5a707b" stop-opacity=".08"/></linearGradient>
@@ -209,8 +213,8 @@ function renderSeparator(character, index, config, uid) {
         <pattern id="sep-mesh-${id}" width="6.2" height="5.37" patternUnits="userSpaceOnUse"><path d="M1.55 0 H4.65 L6.2 2.685 L4.65 5.37 H1.55 L0 2.685 Z" fill="#151615" fill-opacity=".08" stroke="#aaa49a" stroke-width=".42" opacity="${Number(config.mesh_opacity)}"/></pattern>
         <filter id="sep-glow-far-${id}" x="-220%" y="-220%" width="540%" height="540%"><feGaussianBlur stdDeviation="4.8"/></filter>
         <filter id="sep-glow-${id}" x="-190%" y="-190%" width="480%" height="480%"><feGaussianBlur stdDeviation="2.2"/></filter>
-        <filter id="sep-comma-far-${id}" x="-220%" y="-220%" width="540%" height="540%"><feGaussianBlur stdDeviation="3.6"/></filter>
-        <filter id="sep-comma-glow-${id}" x="-190%" y="-190%" width="480%" height="480%"><feGaussianBlur stdDeviation="1.8"/></filter>
+        <filter id="sep-comma-far-${id}" x="-220%" y="-220%" width="540%" height="540%"><feGaussianBlur stdDeviation="4.2"/></filter>
+        <filter id="sep-comma-glow-${id}" x="-190%" y="-190%" width="480%" height="480%"><feGaussianBlur stdDeviation="2.1"/></filter>
         <filter id="sep-degree-far-${id}" x="-160%" y="-160%" width="420%" height="420%"><feGaussianBlur stdDeviation="2.0"/></filter>
         <filter id="sep-degree-glow-${id}" x="-140%" y="-140%" width="380%" height="380%"><feGaussianBlur stdDeviation=".9"/></filter>
         <filter id="sep-shadow-${id}" x="-100%" y="-35%" width="300%" height="205%"><feDropShadow dx="0" dy="6" stdDeviation="3.4" flood-color="#000" flood-opacity=".92"/></filter>
@@ -254,6 +258,7 @@ function renderStyles(config, { justify, brightness, animationMs }) {
     .tube-slot{flex:1 1 0;min-width:0;max-width:126px;aspect-ratio:100/286;animation:${animation};filter:drop-shadow(0 8px 6px rgba(0,0,0,.72)) drop-shadow(0 0 7px rgba(255,78,0,.055))}
     .tube-slot-empty{opacity:0}
     .separator-slot{flex:.60 1 0;min-width:10px;max-width:76px;aspect-ratio:76/286;animation:${animation};filter:drop-shadow(0 8px 6px rgba(0,0,0,.68)) drop-shadow(0 0 4px rgba(255,78,0,.03))}
+    .separator-slot-comma{flex:.66 1 0;max-width:84px}
     .tube-svg,.separator-svg{display:block;width:100%;height:auto;overflow:visible;shape-rendering:geometricPrecision;text-rendering:geometricPrecision}
     .support-wires,.bottom-leads{fill:none;stroke:#aaa39a;stroke-width:.86;stroke-linecap:round;opacity:.68;filter:drop-shadow(0 0 .45px rgba(255,205,150,.28))}
     .tube-pins{fill:none;stroke:#857a6e;stroke-width:1.22;stroke-linecap:round;opacity:.82}
@@ -271,12 +276,14 @@ function renderStyles(config, { justify, brightness, animationMs }) {
     .separator-far .separator-dot{fill:var(--tube);stroke:var(--tube);stroke-width:3.6}
     .separator-aura .separator-dot{fill:var(--tube);stroke:var(--tube);stroke-width:2}
     .separator-dot{fill:#ff6814;stroke:var(--core);stroke-width:1.25;filter:drop-shadow(0 0 1.8px #ff3c00)}
-    .separator-comma-shadow,.separator-comma-far,.separator-comma-aura,.separator-comma-hot,.separator-comma-core{fill:none;stroke-linecap:round;stroke-linejoin:round}
-    .separator-comma-shadow{stroke:#170300;stroke-width:5.4;opacity:.92}
-    .separator-comma-far{stroke:#ff3d00;stroke-width:5.8;opacity:.18;mix-blend-mode:screen}
-    .separator-comma-aura{stroke:var(--tube);stroke-width:3.6;opacity:.52;mix-blend-mode:screen}
-    .separator-comma-hot{stroke:#ff6a16;stroke-width:2.25;filter:drop-shadow(0 0 1.2px #ff3600)}
-    .separator-comma-core{stroke:var(--core);stroke-width:.95;opacity:.98}
+    .separator-comma-shadow,.separator-comma-far,.separator-comma-aura,.separator-comma-hot,.separator-comma-core,.separator-comma-beads,.separator-comma-spark{fill:none;stroke-linecap:round;stroke-linejoin:round}
+    .separator-comma-shadow{stroke:#170300;stroke-width:6.4;opacity:.94}
+    .separator-comma-far{stroke:#ff3d00;stroke-width:7.2;opacity:.16;mix-blend-mode:screen}
+    .separator-comma-aura{stroke:var(--tube);stroke-width:4.8;opacity:.58;mix-blend-mode:screen}
+    .separator-comma-hot{stroke:#ff6a16;stroke-width:3.1;filter:drop-shadow(0 0 1.25px #ff3600)}
+    .separator-comma-core{stroke:var(--core);stroke-width:1.25;opacity:1;filter:drop-shadow(0 0 .6px #fff2cf)}
+    .separator-comma-beads{stroke:#fff8e9;stroke-width:1.15;stroke-dasharray:.001 2.35;opacity:.72;mix-blend-mode:screen}
+    .separator-comma-spark{stroke:#fff;stroke-width:.52;stroke-dasharray:.001 5.1;opacity:.62;mix-blend-mode:screen}
     .separator-degree-far,.separator-degree-aura,.separator-degree-hot,.separator-degree-core{fill:none;stroke-linecap:round}
     .separator-degree-far{stroke:#ff3d00;stroke-width:3.2;opacity:.10;mix-blend-mode:screen}
     .separator-degree-aura{stroke:var(--tube);stroke-width:2.2;opacity:.28;mix-blend-mode:screen}
@@ -298,7 +305,7 @@ function renderStyles(config, { justify, brightness, animationMs }) {
 }
 
 
-const VERSION = "0.3.7";
+const VERSION = "0.3.8";
 const DEFAULT_CONFIG = Object.freeze({
   text:"HELLO",attribute:null,prefix:"",suffix:"",title:"",subtitle:"",unit:"",unit_separator:" ",
   decimals:null,decimal_separator:"auto",unavailable_text:"----",unknown_text:"----",
