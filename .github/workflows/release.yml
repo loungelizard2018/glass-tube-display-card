@@ -3,7 +3,7 @@ name: Publish release
 on:
   push:
     paths:
-      - release-trigger-v0.3.3.txt
+      - release-trigger-v0.3.4.txt
   workflow_dispatch:
 
 permissions:
@@ -27,27 +27,27 @@ jobs:
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add glass-tube-display-card.js dist/
           if ! git diff --cached --quiet; then
-            git commit -m "Build Glass Tube Display Card v0.3.3"
+            git commit -m "Build Glass Tube Display Card v0.3.4"
             git push
           fi
           echo "TARGET_SHA=$(git rev-parse HEAD)" >> "$GITHUB_ENV"
-      - name: Publish v0.3.3
+      - name: Publish v0.3.4
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
-          if gh release view v0.3.3 >/dev/null 2>&1; then
-            echo "Release v0.3.3 already exists."
+          if gh release view v0.3.4 >/dev/null 2>&1; then
+            echo "Release v0.3.4 already exists."
           else
-            gh release create v0.3.3 \
+            gh release create v0.3.4 \
               --target "${TARGET_SHA}" \
-              --title "Glass Tube Display Card v0.3.3" \
-              --notes "Removes the opaque inner panel that obscured the instrument background, uses a clean uniform enclosure with only tightly cropped Analog Gauge screw heads, redesigns the comma as a small continuous cathode, reduces punctuation bloom, and switches to the standard HACS dashboard resource manifest so HACS manages the /hacsfiles resource automatically."
+              --title "Glass Tube Display Card v0.3.4" \
+              --notes "Removes all cropped Analog Gauge image regions from the panel and screws, replaces them with isolated photorealistic inline SVG Phillips screws, keeps the panel surface fully visible, and redraws the comma as a compact filled typographic cathode rather than a question-mark-shaped stroke. HACS continues to manage the single /hacsfiles resource automatically."
           fi
       - name: Record successful publication
         run: |
-          printf 'Glass Tube Display Card v0.3.3 published successfully.\nSource commit: %s\n' "${TARGET_SHA}" > RELEASED-v0.3.3.txt
-          git add RELEASED-v0.3.3.txt
+          printf 'Glass Tube Display Card v0.3.4 published successfully.\nSource commit: %s\n' "${TARGET_SHA}" > RELEASED-v0.3.4.txt
+          git add RELEASED-v0.3.4.txt
           if ! git diff --cached --quiet; then
-            git commit -m "Confirm Glass Tube Display Card v0.3.3 release"
+            git commit -m "Confirm Glass Tube Display Card v0.3.4 release"
             git push
           fi
