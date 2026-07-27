@@ -1,5 +1,22 @@
 # Changelog
 
+## 0.3.10
+
+- Replaced the generated/stylised screw artwork with a dedicated image cropped directly from the published Analog Gauge face.
+- Preserved the exact Gauge screw head, recessed black mounting ring, metallic highlight, Phillips recess and surrounding material texture.
+- Removed all per-corner rotations and CSS colour/contrast filters so the source artwork is displayed unchanged.
+- Increased the responsive screw crop and moved it closer to the panel corners to match the Gauge proportions.
+- Embedded the exact screw image into the single HACS JavaScript bundle through `exact-screw-asset.js`.
+- Added regression checks preventing substituted screw artwork, rotation, filtering or undersized placement.
+- Kept the panel, comma, degree rendering, Lovelace API and automatic HACS resource management unchanged.
+
+## 0.3.9
+
+- Cropped the embedded panel to one visible Gauge-family front face.
+- Removed the additional panel drop-shadow that strengthened the appearance of two stacked plates.
+- Replaced the loop-like comma with a compact open hook and short descending tail.
+- Retained the dedicated punctuation tube, independent degree glow and existing Lovelace API.
+
 ## 0.3.8
 
 - Replaced the slash-like comma with a larger open-wire cathode containing a rounded upper head and short descending tail.
