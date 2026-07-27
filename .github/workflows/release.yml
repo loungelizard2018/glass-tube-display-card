@@ -3,7 +3,7 @@ name: Publish release
 on:
   push:
     paths:
-      - release-trigger-v0.3.10.txt
+      - release-trigger-v0.3.11.txt
   workflow_dispatch:
 
 permissions:
@@ -17,8 +17,8 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: "22"
-      - name: Apply v0.3.10 source changes
-        run: python3 scripts/apply_v0310_sources.py
+      - name: Apply v0.3.11 source changes
+        run: python3 scripts/apply_v0311_sources.py
       - name: Build self-contained HACS bundle
         run: npm run build
       - name: Validate JavaScript and regression requirements
@@ -34,27 +34,27 @@ jobs:
             glass-tube-display-card.js \
             dist/
           if ! git diff --cached --quiet; then
-            git commit -m "Build Glass Tube Display Card v0.3.10"
+            git commit -m "Build Glass Tube Display Card v0.3.11"
             git push
           fi
           echo "TARGET_SHA=$(git rev-parse HEAD)" >> "$GITHUB_ENV"
-      - name: Publish v0.3.10
+      - name: Publish v0.3.11
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
-          if gh release view v0.3.10 >/dev/null 2>&1; then
-            echo "Release v0.3.10 already exists."
+          if gh release view v0.3.11 >/dev/null 2>&1; then
+            echo "Release v0.3.11 already exists."
           else
-            gh release create v0.3.10 \
+            gh release create v0.3.11 \
               --target "${TARGET_SHA}" \
-              --title "Glass Tube Display Card v0.3.10" \
-              --notes "Replaces the interpreted screw artwork with an exact crop from the published Analog Gauge face, including the original recessed ring, metallic highlight, Phillips slot and surrounding black material. Removes rotations and CSS filtering, and restores the Gauge-relative size and corner placement. Existing panel, punctuation rendering, Lovelace API and HACS resource management remain compatible."
+              --title "Glass Tube Display Card v0.3.11" \
+              --notes "Removes the excessive black surround around the exact Analog Gauge screw artwork by rendering it inside a circular clipped wrapper and zooming the original image to the screw head. Reduces the default screw size, adjusts corner placement and adds the optional screw_scale configuration parameter (0.5–1.5, default 1.0). Existing panel, punctuation rendering, Lovelace API and automatic HACS resource management remain compatible."
           fi
       - name: Record successful publication
         run: |
-          printf 'Glass Tube Display Card v0.3.10 published successfully.\nSource commit: %s\n' "${TARGET_SHA}" > RELEASED-v0.3.10.txt
-          git add RELEASED-v0.3.10.txt
+          printf 'Glass Tube Display Card v0.3.11 published successfully.\nSource commit: %s\n' "${TARGET_SHA}" > RELEASED-v0.3.11.txt
+          git add RELEASED-v0.3.11.txt
           if ! git diff --cached --quiet; then
-            git commit -m "Confirm Glass Tube Display Card v0.3.10 release"
+            git commit -m "Confirm Glass Tube Display Card v0.3.11 release"
             git push
           fi
