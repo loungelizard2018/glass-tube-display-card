@@ -1,6 +1,6 @@
 import { mkdir, readFile, writeFile } from "node:fs/promises";
 
-const VERSION = "0.3.2";
+const VERSION = "0.3.3";
 const read = (path) => readFile(new URL(`../${path}`, import.meta.url), "utf8");
 
 const stripImports = (source) => source
@@ -24,7 +24,7 @@ const styles = (await read("card-styles.js"))
 const core = stripImports(await read("card-core.js"));
 
 const bundle = `/* Glass Tube Display Card v${VERSION}
- * Corrected frame and punctuation self-contained HACS bundle: no runtime imports.
+ * Corrected panel, punctuation and standard HACS resource bundle: no runtime imports.
  */
 (() => {
 ${glyphs}
