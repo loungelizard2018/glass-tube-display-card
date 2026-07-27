@@ -1,5 +1,15 @@
 # Changelog
 
+## 0.3.4
+
+- Removed every use of cropped Analog Gauge image regions from the panel and screw rendering.
+- Replaced the oversized circular image fragments with isolated inline SVG Phillips screws containing only the screw head.
+- Kept the complete black panel surface visible without opaque corner discs or image spill.
+- Replaced the question-mark-shaped comma stroke with a compact filled typographic comma cathode.
+- Reduced comma bloom so the punctuation remains legible inside the miniature tube.
+- Retained automatic HACS management of the single `/hacsfiles/...` resource.
+- Kept the existing Lovelace configuration API compatible.
+
 ## 0.3.3
 
 - Removed the opaque inner panel layer that visually covered the enclosure background.
