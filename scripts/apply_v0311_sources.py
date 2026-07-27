@@ -76,4 +76,40 @@ replace_once(
     @media(max-width:390px){.device.panel{padding:40px 16px 31px;border-radius:20px}.caption{margin-left:12%;margin-right:12%;letter-spacing:.09em}.title{font-size:12px}.screw-wrap{width:${screwSmall}px}.separator-slot{min-width:8px}.tube-row{padding:0}}''',
 )
 
-print("Applied Glass Tube Display Card v0.3.11 screw crop and scaling changes.")
+replace_once(
+    "README.md",
+    '''mounting: panel
+screws: true
+max_width: 900''',
+    '''mounting: panel
+screws: true
+screw_scale: 0.9
+max_width: 900''',
+)
+
+replace_once(
+    "README.md",
+    '''The visible enclosure is supplied exclusively by one embedded monochrome WebP panel asset. The card wrapper is transparent and does not paint a second frame, background or inset border over it.''',
+    '''The visible enclosure is supplied exclusively by one embedded monochrome WebP panel asset. The card wrapper is transparent and does not paint a second frame, background or inset border over it.
+
+`Screw_scale` controls the mounting-screw size from `0.5` to `1.5`; the default is `1.0`. The original Analog Gauge screw artwork is clipped and zoomed so only the recessed screw head remains visible, without the surrounding black material.''',
+)
+
+changelog = Path("CHANGELOG.md")
+text = changelog.read_text(encoding="utf-8")
+entry = '''# Changelog
+
+## 0.3.11
+
+- Clipped the exact Analog Gauge screw artwork to a circular wrapper and zoomed it to the screw head, removing the excessive surrounding black ring.
+- Reduced the default responsive screw size and adjusted the corner offsets to match the Gauge proportions more closely.
+- Added optional `screw_scale` configuration from `0.5` to `1.5`, with a default of `1.0`.
+- Kept the embedded Gauge screw pixels unfiltered and unrotated.
+- Preserved the existing panel, punctuation rendering, Lovelace API and automatic HACS resource management.
+
+'''
+if not text.startswith("# Changelog\n\n## 0.3.10"):
+    raise SystemExit("Unexpected CHANGELOG.md header")
+changelog.write_text(entry + text[len("# Changelog\n\n"):], encoding="utf-8")
+
+print("Applied Glass Tube Display Card v0.3.11 screw crop, scaling and documentation changes.")
