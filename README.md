@@ -7,13 +7,14 @@ A responsive alphanumeric glass-tube display for Home Assistant dashboards. It r
 - Digits `0–9` and uppercase letters `A–Z`
 - Additional glyphs: `- _ / \\ + = ? ! %`
 - Decimal point, comma, colon, semicolon and degree sign as separate miniature tubes
-- Open wire-cathode comma with restrained multi-stage glow
+- Open wire-cathode comma with its own controlled glow stack
+- Independently balanced low-bloom degree cathode
 - Static text or live Home Assistant entity/attribute values
 - Configurable prefix, suffix, decimal places and decimal separator
 - Automatic padding and overflow handling
 - Responsive scaling without leaving its dashboard column
 - Free-standing construction or optional black instrument panel
-- Self-contained rectangular enclosure matching the related Analog Gauge Card product family
+- Embedded rectangular enclosure derived from the related Analog Gauge Card material family
 - Optional recessed black Phillips mounting screws
 - Configurable glow, core, glass, mesh, circuit board and panel colours
 - Standard Home Assistant tap actions
@@ -84,15 +85,29 @@ glass_tint: "#dff6ff"
 
 ```yaml
 type: custom:glass-tube-display-card
-text: "48,0 °C"
-title: "GLASS TUBE DISPLAY"
+text: "0.1,2:3;4 °C"
+title: "PUNCTUATION TEST"
+subtitle: "DOT COMMA COLON SEMICOLON DEGREE"
 mounting: panel
 screws: true
 separator_style: mini_tube
-max_width: 1000
+max_width: 1200
 ```
 
-The comma is rendered as one open wire cathode in the lower third of its tube. It has no filled area, detached dot, loop or question-mark shape.
+The comma is one open wire cathode in the lower third of its tube. It has a dedicated glow that remains visible without becoming a blob. The degree sign uses its own smaller-radius, lower-opacity glow layers.
+
+## Complete visual showcase
+
+The repository contains a complete vertical-stack test covering:
+
+- live entity formatting
+- panel and screws
+- every punctuation tube
+- all digits
+- all supported symbols
+- the complete alphabet
+
+Use [`examples/v0.3.7-showcase.yaml`](examples/v0.3.7-showcase.yaml).
 
 ## Static alphanumeric display
 
@@ -118,7 +133,7 @@ screws: true
 max_width: 900
 ```
 
-The panel is an inline, self-contained rectangular SVG surface. It does not reuse the Analog Gauge `base.webp`, so it cannot expose any round dial, scale, needle or gear geometry.
+The visible enclosure is supplied exclusively by one embedded monochrome WebP panel asset. The card wrapper is transparent and does not paint a second frame, background or inset border over it.
 
 The shorthand below enables both the black panel and the four screws:
 
