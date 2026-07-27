@@ -37,6 +37,59 @@ function glassNoise(id) {
   </filter>`;
 }
 
+export function renderPanelBackdrop(uid = "gtd") {
+  const id = `${uid}-panel`;
+  return `<svg class="panel-backdrop" viewBox="0 0 1000 760" preserveAspectRatio="none" aria-hidden="true">
+    <defs>
+      <linearGradient id="${id}-outer" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0%" stop-color="#292c2e"/>
+        <stop offset="3%" stop-color="#131516"/>
+        <stop offset="16%" stop-color="#08090a"/>
+        <stop offset="82%" stop-color="#050606"/>
+        <stop offset="96%" stop-color="#141617"/>
+        <stop offset="100%" stop-color="#020303"/>
+      </linearGradient>
+      <linearGradient id="${id}-face" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0%" stop-color="#161819"/>
+        <stop offset="8%" stop-color="#0d0f10"/>
+        <stop offset="58%" stop-color="#070808"/>
+        <stop offset="100%" stop-color="#040505"/>
+      </linearGradient>
+      <linearGradient id="${id}-rim" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0%" stop-color="#8a8d8f" stop-opacity=".62"/>
+        <stop offset="16%" stop-color="#292c2e" stop-opacity=".96"/>
+        <stop offset="72%" stop-color="#050606"/>
+        <stop offset="100%" stop-color="#4b4e50" stop-opacity=".52"/>
+      </linearGradient>
+      <radialGradient id="${id}-vignette" cx="50%" cy="38%" r="74%">
+        <stop offset="55%" stop-color="#000" stop-opacity="0"/>
+        <stop offset="100%" stop-color="#000" stop-opacity=".46"/>
+      </radialGradient>
+      <filter id="${id}-grain" x="-10%" y="-10%" width="120%" height="120%">
+        <feTurbulence type="fractalNoise" baseFrequency=".72" numOctaves="3" seed="17" stitchTiles="stitch" result="grain"/>
+        <feColorMatrix in="grain" type="matrix" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 .16 0"/>
+        <feBlend in="SourceGraphic" in2="grain" mode="soft-light"/>
+      </filter>
+      <filter id="${id}-shadow" x="-8%" y="-8%" width="116%" height="122%">
+        <feDropShadow dx="0" dy="17" stdDeviation="13" flood-color="#000" flood-opacity=".68"/>
+      </filter>
+      <clipPath id="${id}-clip"><rect x="5" y="5" width="990" height="748" rx="48"/></clipPath>
+    </defs>
+    <g filter="url(#${id}-shadow)">
+      <rect x="5" y="5" width="990" height="748" rx="48" fill="url(#${id}-outer)" stroke="#020303" stroke-width="5"/>
+    </g>
+    <g clip-path="url(#${id}-clip)">
+      <rect x="12" y="12" width="976" height="734" rx="42" fill="url(#${id}-face)" filter="url(#${id}-grain)"/>
+      <rect x="20" y="20" width="960" height="718" rx="36" fill="none" stroke="url(#${id}-rim)" stroke-width="4"/>
+      <rect x="31" y="31" width="938" height="696" rx="29" fill="none" stroke="#000" stroke-opacity=".86" stroke-width="5"/>
+      <rect x="36" y="36" width="928" height="686" rx="25" fill="none" stroke="#9da0a2" stroke-opacity=".13" stroke-width="2"/>
+      <path d="M48 42 C215 23 785 23 952 42" fill="none" stroke="#ffffff" stroke-opacity=".18" stroke-width="3" stroke-linecap="round"/>
+      <path d="M51 716 C226 730 774 730 949 716" fill="none" stroke="#000" stroke-opacity=".92" stroke-width="7" stroke-linecap="round"/>
+      <rect x="12" y="12" width="976" height="734" rx="42" fill="url(#${id}-vignette)"/>
+    </g>
+  </svg>`;
+}
+
 export function renderTube(character, index, config, uid) {
   const id = `${uid}-${index}`;
   const path = glyphPath(character);
@@ -67,7 +120,6 @@ export function renderTube(character, index, config, uid) {
         <clipPath id="inside-${id}"><path d="${inner}"/></clipPath>
         <clipPath id="cathode-window-${id}"><rect x="26" y="70" width="48" height="137" rx="2"/></clipPath>
       </defs>
-
       <ellipse cx="50" cy="249" rx="43" ry="24" fill="url(#warm-${id})" opacity="${active ? ".52" : ".09"}"/>
       <g filter="url(#glass-shadow-${id})"><path d="${outer}" fill="#030506" fill-opacity=".36" stroke="#0a0d0e" stroke-width="1.8"/></g>
       <g clip-path="url(#inside-${id})">
@@ -92,18 +144,32 @@ export function renderTube(character, index, config, uid) {
   </div>`;
 }
 
+function renderCommaCathode(id) {
+  const d = "M41 174 C46 174 48 177 47 181 C46 185 42 187 39 188 C39 193 37 197 33 201";
+  return `<g class="comma-cathode">
+    <path d="${d}" class="separator-comma-shadow"/>
+    <path d="${d}" class="separator-comma-far" filter="url(#sep-glow-far-${id})"/>
+    <path d="${d}" class="separator-comma-aura" filter="url(#sep-glow-${id})"/>
+    <path d="${d}" class="separator-comma-hot"/>
+    <path d="${d}" class="separator-comma-core"/>
+  </g>`;
+}
+
 export function renderSeparator(character, index, config, uid) {
   const id = `${uid}-sep-${index}`;
   const bare = String(config.separator_style).toLowerCase() === "bare";
   const isColon = character === ":" || character === ";";
   const isComma = character === "," || character === ";";
   const isDegree = character === "°";
-  const commaPath = `<path d="M38 170 C45 170 50 174 50 180 C50 186 46 190 41 191 C42 197 39 203 32 208 C35 201 34 195 31 191 C27 188 26 182 28 177 C30 173 33 171 38 170 Z" class="separator-comma"/>`;
-  const marks = isDegree
+  const standardMarks = isDegree
     ? `<circle cx="38" cy="112" r="9.5" class="separator-ring"/><circle cx="38" cy="112" r="6.1" class="separator-ring-core"/>`
     : isColon
-      ? `<circle cx="38" cy="116" r="5.7" class="separator-dot"/>${isComma ? commaPath : '<circle cx="38" cy="163" r="5.7" class="separator-dot"/>'}`
-      : isComma ? commaPath : `<circle cx="38" cy="176" r="5.9" class="separator-dot"/>`;
+      ? `<circle cx="38" cy="116" r="5.7" class="separator-dot"/>${isComma ? "" : '<circle cx="38" cy="163" r="5.7" class="separator-dot"/>'}`
+      : isComma ? "" : `<circle cx="38" cy="178" r="5.9" class="separator-dot"/>`;
+  const glowMarks = standardMarks
+    ? `<g class="separator-far" filter="url(#sep-glow-far-${id})">${standardMarks}</g><g class="separator-aura" filter="url(#sep-glow-${id})">${standardMarks}</g><g>${standardMarks}</g>`
+    : "";
+  const commaMarks = isComma ? renderCommaCathode(id) : "";
 
   const outer = "M14 238 C12 207 12 78 14 52 C15 38 21 28 31 23 C35 21 36 17 36 12 C36 6 37 3 38 3 C40 3 41 6 41 12 C41 17 42 21 46 23 C56 28 62 38 63 52 C65 78 65 207 63 238 C62 250 15 250 14 238 Z";
   const inside = "M18 232 C16 203 16 82 18 56 C19 44 24 36 32 32 C36 30 36 27 36 22 H41 C41 27 41 30 45 32 C53 36 58 44 59 56 C61 82 61 203 59 232 Z";
@@ -114,12 +180,14 @@ export function renderSeparator(character, index, config, uid) {
         <linearGradient id="sep-glass-${id}" x1="0" y1="0" x2="1" y2="0"><stop offset="0%" stop-color="#76909d" stop-opacity=".08"/><stop offset="9%" stop-color="#fff" stop-opacity=".70"/><stop offset="18%" stop-color="${escapeAttr(config.glass_tint)}" stop-opacity=".23"/><stop offset="66%" stop-color="#839da9" stop-opacity=".04"/><stop offset="86%" stop-color="#fff" stop-opacity=".53"/><stop offset="100%" stop-color="#5a707b" stop-opacity=".08"/></linearGradient>
         <linearGradient id="sep-base-${id}" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#5a5f64"/><stop offset="8%" stop-color="#24272a"/><stop offset="24%" stop-color="#0d0f10"/><stop offset="76%" stop-color="#020303"/><stop offset="100%" stop-color="#2a2e31"/></linearGradient>
         <pattern id="sep-mesh-${id}" width="6.2" height="5.37" patternUnits="userSpaceOnUse"><path d="M1.55 0 H4.65 L6.2 2.685 L4.65 5.37 H1.55 L0 2.685 Z" fill="#151615" fill-opacity=".08" stroke="#aaa49a" stroke-width=".42" opacity="${Number(config.mesh_opacity)}"/></pattern>
-        <filter id="sep-glow-far-${id}" x="-220%" y="-220%" width="540%" height="540%"><feGaussianBlur stdDeviation="5.5"/></filter><filter id="sep-glow-${id}" x="-190%" y="-190%" width="480%" height="480%"><feGaussianBlur stdDeviation="2.6"/></filter><filter id="sep-shadow-${id}" x="-100%" y="-35%" width="300%" height="205%"><feDropShadow dx="0" dy="6" stdDeviation="3.4" flood-color="#000" flood-opacity=".92"/></filter>
+        <filter id="sep-glow-far-${id}" x="-220%" y="-220%" width="540%" height="540%"><feGaussianBlur stdDeviation="4.8"/></filter>
+        <filter id="sep-glow-${id}" x="-190%" y="-190%" width="480%" height="480%"><feGaussianBlur stdDeviation="2.2"/></filter>
+        <filter id="sep-shadow-${id}" x="-100%" y="-35%" width="300%" height="205%"><feDropShadow dx="0" dy="6" stdDeviation="3.4" flood-color="#000" flood-opacity=".92"/></filter>
         <clipPath id="sep-inside-${id}"><path d="${inside}"/></clipPath>
       </defs>
       ${bare ? "" : `<g filter="url(#sep-shadow-${id})"><path d="${outer}" fill="#030506" fill-opacity=".40" stroke="#0a0d0e" stroke-width="1.1"/></g>`}
       ${bare ? "" : `<g clip-path="url(#sep-inside-${id})"><rect x="18" y="63" width="41" height="170" fill="#030404" opacity=".46"/><rect x="20" y="72" width="37" height="143" fill="url(#sep-mesh-${id})" opacity=".80"/><path d="M22 61 L22 232 M54 61 L54 232" stroke="#aaa49a" stroke-width=".8" opacity=".58"/><path d="M27 65 L27 229 M49 65 L49 229" stroke="#8e887f" stroke-width=".6" opacity=".32"/><ellipse cx="38" cy="58" rx="18" ry="4.4" fill="#d9d2c7" opacity=".48"/><ellipse cx="38" cy="221" rx="18" ry="4.4" fill="#d9d2c7" opacity=".40"/></g>`}
-      <g class="separator-far" filter="url(#sep-glow-far-${id})">${marks}</g><g class="separator-aura" filter="url(#sep-glow-${id})">${marks}</g><g>${marks}</g>
+      ${glowMarks}${commaMarks}
       ${bare ? "" : `<path d="${outer}" fill="url(#sep-glass-${id})" fill-opacity="${Number(config.glass_opacity)}" stroke="#e4f5fb" stroke-opacity=".72" stroke-width=".95"/><path d="M19 56 C17 94 17 207 19 230" fill="none" stroke="#fff" stroke-width="3.2" stroke-linecap="round" opacity=".31"/><path d="M23 40 C19 45 17 51 16 59" fill="none" stroke="#fff" stroke-width="1.5" stroke-linecap="round" opacity=".80"/><path d="M55 50 C59 73 59 104 59 129" fill="none" stroke="#eafaff" stroke-width="1.4" opacity=".24"/><ellipse cx="38" cy="12" rx="2.4" ry="5.2" fill="#fff" opacity=".48"/><ellipse cx="38" cy="239" rx="25" ry="5.8" fill="#303438" stroke="#6b7075" stroke-width=".8"/><path d="M12 239 C16 246 60 246 64 239 L64 266 C59 275 17 275 12 266 Z" fill="url(#sep-base-${id})" stroke="#050606" stroke-width=".9"/><ellipse cx="38" cy="266" rx="26" ry="5.9" fill="#020303" stroke="#292d30" stroke-width=".8"/><path d="M25 269 L25 283 M31 269 L31 284 M38 269 L38 285 M45 269 L45 284 M51 269 L51 283" stroke="#746b61" stroke-width="1.1" opacity=".78"/>`}
     </svg>
   </div>`;
@@ -127,24 +195,24 @@ export function renderSeparator(character, index, config, uid) {
 
 export function renderScrews(enabled, uid = "gtd") {
   if (!enabled) return "";
-  const rotations = { tl: -7, tr: 5, bl: 9, br: -4 };
+  const rotations = { tl: -8, tr: 6, bl: 10, br: -5 };
   return ["tl", "tr", "bl", "br"].map((position) => {
     const id = `${uid}-screw-${position}`;
     return `<svg class="screw screw-${position}" viewBox="0 0 64 64" aria-hidden="true" style="transform:rotate(${rotations[position]}deg)">
       <defs>
-        <radialGradient id="${id}-head" cx="31%" cy="25%" r="72%"><stop offset="0%" stop-color="#4b4f52"/><stop offset="17%" stop-color="#24272a"/><stop offset="52%" stop-color="#0a0b0c"/><stop offset="78%" stop-color="#020303"/><stop offset="100%" stop-color="#25282b"/></radialGradient>
-        <linearGradient id="${id}-rim" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#85898c"/><stop offset="18%" stop-color="#303336"/><stop offset="62%" stop-color="#070808"/><stop offset="100%" stop-color="#55595c"/></linearGradient>
-        <linearGradient id="${id}-slot" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#000"/><stop offset="45%" stop-color="#101214"/><stop offset="55%" stop-color="#33373a"/><stop offset="100%" stop-color="#010202"/></linearGradient>
-        <filter id="${id}-shadow" x="-30%" y="-30%" width="160%" height="170%"><feDropShadow dx="0" dy="3" stdDeviation="2.2" flood-color="#000" flood-opacity=".82"/></filter>
+        <radialGradient id="${id}-head" cx="29%" cy="24%" r="76%"><stop offset="0%" stop-color="#484b4d"/><stop offset="16%" stop-color="#202325"/><stop offset="53%" stop-color="#08090a"/><stop offset="82%" stop-color="#020303"/><stop offset="100%" stop-color="#1c1f21"/></radialGradient>
+        <linearGradient id="${id}-rim" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#7d8082"/><stop offset="18%" stop-color="#2a2d2f"/><stop offset="67%" stop-color="#050606"/><stop offset="100%" stop-color="#424648"/></linearGradient>
+        <linearGradient id="${id}-slot" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#000"/><stop offset="58%" stop-color="#030404"/><stop offset="100%" stop-color="#181a1c"/></linearGradient>
+        <filter id="${id}-shadow" x="-35%" y="-35%" width="170%" height="180%"><feDropShadow dx="0" dy="3" stdDeviation="2.4" flood-color="#000" flood-opacity=".88"/></filter>
       </defs>
       <g filter="url(#${id}-shadow)">
-        <circle cx="32" cy="32" r="29" fill="url(#${id}-rim)"/>
-        <circle cx="32" cy="32" r="26.5" fill="url(#${id}-head)" stroke="#020303" stroke-width="1.2"/>
-        <circle cx="32" cy="32" r="23.8" fill="none" stroke="#ffffff" stroke-opacity=".055" stroke-width="1"/>
-        <path d="M28 13 H36 L37.5 26.5 L51 28 V36 L37.5 37.5 L36 51 H28 L26.5 37.5 L13 36 V28 L26.5 26.5 Z" fill="url(#${id}-slot)" stroke="#000" stroke-width="1.2" stroke-linejoin="round"/>
-        <path d="M29 15 H35 L36.2 28.1 L49 29 V32 H35.5 L34.5 48 H31.5 L30.5 35.5 H15 V32 H28.2 Z" fill="#767b7e" fill-opacity=".20"/>
-        <path d="M17 27.7 H28 L28.8 16 M36 16 L36.8 28 H48 M48 36 H36.8 L36 48 M28 48 L27.2 36 H16" fill="none" stroke="#8b9093" stroke-opacity=".18" stroke-width="1.2" stroke-linecap="round"/>
-        <ellipse cx="24" cy="19" rx="9" ry="5" fill="#ffffff" opacity=".055" transform="rotate(-28 24 19)"/>
+        <circle cx="32" cy="32" r="29" fill="#030404" stroke="#35383a" stroke-width="1.4"/>
+        <circle cx="32" cy="32" r="25.7" fill="url(#${id}-rim)"/>
+        <circle cx="32" cy="32" r="23.5" fill="url(#${id}-head)" stroke="#000" stroke-width="1.1"/>
+        <path d="M29 13 H35 L36.2 26.3 L49 28.1 V35.9 L36.2 37.7 L35 51 H29 L27.8 37.7 L15 35.9 V28.1 L27.8 26.3 Z" fill="url(#${id}-slot)" stroke="#000" stroke-width="1.35" stroke-linejoin="round"/>
+        <path d="M29.7 15.5 H33.8 L34.6 28.1 L47 29.5" fill="none" stroke="#8a8d8f" stroke-opacity=".15" stroke-width="1.15" stroke-linecap="round"/>
+        <path d="M16.8 34.2 L29.2 35.1 L30.3 48.5" fill="none" stroke="#000" stroke-opacity=".95" stroke-width="1.2" stroke-linecap="round"/>
+        <ellipse cx="23" cy="18" rx="8" ry="4" fill="#ffffff" opacity=".045" transform="rotate(-28 23 18)"/>
       </g>
     </svg>`;
   }).join("");
