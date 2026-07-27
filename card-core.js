@@ -2,7 +2,7 @@ import { normaliseCharacter } from "./glyphs.js";
 import { renderTube, renderSeparator, renderScrews } from "./tube-renderer.js";
 import { renderStyles } from "./card-styles.js";
 
-const VERSION = "0.3.2";
+const VERSION = "0.3.3";
 const DEFAULT_CONFIG = Object.freeze({
   text:"HELLO",attribute:null,prefix:"",suffix:"",title:"",subtitle:"",unit:"",unit_separator:" ",
   decimals:null,decimal_separator:"auto",unavailable_text:"----",unknown_text:"----",
