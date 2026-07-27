@@ -18,7 +18,7 @@ if (!bundle.includes("Glass Tube Display Card v0.3.6")) fail("root bundle versio
 if (!bundle.includes("data:image/webp;base64,")) fail("embedded WebP panel assets are missing");
 if (!renderer.includes('src="${PANEL_ASSET_URI}"')) fail("panel renderer does not use the generated panel asset");
 if (!renderer.includes('src="${SCREW_ASSET_URI}"')) fail("screw renderer does not use the generated Gauge screw asset");
-if (renderer.includes("feTurbulence") && renderer.includes("panel-backdrop")) fail("panel must not use browser turbulence");
+if (renderer.includes('id="${id}-grain"') || renderer.includes('baseFrequency=".72"')) fail("legacy browser-generated panel turbulence is still present");
 if (!renderer.includes("M42 178 C43 184 41 189 38 192 C36 194 35 198 34 202")) fail("compact comma cathode path is missing");
 if (!styles.includes(".separator-comma-core{stroke:var(--core);stroke-width:.8")) fail("comma core stroke layer is missing");
 if (!styles.includes(".separator-comma-far{stroke:#ff3d00;stroke-width:5.4;opacity:.12")) fail("comma bloom is not sufficiently restrained");
