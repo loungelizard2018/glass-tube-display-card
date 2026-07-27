@@ -1,14 +1,20 @@
 # Changelog
 
+## 0.3.2
+
+- Removed the thick Analog Gauge `base.webp` nine-slice that exposed parts of the circular dial housing.
+- Limited the reused Analog Gauge image to a thin outer edge strip with no centre fill.
+- Reused cropped regions of the original Analog Gauge asset for the four screws instead of drawing substitute CSS screws.
+- Increased punctuation-tube width and retained full-height glass, mesh, mica and base construction.
+- Replaced the comma's disconnected dot and tail with one continuous curved glowing cathode.
+- Kept the existing Lovelace configuration API compatible.
+
 ## 0.3.1
 
-- Added an explicit cathode clipping window so illuminated paths and their glow cannot extend beyond the usable tube area.
-- Added character-specific scaling for wide round glyphs including `0`, `6`, `8`, `9`, `O`, `Q` and `G`.
-- Rebuilt punctuation tubes at roughly two-thirds of the main-tube width instead of using needle-thin miniature envelopes.
-- Enlarged comma, point, colon and degree cathodes and aligned them within the full-height punctuation tubes.
-- Reused the installed Analog Gauge Card `base.webp` as a nine-slice outer frame when `mounting: panel` and `screws: true` are active.
-- Retained the local CSS housing and screw implementation as a fallback when the Analog Gauge asset is unavailable.
-- Kept the existing Lovelace configuration API compatible.
+- Added a dedicated cathode clipping window so illuminated glyphs and all glow layers remain inside the tube cage.
+- Reduced and centred wide round glyphs such as `0`, `6`, `8`, `9`, `O`, `Q` and `G`.
+- Rebuilt punctuation tubes at roughly two-thirds of the main tube width with matching glass, mesh, mica and bases.
+- Added an Analog Gauge `base.webp` nine-slice panel frame when `mounting: panel` and `screws: true` are enabled.
 
 ## 0.3.0
 
